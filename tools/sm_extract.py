@@ -129,7 +129,7 @@ def main(coll, parent_id, text):
 
     erec = bytearray(tpl['raw'])
     erec[0] = 1              # child flag
-    erec[1] = 1              # kind (same as other items in this collection)
+    erec[1] = 2   # Extract creates a TOPIC (kind=2), per the original hint (Alt+X)
     struct.pack_into('<H', erec, 2, new_id)
     struct.pack_into('<I', erec, 6, c_off)
     struct.pack_into('<H', erec, 10, tpl['comp_size'])
