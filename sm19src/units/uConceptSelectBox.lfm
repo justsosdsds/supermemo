@@ -1,0 +1,119 @@
+object ConceptSelectBox: TConceptSelectBox
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'ConceptSelectBox'
+  ClientHeight = 519
+  ClientWidth = 793
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  ShowHint = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object PaintBox1: TPaintBox
+    Left = 48
+    Top = 75
+    Width = 369
+    Height = 225
+    OnDblClick = PaintBox1DblClick
+    OnMouseDown = PaintBox1MouseDown
+  end
+  object Edit1: TEdit
+    Left = 0
+    Top = 0
+    Width = 793
+    Height = 21
+    Align = alTop
+    TabOrder = 0
+    OnChange = Edit1Change
+    OnKeyDown = Edit1KeyDown
+    OnKeyPress = Edit1KeyPress
+  end
+  object ToolBar1: TToolBar
+    Left = 770
+    Top = 21
+    Width = 23
+    Height = 498
+    Align = alRight
+    AutoSize = True
+    ButtonHeight = 27
+    Caption = 'ToolBar1'
+    Images = AboutBox.ImageList1
+    TabOrder = 1
+    object ViewBtn: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'View the root element of the concept'
+      AutoSize = True
+      Caption = 'ViewBtn'
+      ImageIndex = 23
+      Wrap = True
+      OnClick = ViewBtnClick
+    end
+    object ReviewConceptGroupBtn: TToolButton
+      Left = 0
+      Top = 27
+      Hint = 'Learn the elements in the concept group'
+      Caption = 'ReviewConceptGroupBtn'
+      ImageIndex = 34
+      Wrap = True
+      OnClick = ReviewConceptGroupBtnClick
+    end
+    object TransferBtn: TToolButton
+      Left = 0
+      Top = 54
+      Hint = 'Move current element to the selected concept group'
+      AutoSize = True
+      Caption = 'TransferBtn'
+      ImageIndex = 232
+      Wrap = True
+      OnClick = TransferBtnClick
+    end
+    object LinkConcept: TToolButton
+      Left = 0
+      Top = 81
+      Hint = 'Link current element to the selected concept'
+      Caption = 'LinkConcept'
+      ImageIndex = 222
+      Wrap = True
+      OnClick = LinkConceptClick
+    end
+    object AnchorBtn: TToolButton
+      Left = 0
+      Top = 108
+      Hint = 'Set the concept as the default concept in the collection'
+      AutoSize = True
+      Caption = 'AnchorBtn'
+      ImageIndex = 231
+      Wrap = True
+      OnClick = AnchorBtnClick
+    end
+    object HookBtn: TToolButton
+      Left = 0
+      Top = 135
+      Hint = 'View the last element in the hook of the concept'
+      AutoSize = True
+      Caption = 'HookBtn'
+      ImageIndex = 194
+      Wrap = True
+      OnClick = HookBtnClick
+    end
+    object CloseBtn: TToolButton
+      Left = 0
+      Top = 162
+      Hint = 'Close the concept selection list (Esc)'
+      AutoSize = True
+      Caption = 'CloseBtn'
+      ImageIndex = 16
+      OnClick = CloseBtnClick
+    end
+  end
+end

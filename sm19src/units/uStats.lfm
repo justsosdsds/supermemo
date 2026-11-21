@@ -1,0 +1,151 @@
+object Stats: TStats
+  Left = 432
+  Top = 159
+  HelpContext = 19
+  Caption = 'Statistics'
+  ClientHeight = 599
+  ClientWidth = 340
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -14
+  Font.Name = 'System'
+  Font.Style = []
+  Icon.Data = {0000010001002020100000000000E802000016000000280000002000000040000000010004000000000000020000000000000000000000000000000000000000000000008000008000000080800080000000800080008080000080808000C0C0C0000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000777777707777777707777777770000000000007700000007700000007770000888888800FFFFFFF00FFFFFFF0770008888888880FFFFFFFF0FFFFFFFF07008888888888800000000000000000070088888888888888888888888888880700000000000000000000000000000007008880FFFFF8FFFFF8FFFFF8FFFFFF07008880FFFFF8FFFFF8FFFFF8FFFFFF0700000088888888888888888888888807008880FFFFF8FFFFF8FFFFF8FFFFFF07008880FFFFF8FFFFF8FFFFF8FFFFFF0700000088888888888888888888888807008880FFFFF8FFFFF8FFFFF8FFFFFF07008880FFFFF8FFFFF8FFFFF8FFFFFF0700000088888888888888888888888807008880FFFFF8FFFFF8FFFFF8FFFFFF07008880FFFFF8FFFFF8FFFFF8FFFFFF0700000088888888888888888888888807008880FFFFF8FFFFF8FFFFF8FFFFFF07008880FFFFF8FFFFF8FFFFF8FFFFFF07000000000000000000000000000000070088808888808888808888808888880700888088888088888088888088888800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0100803E0000001C000000180000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000300000003FFFFFFFFFFFFFFFFFFFFFFFF}
+  KeyPreview = True
+  PopupMenu = PopupMenu1
+  Position = poDefault
+  ShowHint = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  PixelsPerInch = 96
+  object StringGrid1: TStringGrid
+    Left = 2
+    Top = 30
+    Width = 336
+    Height = 567
+    Align = alClient
+    Color = clYellow
+    ColCount = 2
+    DefaultRowHeight = 17
+    RowCount = 15
+    FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goRowMoving, goEditing, goAlwaysShowEditor, goThumbTracking]
+    ParentShowHint = False
+    ScrollBars = ssVertical
+    ShowHint = True
+    TabOrder = 0
+    OnDrawCell = StringGrid1DrawCell
+    OnKeyDown = StringGrid1KeyDown
+    OnMouseDown = StringGrid1MouseDown
+    OnMouseMove = StringGrid1MouseMove
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Top = 0
+    Width = 340
+    Height = 28
+    AutoSize = True
+    ButtonHeight = 28
+    ButtonWidth = 28
+    Caption = 'ToolBar1'
+    Images = AboutBox.ImageList1
+    TabOrder = 1
+    object ToolButton4: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'Open local menu'
+      Caption = 'ToolButton4'
+      DropdownMenu = PopupMenu1
+      ImageIndex = 47
+    end
+    object ToolButton7: TToolButton
+      Left = 28
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton7'
+      ImageIndex = 1
+      Style = tbsSeparator
+    end
+    object WorkloadBtn: TToolButton
+      Left = 36
+      Top = 0
+      Hint = 'Inspect the calendar of repetitions'
+      ImageIndex = 7
+      OnClick = WorkloadBtnClick
+    end
+    object AnalysisBtn: TToolButton
+      Left = 64
+      Top = 0
+      Hint = 'Open the Analysis window'
+      ImageIndex = 179
+      OnClick = AnalysisBtnClick
+    end
+    object Graphs4DBtn: TToolButton
+      Left = 92
+      Top = 0
+      Hint = 'Open memory graphs window'
+      Caption = 'Graphs4DBtn'
+      ImageIndex = 214
+      OnClick = Graphs4DBtnClick
+    end
+    object ToolButton6: TToolButton
+      Left = 120
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton6'
+      ImageIndex = 0
+      Style = tbsSeparator
+    end
+    object WarriorLayoutBtn: TToolButton
+      Left = 128
+      Top = 0
+      Hint = 'Apply warrior layout'
+      ImageIndex = 3
+      OnClick = WarriorLayoutBtnClick
+    end
+    object ToolButton8: TToolButton
+      Left = 156
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton8'
+      ImageIndex = 69
+      Style = tbsSeparator
+    end
+    object ToolButton5: TToolButton
+      Left = 164
+      Top = 0
+      Hint = 'Open a help page with information about the Statistics window (F1)'
+      Caption = 'ToolButton5'
+      ImageIndex = 68
+      OnClick = ToolButton5Click
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    object MICalendar: TMenuItem
+      Caption = 'Workload'
+      Hint = 'Inspect the calendar of repetitions'
+      ShortCut = 16471
+      OnClick = MICalendarClick
+    end
+    object MIReport: TMenuItem
+      Caption = '&Report'
+      Hint = 'Export report file'
+      OnClick = MIReportClick
+    end
+    object MIRestoreLayout: TMenuItem
+      Caption = 'Restore layout'
+      Hint = 'Restore the default layout'
+      ShortCut = 16500
+      OnClick = MIRestoreLayoutClick
+    end
+    object MIElementWindow: TMenuItem
+      Caption = 'Element window'
+      Hint = 'Return to the element window'
+      ShortCut = 27
+      OnClick = MIElementWindowClick
+    end
+  end
+end

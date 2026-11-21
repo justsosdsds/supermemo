@@ -1,0 +1,78 @@
+object AddressDlg: TAddressDlg
+  Left = 371
+  Top = 122
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Company'
+  ClientHeight = 460
+  ClientWidth = 519
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -20
+  Font.Name = 'System'
+  Font.Style = []
+  KeyPreview = True
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  PixelsPerInch = 96
+  object Panel1: TPanel
+    Left = 8
+    Top = 8
+    Width = 498
+    Height = 441
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 0
+    object ResellerLabel: TLabel
+      Left = 20
+      Top = 17
+      Width = 64
+      Height = 20
+      Caption = 'Support'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label2: TLabel
+      Left = 20
+      Top = 226
+      Width = 75
+      Height = 20
+      Caption = 'Company'
+    end
+    object Reseller: TMemo
+      Left = 20
+      Top = 43
+      Width = 462
+      Height = 158
+      Alignment = taCenter
+      Lines.Strings = (
+        'support: supermemopedia.com'
+        'documentation: help.supermemo.org'
+        'articles: supermemo.guru')
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 0
+    end
+    object Company: TMemo
+      Left = 20
+      Top = 252
+      Width = 462
+      Height = 165
+      Alignment = taCenter
+      Lines.Strings = (
+        'SuperMemo World, Poland'
+        'wiki: supermemopedia.com'
+        'help: help.supermemo.org'
+        'research: supermemo.guru'
+        'shop: super-memo.com'
+        'learn: supermemo.com')
+      ParentShowHint = False
+      ReadOnly = True
+      ScrollBars = ssVertical
+      ShowHint = True
+      TabOrder = 1
+    end
+  end
+end

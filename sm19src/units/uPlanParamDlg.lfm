@@ -1,0 +1,120 @@
+object PlanParamDlg: TPlanParamDlg
+  Left = 424
+  Top = 169
+  Caption = 'Activity Options'
+  ClientHeight = 459
+  ClientWidth = 652
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDeactivate = FormDeactivate
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object StringGrid1: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 652
+    Height = 340
+    Align = alClient
+    ColCount = 3
+    RowCount = 8
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSizing, goColSizing, goRowMoving, goEditing, goThumbTracking]
+    TabOrder = 0
+    OnKeyDown = StringGrid1KeyDown
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 340
+    Width = 652
+    Height = 119
+    Align = alBottom
+    TabOrder = 1
+    object Label2: TLabel
+      Left = 15
+      Top = 20
+      Width = 89
+      Height = 20
+      Hint = 'Maximum length of the activity'
+      Caption = '&Length (min)'
+      FocusControl = LengthEdit
+    end
+    object Label3: TLabel
+      Left = 15
+      Top = 56
+      Width = 76
+      Height = 20
+      Hint = 'How early should the alarm set off before the end of the activity'
+      Caption = '&Margin (%)'
+      FocusControl = MarginEdit
+    end
+    object Save: TSpeedButton
+      Left = 591
+      Top = 56
+      Width = 40
+      Height = 40
+      Hint = 'Save activities and save the plan'
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = SaveClick
+    end
+    object LengthEdit: TEdit
+      Left = 157
+      Top = 20
+      Width = 73
+      Height = 28
+      Hint = 'Maximum length of the activity'
+      TabOrder = 0
+      Text = '60'
+    end
+    object MarginEdit: TEdit
+      Left = 157
+      Top = 56
+      Width = 73
+      Height = 28
+      Hint = 'How early should the alarm set off before the end of the activity'
+      TabOrder = 1
+      Text = '5'
+    end
+    object RadioGroup1: TRadioGroup
+      Left = 244
+      Top = 7
+      Width = 212
+      Height = 101
+      Caption = 'Choice method'
+      Items.Strings = (
+        '&Random'
+        'By &day')
+      TabOrder = 2
+    end
+    object OK: TBitBtn
+      Left = 473
+      Top = 10
+      Width = 158
+      Height = 40
+      Caption = '&OK'
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 3
+      OnClick = OKClick
+    end
+    object Cancel: TBitBtn
+      Left = 476
+      Top = 56
+      Width = 109
+      Height = 40
+      Caption = '&Cancel'
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 4
+      OnClick = CancelClick
+    end
+  end
+end

@@ -1,0 +1,91 @@
+object SpellDlg: TSpellDlg
+  Left = 342
+  Top = 130
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Spelling'
+  ClientHeight = 309
+  ClientWidth = 401
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  PixelsPerInch = 96
+  object Label1: TLabel
+    Left = 7
+    Top = 7
+    Width = 79
+    Height = 13
+    Caption = 'Not in dictionary:'
+  end
+  object Label2: TLabel
+    Left = 7
+    Top = 52
+    Width = 65
+    Height = 13
+    Caption = 'Replace with:'
+  end
+  object Label3: TLabel
+    Left = 7
+    Top = 104
+    Width = 61
+    Height = 13
+    Caption = 'Suggestions:'
+  end
+  object ErrorEdit: TEdit
+    Left = 7
+    Top = 26
+    Width = 280
+    Height = 28
+    TabOrder = 0
+  end
+  object lbSuggestions: TListBox
+    Left = 7
+    Top = 124
+    Width = 384
+    Height = 169
+    ItemHeight = 20
+    TabOrder = 1
+    OnClick = lbSuggestionsClick
+  end
+  object ReplaceEdit: TEdit
+    Left = 7
+    Top = 72
+    Width = 280
+    Height = 28
+    TabOrder = 2
+  end
+  object Ignore: TBitBtn
+    Left = 312
+    Top = 7
+    Width = 79
+    Height = 26
+    Kind = bkIgnore
+    NumGlyphs = 2
+    TabOrder = 3
+    OnClick = IgnoreClick
+  end
+  object Change: TBitBtn
+    Left = 312
+    Top = 39
+    Width = 79
+    Height = 27
+    Caption = '&Change'
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 4
+    OnClick = ChangeClick
+  end
+  object Cancel: TBitBtn
+    Left = 312
+    Top = 72
+    Width = 79
+    Height = 26
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 5
+  end
+end

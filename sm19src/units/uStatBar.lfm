@@ -1,0 +1,81 @@
+object StatBar: TStatBar
+  Left = 378
+  Top = 229
+  Align = alBottom
+  AutoSize = True
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 30
+  ClientWidth = 878
+  Color = clBtnFace
+  DragKind = dkDock
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  object StatusPanel: TPanel
+    Left = 0
+    Top = 0
+    Width = 878
+    Height = 30
+    Hint = 'Status bar'
+    Align = alClient
+    AutoSize = True
+    BorderStyle = bsSingle
+    DockSite = True
+    DragKind = dkDock
+    TabOrder = 0
+    object OutstandingBar: TPaintBox
+      Left = 340
+      Top = 1
+      Width = 200
+      Height = 24
+      Hint = 'Proportion of outstanding items and items scheduled for final drill among all items scheduled for today'
+      Align = alLeft
+      OnPaint = OutstandingBarPaint
+    end
+    object MemorizedLabel: TPanel
+      Left = 1
+      Top = 1
+      Width = 150
+      Height = 24
+      Hint = 'Number of memorized items and topics in the collection'
+      Align = alLeft
+      BevelInner = bvLowered
+      BevelOuter = bvLowered
+      TabOrder = 0
+    end
+    object OutstandingLabel: TPanel
+      Left = 151
+      Top = 1
+      Width = 189
+      Height = 24
+      Hint = 'Outstanding items, topics and final drill items (if any) within the total outstanding at the beginning of the day'
+      Align = alLeft
+      BevelInner = bvLowered
+      BevelOuter = bvLowered
+      TabOrder = 1
+    end
+    object Hinter: TPanel
+      Left = 540
+      Top = 1
+      Width = 189
+      Height = 24
+      Hint = 'Hint area for menus, statistics, parameters, buttons, etc.'
+      Align = alLeft
+      Alignment = taLeftJustify
+      AutoSize = True
+      BevelInner = bvLowered
+      BevelOuter = bvLowered
+      BorderStyle = bsSingle
+      Color = clYellow
+      UseDockManager = False
+      ParentBackground = False
+      TabOrder = 2
+      OnDblClick = HinterDblClick
+    end
+  end
+end

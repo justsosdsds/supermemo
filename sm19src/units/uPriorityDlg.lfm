@@ -1,0 +1,292 @@
+object PriorityDlg: TPriorityDlg
+  Left = 0
+  Top = 0
+  ActiveControl = PercentEdit
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Element Priority'
+  ClientHeight = 374
+  ClientWidth = 934
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -15
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  ShowHint = True
+  SnapBuffer = 100
+  OnCreate = FormCreate
+  OnHide = FormHide
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Label1: TLabel
+    Left = 10
+    Top = 13
+    Width = 116
+    Height = 18
+    Hint = 'Position in the priority queue'
+    Caption = '&Position [1..Total]'
+    FocusControl = PositionEdit
+  end
+  object Label2: TLabel
+    Left = 10
+    Top = 56
+    Width = 123
+    Height = 18
+    Hint = 'Priority (0% highest, 100% lowest)'
+    Caption = 'Pe&rcent [0..100%]'
+    FocusControl = PercentEdit
+  end
+  object Before: TLabel
+    Left = 44
+    Top = 245
+    Width = 875
+    Height = 32
+    AutoSize = False
+    Caption = 'Before'
+  end
+  object After: TLabel
+    Left = 44
+    Top = 328
+    Width = 875
+    Height = 31
+    AutoSize = False
+    Caption = 'After'
+  end
+  object Label5: TLabel
+    Left = 426
+    Top = 13
+    Width = 104
+    Height = 18
+    Hint = 'Requested forgetting index (i.e. acceptable level of forgetting in %)'
+    Caption = '&Forgetting index'
+    FocusControl = FI
+  end
+  object Label6: TLabel
+    Left = 426
+    Top = 56
+    Width = 55
+    Height = 18
+    Hint = 'A-Factor (i.e. determinant of the speed in which intervals increase)'
+    Caption = '&A-Factor'
+    FocusControl = AF
+  end
+  object Label7: TLabel
+    Left = 426
+    Top = 95
+    Width = 44
+    Height = 18
+    Hint = 'Ordinal number used in sorting collections (e.g. for use by others)'
+    Caption = '&Ordinal'
+    FocusControl = Ordinal
+  end
+  object GoAfter: TSpeedButton
+    Left = 12
+    Top = 328
+    Width = 23
+    Height = 23
+    Hint = 'Go to the preceding element'
+    OnClick = GoAfterClick
+  end
+  object GoBefore: TSpeedButton
+    Left = 12
+    Top = 245
+    Width = 23
+    Height = 22
+    Hint = 'Go to the succeeding element'
+    OnClick = GoBeforeClick
+  end
+  object Label3: TLabel
+    Left = 10
+    Top = 100
+    Width = 129
+    Height = 18
+    Hint = 'Interval remaining to the next repetition'
+    Caption = '&Interval (remaining)'
+    FocusControl = IntervalEdit
+  end
+  object IntervalBtn: TSpeedButton
+    Left = 377
+    Top = 90
+    Width = 25
+    Height = 29
+    Hint = 'Choose the new interval'
+    OnClick = IntervalBtnClick
+  end
+  object GoThis: TSpeedButton
+    Left = 12
+    Top = 285
+    Width = 23
+    Height = 24
+    Hint = 'Go to the succeeding element'
+    OnClick = GoThisClick
+  end
+  object This: TLabel
+    Left = 44
+    Top = 285
+    Width = 875
+    Height = 33
+    AutoSize = False
+    Caption = 'This'
+    Color = clYellow
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -17
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+  end
+  object PaintBox1: TPaintBox
+    Left = 8
+    Top = 131
+    Width = 907
+    Height = 55
+    OnPaint = PaintBox1Paint
+  end
+  object OK: TBitBtn
+    Left = 785
+    Top = 5
+    Width = 134
+    Height = 38
+    HelpContext = 37
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 7
+    OnClick = OKClick
+  end
+  object Cancel: TBitBtn
+    Left = 785
+    Top = 86
+    Width = 134
+    Height = 38
+    HelpContext = 37
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 8
+  end
+  object TrackBar1: TTrackBar
+    Left = 11
+    Top = 191
+    Width = 908
+    Height = 47
+    Hint = 'Priority (0% highest, 100% lowest)'
+    Max = 100
+    PageSize = 10
+    TabOrder = 3
+    TickMarks = tmTopLeft
+    OnChange = TrackBar1Change
+  end
+  object PositionEdit: TEdit
+    Left = 216
+    Top = 9
+    Width = 161
+    Height = 26
+    Hint = 'Position in the priority queue'
+    TabOrder = 0
+    Text = '1'
+    OnChange = PositionEditChange
+  end
+  object PercentEdit: TEdit
+    Left = 216
+    Top = 52
+    Width = 161
+    Height = 26
+    Hint = 'Priority (0% highest, 100% lowest)'
+    TabOrder = 1
+    OnChange = PercentEditChange
+  end
+  object FI: TEdit
+    Left = 594
+    Top = 9
+    Width = 177
+    Height = 26
+    Hint = 'Requested forgetting index (i.e. acceptable level of forgetting in %)'
+    TabOrder = 4
+  end
+  object AF: TEdit
+    Left = 594
+    Top = 52
+    Width = 177
+    Height = 26
+    Hint = 'A-Factor (i.e. determinant of the speed in which intervals increase)'
+    TabOrder = 5
+  end
+  object Ordinal: TEdit
+    Left = 594
+    Top = 91
+    Width = 177
+    Height = 26
+    Hint = 'Ordinal number used in sorting collections (e.g. for use by others)'
+    TabOrder = 6
+  end
+  object IntervalEdit: TEdit
+    Left = 216
+    Top = 91
+    Width = 161
+    Height = 26
+    Hint = 'Interval remaining to the next repetition'
+    TabOrder = 2
+  end
+  object PositUpDown: TUpDown
+    Left = 377
+    Top = 9
+    Width = 23
+    Height = 26
+    Hint = 'Increment or decrement the position in the priority queue'
+    Associate = PositionEdit
+    Min = 1
+    Max = 1000000000
+    Position = 1
+    TabOrder = 9
+    Thousands = False
+    OnMouseDown = PositUpDownMouseDown
+  end
+  object BitBtn1: TBitBtn
+    Left = 785
+    Top = 45
+    Width = 134
+    Height = 38
+    HelpContext = 37
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 10
+  end
+  object PopupMenu1: TPopupMenu
+    object MIIncrease: TMenuItem
+      Caption = 'Increase priority'
+      ShortCut = 32805
+      OnClick = MIIncreaseClick
+    end
+    object MIDecrease: TMenuItem
+      Caption = 'Decrease priority'
+      ShortCut = 32807
+      OnClick = MIDecreaseClick
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object InvPercent1: TMenuItem
+      Caption = 'Inv: Percent'
+      ShortCut = 32850
+      Visible = False
+      OnClick = InvPercent1Click
+    end
+    object InvPosition1: TMenuItem
+      Caption = 'Inv: Position'
+      ShortCut = 32848
+      Visible = False
+      OnClick = InvPosition1Click
+    end
+    object InvInterval1: TMenuItem
+      Caption = 'Inv: Interval'
+      ShortCut = 32841
+      Visible = False
+      OnClick = InvInterval1Click
+    end
+  end
+end

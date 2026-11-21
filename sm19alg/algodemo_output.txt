@@ -1,0 +1,32 @@
+﻿======================================================================
+SM-19 collection -> scheduling engine (end to end)
+======================================================================
+
+collection: F:\SMCollections\ABC
+matrix loaded: 9261 cells
+
+U-factor row probes (R=0):
+  S=1 D=0..4 : 13.822076 8.212571 6.056511 4.879609 4.126662
+  S=0 D=0..4 : 14.244807 8.463742 6.241743 5.028846 4.252871
+
+card: stability=12.40 d  difficulty=0.32  repetition=5  interval=12.40 d  R=0.87
+
+  quality   Ridx Sidx Didx   U-factor   next interval   source
+     0.20      4    2    6    35.6569      442.15 days   matrix
+     0.40      4    2    6    35.6569      442.15 days   matrix
+     0.60      4    2    6    35.6569      442.15 days   matrix
+     0.80      4    2    6    35.6569      442.15 days   matrix
+     1.00      4    2    6    35.6569      442.15 days   matrix
+
+same card through the reconstructed formulas:
+  quality 0.20 -> V2 formula interval 2.15 d
+  quality 0.40 -> V2 formula interval 2.15 d
+  quality 0.60 -> V2 formula interval 2.15 d
+  quality 0.80 -> V2 formula interval 2.15 d
+  quality 1.00 -> V2 formula interval 2.15 d
+
+quality sweep on the matrix (V2 as reference):
+  V4 parameter probe -> 1891.2945
+  V6 parameter probe -> 5.0000
+
+DONE

@@ -1,0 +1,79 @@
+object InputDlg: TInputDlg
+  Left = 0
+  Top = 0
+  Caption = 'Input text'
+  ClientHeight = 261
+  ClientWidth = 633
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnDeactivate = FormDeactivate
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Label1: TLabel
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 13
+    Alignment = taCenter
+    Caption = 'Request'
+  end
+  object Memo1: TMemo
+    Left = 9
+    Top = 22
+    Width = 617
+    Height = 212
+    TabOrder = 0
+    OnKeyDown = Memo1KeyDown
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Top = 239
+    Width = 633
+    Height = 22
+    Align = alBottom
+    AutoSize = True
+    ButtonWidth = 59
+    Images = AboutBox.ImageList1
+    List = True
+    ParentShowHint = False
+    ShowCaptions = True
+    ShowHint = True
+    TabOrder = 1
+    object OK: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'Accept (Alt+Enter)'
+      AutoSize = True
+      Caption = '&OK'
+      ImageIndex = 72
+      Style = tbsButton
+      OnClick = OKClick
+    end
+    object Cancel: TToolButton
+      Left = 45
+      Top = 0
+      Hint = 'Cancel changes (Esc)'
+      AutoSize = True
+      Caption = '&Cancel'
+      ImageIndex = 16
+      Style = tbsButton
+      OnClick = CancelClick
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    object SelectAll1: TMenuItem
+      Caption = 'Select All'
+      ShortCut = 16449
+      OnClick = SelectAll1Click
+    end
+  end
+end

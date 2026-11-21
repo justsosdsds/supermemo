@@ -1,0 +1,701 @@
+object AnalysisDlg: TAnalysisDlg
+  Left = 405
+  Top = 192
+  HelpContext = 5
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Analysis'
+  ClientHeight = 666
+  ClientWidth = 1107
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -14
+  Font.Name = 'System'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  Scaled = False
+  ShowHint = True
+  Visible = True
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDeactivate = FormDeactivate
+  OnMouseWheelDown = FormMouseWheelDown
+  OnMouseWheelUp = FormMouseWheelUp
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Notebook: TTabbedNotebook
+    Left = 0
+    Top = 0
+    Width = 1107
+    Height = 622
+    Align = alClient
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TabOrder = 0
+    object AnonComp_1: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&Use'
+      object UsePaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 542
+        Align = alClient
+        OnMouseDown = UsePaintBoxMouseDown
+        OnMouseMove = UsePaintBoxMouseMove
+        OnMouseUp = UsePaintBoxMouseUp
+        OnPaint = UsePaintBoxPaint
+      end
+      object CatSet: TTabSet
+        Left = 0
+        Top = 542
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        OnClick = CatSetClick
+      end
+      object UseSet: TTabSet
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        OnClick = UseSetClick
+      end
+    end
+    object AnonComp_2: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&Forgetting'
+      object Curve17PaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 522
+        Align = alClient
+        OnMouseMove = Curve17PaintBoxMouseMove
+        OnPaint = Curve17PaintBoxPaint
+      end
+      object StabTab: TTabControl
+        Left = 0
+        Top = 558
+        Width = 1099
+        Height = 36
+        Align = alBottom
+        TabOrder = 0
+        Tabs.Strings = (
+          'Stability: new'
+          '2 days'
+          '3 days'
+          '9 days'
+          '26'
+          '58'
+          '109'
+          '184'
+          '287'
+          '421'
+          '592'
+          '804'
+          '1059'
+          '4 y.'
+          '5 y.'
+          '6 y.'
+          '7 y.'
+          '8 y.'
+          '10 y.'
+          '12 y.'
+          '14y+')
+        TabIndex = 0
+        OnChange = StabTabChange
+      end
+      object DiffTab: TTabControl
+        Left = 0
+        Top = 522
+        Width = 1099
+        Height = 36
+        Align = alBottom
+        TabOrder = 1
+        Tabs.Strings = (
+          'Difficulty=0'
+          '0.05'
+          '0.11'
+          '0.16'
+          '0.21'
+          '0.26'
+          '0.32'
+          '0.37'
+          '0.42'
+          '0.47'
+          '0.53'
+          '0.58'
+          '0.63'
+          '0.68'
+          '0.74'
+          '0.79'
+          '0.84'
+          '0.89'
+          '0.95'
+          'Hardest')
+        TabIndex = 0
+        OnChange = DiffTabChange
+      end
+    end
+    object AnonComp_3: TTabPage
+      Left = 4
+      Top = 24
+      Caption = 'Forgetting (UF)'
+      object CurvePaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 510
+        Align = alClient
+        OnPaint = CurvePaintBoxPaint
+      end
+      object RepTabSet: TTabSet
+        Left = 0
+        Top = 566
+        Width = 1099
+        Height = 28
+        Hint = 'Switch between forgetting curves for different repetition categories, A-Factors or lapses'
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object LapsesTabSet: TTabSet
+        Left = 0
+        Top = 510
+        Width = 1099
+        Height = 28
+        Hint = 'Switch between forgetting curves for different repetition categories, A-Factors or lapses'
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object AFTabSet: TTabSet
+        Left = 0
+        Top = 538
+        Width = 1099
+        Height = 28
+        Hint = 'Switch between forgetting curves for different repetition categories, A-Factors or lapses'
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+      end
+    end
+    object AnonComp_4: TTabPage
+      Left = 4
+      Top = 24
+      Caption = 'Stabiliz.'
+      object StabilizationPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 522
+        Align = alClient
+        OnPaint = StabilizationPaintBoxPaint
+      end
+      object SStabTab: TTabControl
+        Left = 0
+        Top = 558
+        Width = 1099
+        Height = 36
+        Align = alBottom
+        TabOrder = 0
+        Tabs.Strings = (
+          '2 days'
+          '3 days'
+          '9 days'
+          '26'
+          '58'
+          '109'
+          '184'
+          '287'
+          '421'
+          '592'
+          '804'
+          '1059'
+          '4 y.'
+          '5 y.'
+          '6 y.'
+          '7 y.'
+          '8 y.'
+          '10 y.'
+          '12 y.'
+          '14y+')
+        TabIndex = 0
+        OnChange = SDiffTabChange
+      end
+      object SDiffTab: TTabControl
+        Left = 0
+        Top = 522
+        Width = 1099
+        Height = 36
+        Align = alBottom
+        TabOrder = 1
+        Tabs.Strings = (
+          'Difficulty=0'
+          '0.05'
+          '0.11'
+          '0.16'
+          '0.21'
+          '0.26'
+          '0.32'
+          '0.37'
+          '0.42'
+          '0.47'
+          '0.53'
+          '0.58'
+          '0.63'
+          '0.68'
+          '0.74'
+          '0.79'
+          '0.84'
+          '0.89'
+          '0.95'
+          'Hardest')
+        TabIndex = 0
+        OnChange = SDiffTabChange
+      end
+    end
+    object AnonComp_5: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&Graphs'
+      object GraphPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 568
+        Align = alClient
+        OnPaint = GraphPaintBoxPaint
+      end
+      object GraphTabset: TTabSet
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        OnClick = GraphTabsetClick
+      end
+    end
+    object AnonComp_6: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&Distributions'
+      object DistrPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 568
+        Align = alClient
+        OnPaint = DistrPaintBoxPaint
+      end
+      object DistrTabs: TTabControl
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        HotTrack = True
+        MultiLine = True
+        RaggedRight = True
+        Style = tsButtons
+        TabOrder = 0
+        Tabs.Strings = (
+          'Intervals'
+          'A-Factors'
+          'Difficulties'
+          'Repetitions'
+          'Lapses')
+        TabIndex = 0
+        OnChange = DistrTabsChange
+      end
+    end
+    object AnonComp_7: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '3-D &Curves'
+      object Curve3DPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 568
+        Align = alClient
+        OnPaint = Curve3DPaintBoxPaint
+      end
+      object AF3DTabSet: TTabSet
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+      end
+    end
+    object AnonComp_8: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&3-D Graphs'
+      object PaintBox3D: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 568
+        Align = alClient
+        OnPaint = PaintBox3DPaint
+      end
+      object ThreeDTabSet: TTabSet
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        OnClick = ThreeDTabSetClick
+      end
+    end
+    object AnonComp_9: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&S. decay'
+      object SIncDecayPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 564
+        Align = alClient
+        OnPaint = SIncDecayPaintBoxPaint
+      end
+      object SIncDecayTabs: TTabControl
+        Left = 0
+        Top = 564
+        Width = 1099
+        Height = 30
+        Align = alBottom
+        TabOrder = 0
+        Tabs.Strings = (
+          'Difficulty=0'
+          '0.05'
+          '0.11'
+          '0.16'
+          '0.21'
+          '0.26'
+          '0.32'
+          '0.37'
+          '0.42'
+          '0.47'
+          '0.53'
+          '0.58'
+          '0.63'
+          '0.68'
+          '0.74'
+          '0.79'
+          '0.84'
+          '0.89'
+          '0.95'
+          'Hardest')
+        TabIndex = 0
+        OnChange = SIncDecayTabsChange
+      end
+    end
+    object AnonComp_10: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&OF decay'
+      object OFDecayPaintBox: TPaintBox
+        Left = 0
+        Top = 0
+        Width = 1099
+        Height = 568
+        Align = alClient
+        OnPaint = OFDecayPaintBoxPaint
+      end
+      object OFDecayTabs: TTabSet
+        Left = 0
+        Top = 568
+        Width = 1099
+        Height = 26
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        OnClick = OFDecayTabsClick
+      end
+    end
+    object AnonComp_11: TTabPage
+      Left = 4
+      Top = 24
+      Caption = '&Matrices'
+      object RecallPaint: TPaintBox
+        Left = 632
+        Top = 240
+        Width = 249
+        Height = 161
+        OnDblClick = RecallPaintDblClick
+        OnMouseDown = RecallPaintMouseDown
+        OnPaint = MatrixPaint
+      end
+      object MatrixTabs: TTabControl
+        Left = 0
+        Top = 558
+        Width = 1099
+        Height = 36
+        Hint = 'Matrix data describing the status of memory and the algorithm'
+        Align = alBottom
+        TabOrder = 0
+        Tabs.Strings = (
+          'Recall'
+          'Metric'
+          'Cases'
+          'R90'
+          'SInc'
+          'Intervals'
+          'R-Factors'
+          'O-Factors'
+          'RF cases')
+        TabIndex = 0
+        OnChange = MatrixTabSetClick
+      end
+    end
+  end
+  object Bottom: TPanel
+    Left = 0
+    Top = 622
+    Width = 1107
+    Height = 44
+    Align = alBottom
+    TabOrder = 1
+    object ViewMode: TSpeedButton
+      Left = 772
+      Top = 4
+      Width = 31
+      Height = 26
+      Hint = 'Switch display mode: all, topics, or items'
+      Flat = True
+      Glyph.Data = {36040000424D36040000000000003600000028000000100000001000000001002000000000000004000000000000000000000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF002A2A2A00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0073737300C4C5C700DADCDD00E2E4E400E0E1E100CFD1D1009193930038383800FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00B1B3B500D5D8D800F1F0F300CDC0ED00AD9EDC00E2DBF300F7F5F900F1F2F200D5D8D80093939600FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00BABDBF00D8DADB00F9F9F900C0B0E0006039B800382672007762B200D0C8E100FEFEFE00FAFBFB00C4C6C7004C4C4C00FF00FF00FF00FF00FF00FF00AAACAC00CDCFD000F6F7F700FEFEFE008877B100442786001514160077659D0071638A00F4F4F400BEC0C10081818100FF00FF00FF00FF00FF00FF003F3F3F00CED0D100A6A8A900C8C8C800F4F4F400A598BB0047259200341F75003925650058545D008182820084848700FF00FF00FF00FF00FF00FF00FF00FF00FF00FF004C4C4C00B0B2B400B7B9BA008D8F8F00757676003B373F00201D2600343337007376760072727200FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF003F3F3F0081848400A8AAAC009DA0A000959799007D818100FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+      OnClick = ViewModeClick
+    end
+    object XYLabel: TLabel
+      Left = 807
+      Top = 9
+      Width = 19
+      Height = 16
+      Caption = 'XY'
+    end
+    object OK: TBitBtn
+      Left = 224
+      Top = 4
+      Width = 105
+      Height = 33
+      Hint = 'Close Analysis (Esc)'
+      Cancel = True
+      Caption = 'Close'
+      Default = True
+      Glyph.Data = {DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000}
+      Margin = 2
+      ModalResult = 1
+      NumGlyphs = 2
+      Spacing = -1
+      TabOrder = 0
+      OnClick = OKClick
+    end
+    object HelpBtn: TBitBtn
+      Left = 334
+      Top = 4
+      Width = 105
+      Height = 33
+      HelpContext = 5
+      Kind = bkHelp
+      Margin = 2
+      NumGlyphs = 2
+      Spacing = -1
+      TabOrder = 1
+    end
+    object Rotate: TBitBtn
+      Left = 114
+      Top = 4
+      Width = 105
+      Height = 33
+      Hint = 'Rotate 3-D graphs'
+      Caption = '&Rotate'
+      Enabled = False
+      Glyph.Data = {DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333344444433333333333F8888883F33330000324334222222443333388F3833333388F333000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222223333333A224338F33833333338F38F00003222222333333A444338FFFF8F333338888300003AAAAAAA33333333333888888833333333330000333333333333333333333333333333FFFFFF000033333333333344444433FFFF33333388888800003A444333333A22222438888F333338F3333800003A2243333333A2222438F38F333333833338000033A224333334422224338338FFFFF8833338000033A222444442222224338F3388888333FF380000333A2222222222AA243338FF333333FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA33333333333388888833333300003333333333333333333333333333333333330000}
+      NumGlyphs = 2
+      TabOrder = 2
+      OnClick = RotateClick
+    end
+    object Smooth: TBitBtn
+      Left = 4
+      Top = 4
+      Width = 105
+      Height = 33
+      Hint = 'Smooth by averaging across Z-values (i.e. repetition number by default)'
+      Caption = '&Smooth'
+      Glyph.Data = {36030000424D3603000000000000360000002800000010000000100000000100180000000000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000098640A9F6A0A9F6A0A9F6A0A9F6A0A9F6B0CA26F13A4741CA87A27AB8134AF8840B3904FB8985EBDA16FBCA171946208D0A533D08612D08612D08612D08612D08612D08612D08612D08612D08612D08612D08612D08612D08612D086129F690AEAD7A3FDFAF5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD086129F6A0A7BB5EC0B77DC78B4EBEDF0F1F8F8F8DDDDDDF7F7F7DCDCDCF7FAFB7BB5EC0B77DC78B4EBF8F8F8FFFFFFD086129F6A0A0C78DCBEDBF60875DBF9FDFEBED8E2BFBFBFDDDDDDA4BEC7F6FCFE0C78DCBEDBF60875DBFEFEFEFFFFFFD086129F6A0A7CB6EC0C78DC78B4EB2EC0F52EC0F599D2E7AAE3F799D2E72EC0F57CB6EC0C78DC78B4EB2EC0F5FFFFFFD086129F6A0AEBDAAAFDFAF6FFFFFFB5C0C42EC0F52EC0F5F6FCFF2EC0F52EC0F5E2E2E2FDFDFDB7E1F154CCF72EC0F5FDFAF6D5BE95DDBE6CDDA753FFFFFFE1E1E1FDFEFE7BB5EC0B77DC78B4EBFDFDFDDFDFDFF9F9F9DDDEDEC2ECFB7BB5EC0B77DC78B4EBDEC070DDA754FFFFFFB7B7B7FEFEFE0C78DCBEDBF60875DBFEFEFEBFBFBFDEDEDEBFBFBFFDFDFD0C78DCBEDBF60875DBE0C477DDA955FFFFFFE1E1E1FEFEFE7CB6EC0C78DC78B4EBFDFDFDE0E0E0FAFAFADEDEDEFCFCFC7CB6EC0C78DC78B4EBE4CB88DDA956FFFFFFC0C0C0E4E4E4E8E8E8FEFEFEE8E8E8E4E4E4CDCDCDDFDFDFCCCCCCE1E1E1FFFFFFFDFAF6DECCABE7D297DFAB5BFFFFFFFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFBFBFBFBFBFBFAFAFAFAFAFAFFFFFFDBA24AB9934EEBD8A7EED4ACE6BE80E6C084E4B876DFAD5FDEA959DEA959DDA756DDA756DDA754DDA652DDA551DDA450E7C38BBC9754ECDDB2FAF2E6F8EEDCF5E8CFF3E2C3F1DEBAF1DCB5F1DCB5F1DCB5F0DBB4F0DBB4F0DAB4F0DAB2EFDAB2EFDAB1BD9A59EEE0BAECDEB3EBD9AAE8D49DE6CE90E3C986E2C77FE2C77FE2C67EE2C67EE1C67DE1C67DE0C57CE0C57BE0C47BE0C578}
+      TabOrder = 4
+      OnClick = SmoothClick
+    end
+    object ViewCombo: TComboBox
+      Left = 612
+      Top = 5
+      Width = 156
+      Height = 24
+      TabOrder = 3
+      Text = 'All elements'
+      OnChange = ViewComboChange
+      Items.Strings = (
+        'All elements'
+        'Items only'
+        'Topics only')
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    object MINext: TMenuItem
+      Caption = '&Next'
+      Hint = 'Next tab'
+      ShortCut = 16393
+      OnClick = MINextClick
+    end
+    object MIPrevious: TMenuItem
+      Caption = '&Previous'
+      Hint = 'Previouse tab'
+      ShortCut = 24585
+      OnClick = MIPreviousClick
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object MINextSecondary: TMenuItem
+      Caption = 'Next secondary'
+      Hint = 'Next tab in the secondary row'
+      ShortCut = 9
+      OnClick = MINextSecondaryClick
+    end
+    object MIPreviousSecondary: TMenuItem
+      Caption = 'Previous secondary'
+      Hint = 'Previous tab in the secondary row'
+      ShortCut = 8201
+      OnClick = MIPreviousSecondaryClick
+    end
+    object N2: TMenuItem
+      Caption = '-'
+      Hint = '-'
+    end
+    object Cutoffleft1: TMenuItem
+      Caption = 'Cut off left'
+      ShortCut = 16423
+      OnClick = Cutoffleft1Click
+    end
+    object Cutoffright1: TMenuItem
+      Caption = 'Cut off right'
+      ShortCut = 16421
+      OnClick = Cutoffright1Click
+    end
+    object Cutofftop1: TMenuItem
+      Caption = 'Cut off top'
+      ShortCut = 16424
+      OnClick = Cutofftop1Click
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object MIExport: TMenuItem
+      Caption = 'Export'
+      Hint = 'Export the displayed statistic'
+      OnClick = MIExportClick
+    end
+    object Import1: TMenuItem
+      Caption = 'Import'
+      OnClick = Import1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MIClose: TMenuItem
+      Caption = '&Close'
+      Hint = 'Close the analysis window'
+      ShortCut = 27
+      OnClick = MICloseClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object InvDistributions1: TMenuItem
+      Caption = 'Inv: Distributions'
+      ShortCut = 32836
+      Visible = False
+      OnClick = InvDistributions1Click
+    end
+    object Inv3DCurves1: TMenuItem
+      Caption = 'Inv: 3D Curves'
+      ShortCut = 32835
+      Visible = False
+      OnClick = Inv3DCurves1Click
+    end
+    object Invapproximations1: TMenuItem
+      Caption = 'Inv: approximations'
+      ShortCut = 32833
+      Visible = False
+      OnClick = Invapproximations1Click
+    end
+    object InvUse1: TMenuItem
+      Caption = 'Inv: Use '
+      ShortCut = 32853
+      Visible = False
+      OnClick = InvUse1Click
+    end
+  end
+  object OpenDialog1: TOpenDialog
+  end
+end

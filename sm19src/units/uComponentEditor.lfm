@@ -1,0 +1,26 @@
+object ComponentEditor: TComponentEditor
+  Left = 467
+  Top = 181
+  HorzScrollBar.Visible = False
+  VertScrollBar.Visible = False
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 246
+  ClientWidth = 334
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -14
+  Font.Name = 'System'
+  Font.Style = []
+  Position = poDefault
+  ShowHint = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDragDrop = FormDragDrop
+  OnDragOver = FormDragOver
+  OnMouseDown = FormMouseDown
+  OnMouseMove = FormMouseMove
+  OnResize = FormResize
+  PixelsPerInch = 96
+end

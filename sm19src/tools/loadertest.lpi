@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <SessionStorage Value="InProjDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="loadertest"/>
+      <ResourceType Value="res"/>
+    </General>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <RequiredPackages Count="2">
+      <Item1><PackageName Value="FCL"/></Item1>
+      <Item2><PackageName Value="LCL"/></Item2>
+    </RequiredPackages>
+    <Units Count="1">
+      <Unit0><Filename Value="loadertest.lpr"/><IsPartOfProject Value="True"/></Unit0>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target><Filename Value="bin/loadertest"/></Target>
+    <SearchPaths>
+      <UnitOutputDirectory Value="bin"/>
+      <IncludeFiles Value="../units"/>
+      <OtherUnitFiles Value="../units;.."/>
+    </SearchPaths>
+    <Parsing><SyntaxOptions><SyntaxMode Value="ObjFpc"/></SyntaxOptions></Parsing>
+    <Linking><Options><Win32><GraphicApplication Value="False"/></Win32></Options></Linking>
+  </CompilerOptions>
+</CONFIG>

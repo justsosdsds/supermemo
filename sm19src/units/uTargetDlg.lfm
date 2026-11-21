@@ -1,0 +1,156 @@
+object TargetDlg: TTargetDlg
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Choose'
+  ClientHeight = 404
+  ClientWidth = 966
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnDeactivate = FormDeactivate
+  OnKeyPress = FormKeyPress
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Splitter1: TSplitter
+    Left = 140
+    Top = 0
+    Width = 7
+    Height = 356
+    Color = clBtnShadow
+    ParentColor = False
+  end
+  object Splitter2: TSplitter
+    Left = 591
+    Top = 0
+    Width = 7
+    Height = 356
+    Color = clBtnShadow
+    ParentColor = False
+  end
+  object ListBox1: TListBox
+    Left = 0
+    Top = 0
+    Width = 140
+    Height = 356
+    Align = alLeft
+    ItemHeight = 19
+    TabOrder = 0
+    OnClick = ListBox1Click
+    OnDblClick = ListBox1DblClick
+  end
+  object ListBox2: TListBox
+    Left = 147
+    Top = 0
+    Width = 444
+    Height = 356
+    TabStop = False
+    Align = alLeft
+    ItemHeight = 19
+    TabOrder = 1
+    OnClick = ListBox2Click
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 356
+    Width = 966
+    Height = 48
+    Align = alBottom
+    TabOrder = 3
+    object OK: TBitBtn
+      Left = 9
+      Top = 8
+      Width = 138
+      Height = 34
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+      OnClick = OKClick
+    end
+    object Cancel: TBitBtn
+      Left = 443
+      Top = 8
+      Width = 138
+      Height = 34
+      Cancel = True
+      Caption = 'Cancel'
+      ModalResult = 2
+      TabOrder = 3
+    end
+    object Add: TBitBtn
+      Left = 153
+      Top = 8
+      Width = 138
+      Height = 34
+      Caption = 'Add'
+      TabOrder = 1
+      OnClick = ChooseAnotherClick
+    end
+    object DelBtn: TBitBtn
+      Left = 299
+      Top = 8
+      Width = 138
+      Height = 34
+      Caption = 'Delete'
+      TabOrder = 2
+      OnClick = DeleteTargetClick
+    end
+    object SearchEdit: TEdit
+      Left = 587
+      Top = 6
+      Width = 361
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      TabOrder = 4
+      Text = 'Ctrl+S for Search'
+      OnEnter = SearchEditEnter
+      OnKeyPress = SearchEditKeyPress
+    end
+  end
+  object RichEdit1: TRichEdit
+    Left = 598
+    Top = 0
+    Width = 368
+    Height = 356
+    TabStop = False
+    Align = alClient
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+  end
+  object PopupMenu1: TPopupMenu
+    object MISearch: TMenuItem
+      Caption = 'Search'
+      ShortCut = 16467
+      OnClick = MISearchClick
+    end
+    object Close1: TMenuItem
+      Caption = 'Close'
+      OnClick = Close1Click
+    end
+    object InvSearchO1: TMenuItem
+      Caption = 'Inv: Search O'
+      ShortCut = 16463
+      Visible = False
+      OnClick = InvSearchO1Click
+    end
+  end
+end

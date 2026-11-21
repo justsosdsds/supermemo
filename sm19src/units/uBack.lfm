@@ -1,0 +1,28 @@
+object Back: TBack
+  Left = 341
+  Top = 185
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  Caption = 'Back'
+  ClientHeight = 579
+  ClientWidth = 878
+  Color = 10485760
+  Enabled = False
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  PixelsPerInch = 120
+  object Image1: TImage
+    Left = 0
+    Top = 0
+    Width = 878
+    Height = 579
+    Align = alClient
+    Center = True
+    Proportional = True
+    Stretch = True
+  end
+end

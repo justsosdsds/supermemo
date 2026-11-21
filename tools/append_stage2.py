@@ -1,0 +1,50 @@
+"""Append the stage-1 (icon/resource) and stage-2 (runtime window) results."""
+import os, json
+
+BASE = r'F:\Projects\逆向'
+REPORT = os.path.join(BASE, 'sm19src', 'REPORT.md')
+
+L = []
+w = L.append
+w('')
+w('## 10. 第二阶段：图标资源恢复 + 运行时窗口还原')
+w('')
+w('### 10.1 二进制资源（全部恢复）')
+w('')
+w('| 资源 | 数量 | 处理 |')
+w('| --- | --- | --- |')
+w('| `TBitBtn.Glyph.Data` / `TSpeedButton.Glyph.Data` | 49 | 剥离 4 字节长度前缀后为完整 BMP，以 `Data = {HEX}` 写回 LFM |')
+w('| `TImageList.Bitmap`（模板 `IL` 流） | 2 | 原样写回 LFM —— LCL 的 `TCustomImageList.ReadData` 能直接解析 Delphi 的 `IL` 流 |')
+w('| `TImage.Picture.Data`（`TJPEGImage` 封装） | 1 | 原样写回 LFM（AboutBox 的 SuperMemo 19 封面图，已实际显示） |')
+w('| `Icon.Data`（ICO） | 3 | 原样写回 LFM（窗体图标） |')
+w('')
+w('关键实现细节：`Images = AboutBox.ImageList1` 这种跨窗体引用要求宿主窗体先存在，')
+w('因此 `sm19.lpr` 先执行 `AboutBox := TAboutBox.Create(Application);`（不显示，仅作')
+w('ImageList 宿主），再 `Application.CreateForm(TSMMain, SMMain)`。')
+w('')
+w('验证：主窗体顶部 3 排共 116 个工具栏按钮的彩色图标全部显示，与原版一致。')
+w('')
+w('### 10.2 启动时的窗口结构')
+w('')
+w('原版首屏是 `TContents`（概念/内容窗口），实测运行 `SuperMemo19.exe` 首次启动即为该窗口：')
+w('菜单 `File`/`Help`、工具栏 `Contents`/`Search`/←/→/`History`/集合下拉、底部 `Learn`/`Add new` 按钮。')
+w('')
+w('骨架现在同样在启动时创建并显示 `TContents`，布局与原版一致（左列垂直工具按钮、')
+w('顶部工具栏图标、底部 Learn/Add 按钮均来自原 DFM）。')
+w('')
+w('### 10.3 该阶段仍缺')
+w('')
+w('- 客户区内容：元素内容由运行时 HTML/图形渲染生成，不在 DFM 内')
+w('- 工具栏的显示/隐藏状态：原版由运行时代码控制哪些工具栏可见')
+w('- 菜单项的启用状态与快捷键联动（`TActionList` 逻辑）')
+w('')
+w('### 10.4 构建环境备注')
+w('')
+w('`lazbuild` 曾出现 `Package file not found / LazEdit` 错误，`TPCTargetConfigCache` 无法')
+w('刷新，导致所有构建失败。重装 Lazarus 3.0（同一安装器静默覆盖）后恢复。')
+w('重装后编译输出：`17,746 lines compiled, 1,899,520 bytes code`，产物 `sm19.exe` 3.93 MB。')
+w('')
+
+with open(REPORT, 'a', encoding='utf-8', newline='\n') as f:
+    f.write('\n'.join(L))
+print('appended stage-2 section')

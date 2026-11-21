@@ -1,0 +1,103 @@
+object GetIntervalDlg: TGetIntervalDlg
+  Left = 506
+  Top = 262
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Interval'
+  ClientHeight = 540
+  ClientWidth = 556
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clBlack
+  Font.Height = -15
+  Font.Name = 'MS Reference Sans Serif'
+  Font.Style = []
+  Position = poScreenCenter
+  ShowHint = True
+  OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Bevel1: TBevel
+    Left = 11
+    Top = 11
+    Width = 534
+    Height = 518
+  end
+  object Label1: TLabel
+    Left = 32
+    Top = 23
+    Width = 56
+    Height = 19
+    Hint = 'Interval in days (from now till the selected date)'
+    Caption = '&Interval'
+    FocusControl = IntervalEdit
+  end
+  object Label2: TLabel
+    Left = 32
+    Top = 119
+    Width = 35
+    Height = 19
+    Hint = 'Selected date (determined by the length of the interval)'
+    Caption = '&Date'
+  end
+  object IntervalEdit: TEdit
+    Left = 32
+    Top = 65
+    Width = 185
+    Height = 27
+    Hint = 'Interval in days (from now till the selected date)'
+    TabOrder = 0
+    OnKeyPress = IntervalEditKeyPress
+  end
+  object OK: TBitBtn
+    Left = 400
+    Top = 28
+    Width = 129
+    Height = 45
+    Hint = 'Accept the currently selected interval'
+    Caption = '&OK'
+    Glyph.Data = {DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000}
+    ModalResult = 1
+    NumGlyphs = 2
+    TabOrder = 2
+    OnClick = OKClick
+  end
+  object CancelBtn: TBitBtn
+    Left = 399
+    Top = 79
+    Width = 130
+    Height = 45
+    Hint = 'Cancel the selection'
+    Caption = '&Cancel'
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 3
+  end
+  object DateEdit: TEdit
+    Left = 32
+    Top = 161
+    Width = 289
+    Height = 27
+    Hint = 'Selected date (determined by the length of the interval)'
+    TabOrder = 1
+    OnKeyPress = DateEditKeyPress
+  end
+  object Panel1: TPanel
+    Left = 32
+    Top = 208
+    Width = 497
+    Height = 313
+    TabOrder = 4
+    object Calendar: TMonthCalendar
+      Left = 1
+      Top = 1
+      Width = 333
+      Height = 261
+      Hint = 'Selected date (determined by the length of the interval)'
+      FirstDayOfWeek = dowMonday
+      TabOrder = 0
+      OnClick = CalendarClick
+    end
+  end
+end

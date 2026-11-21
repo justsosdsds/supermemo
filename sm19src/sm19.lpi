@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <Flags><MainUnitHasCreateFormStatements Value="True"/><MainUnitHasTitleStatement Value="True"/><MainUnitHasScaledStatement Value="False"/></Flags>
+      <SessionStorage Value="InProjDir"/><MainUnit Value="0"/><Title Value="sm19"/><ResourceType Value="res"/>
+    </General>
+    <BuildModes Count="1"><Item1 Name="Default" Default="True"/></BuildModes>
+    <RequiredPackages Count="2"><Item1><PackageName Value="FCL"/></Item1><Item2><PackageName Value="LCL"/></Item2></RequiredPackages>
+    <Units Count="97">
+      <Unit0><Filename Value="sm19.lpr"/><IsPartOfProject Value="True"/></Unit0>
+      <Unit1><Filename Value="units/uAboutBox.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAboutBox"/></Unit1>
+      <Unit2><Filename Value="units/uAddressDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAddressDlg"/></Unit2>
+      <Unit3><Filename Value="units/uAddTranscription.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAddTranscription"/></Unit3>
+      <Unit4><Filename Value="units/uAlignDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAlignDlg"/></Unit4>
+      <Unit5><Filename Value="units/uAnalysisDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAnalysisDlg"/></Unit5>
+      <Unit6><Filename Value="units/uAncestors.pas"/><IsPartOfProject Value="True"/><UnitName Value="uAncestors"/></Unit6>
+      <Unit7><Filename Value="units/uBack.pas"/><IsPartOfProject Value="True"/><UnitName Value="uBack"/></Unit7>
+      <Unit8><Filename Value="units/uBrImp.pas"/><IsPartOfProject Value="True"/><UnitName Value="uBrImp"/></Unit8>
+      <Unit9><Filename Value="units/uBrowser.pas"/><IsPartOfProject Value="True"/><UnitName Value="uBrowser"/></Unit9>
+      <Unit10><Filename Value="units/uChangeCompSize.pas"/><IsPartOfProject Value="True"/><UnitName Value="uChangeCompSize"/></Unit10>
+      <Unit11><Filename Value="units/uChecksDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uChecksDlg"/></Unit11>
+      <Unit12><Filename Value="units/uChoicesDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uChoicesDlg"/></Unit12>
+      <Unit13><Filename Value="units/uCommanderDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uCommanderDlg"/></Unit13>
+      <Unit14><Filename Value="units/uComponentEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uComponentEditor"/></Unit14>
+      <Unit15><Filename Value="units/uConceptEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uConceptEditor"/></Unit15>
+      <Unit16><Filename Value="units/uConceptMapForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uConceptMapForm"/></Unit16>
+      <Unit17><Filename Value="units/uConceptSelectBox.pas"/><IsPartOfProject Value="True"/><UnitName Value="uConceptSelectBox"/></Unit17>
+      <Unit18><Filename Value="units/uContents.pas"/><IsPartOfProject Value="True"/><UnitName Value="uContents"/></Unit18>
+      <Unit19><Filename Value="units/uContributions.pas"/><IsPartOfProject Value="True"/><UnitName Value="uContributions"/></Unit19>
+      <Unit20><Filename Value="units/uElDataWind.pas"/><IsPartOfProject Value="True"/><UnitName Value="uElDataWind"/></Unit20>
+      <Unit21><Filename Value="units/uElementFilter.pas"/><IsPartOfProject Value="True"/><UnitName Value="uElementFilter"/></Unit21>
+      <Unit22><Filename Value="units/uElParamDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uElParamDlg"/></Unit22>
+      <Unit23><Filename Value="units/uElWind.pas"/><IsPartOfProject Value="True"/><UnitName Value="uElWind"/></Unit23>
+      <Unit24><Filename Value="units/uFAQDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uFAQDlg"/></Unit24>
+      <Unit25><Filename Value="units/uFileBrowser.pas"/><IsPartOfProject Value="True"/><UnitName Value="uFileBrowser"/></Unit25>
+      <Unit26><Filename Value="units/uGetIntervalDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uGetIntervalDlg"/></Unit26>
+      <Unit27><Filename Value="units/uHitEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uHitEditor"/></Unit27>
+      <Unit28><Filename Value="units/uHTMLForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uHTMLForm"/></Unit28>
+      <Unit29><Filename Value="units/uImgDown.pas"/><IsPartOfProject Value="True"/><UnitName Value="uImgDown"/></Unit29>
+      <Unit30><Filename Value="units/uImgScaler.pas"/><IsPartOfProject Value="True"/><UnitName Value="uImgScaler"/></Unit30>
+      <Unit31><Filename Value="units/uImportMailDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uImportMailDlg"/></Unit31>
+      <Unit32><Filename Value="units/uImportTXTDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uImportTXTDlg"/></Unit32>
+      <Unit33><Filename Value="units/uInputDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uInputDlg"/></Unit33>
+      <Unit34><Filename Value="units/uLayoutDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uLayoutDlg"/></Unit34>
+      <Unit35><Filename Value="units/uLeechManagerDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uLeechManagerDlg"/></Unit35>
+      <Unit36><Filename Value="units/uLocalizationDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uLocalizationDlg"/></Unit36>
+      <Unit37><Filename Value="units/uLoginDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uLoginDialog"/></Unit37>
+      <Unit38><Filename Value="units/uMemForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMemForm"/></Unit38>
+      <Unit39><Filename Value="units/uMercyForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMercyForm"/></Unit39>
+      <Unit40><Filename Value="units/uMercyOptions.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMercyOptions"/></Unit40>
+      <Unit41><Filename Value="units/uMsgDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMsgDialog"/></Unit41>
+      <Unit42><Filename Value="units/uMyFindDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMyFindDlg"/></Unit42>
+      <Unit43><Filename Value="units/uMyReplaceDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uMyReplaceDlg"/></Unit43>
+      <Unit44><Filename Value="units/uOptions.pas"/><IsPartOfProject Value="True"/><UnitName Value="uOptions"/></Unit44>
+      <Unit45><Filename Value="units/uOrderEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uOrderEditor"/></Unit45>
+      <Unit46><Filename Value="units/uPasswordDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPasswordDialog"/></Unit46>
+      <Unit47><Filename Value="units/uPasswordDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPasswordDlg"/></Unit47>
+      <Unit48><Filename Value="units/uPlanDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPlanDlg"/></Unit48>
+      <Unit49><Filename Value="units/uPlanParamDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPlanParamDlg"/></Unit49>
+      <Unit50><Filename Value="units/uPlayerForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPlayerForm"/></Unit50>
+      <Unit51><Filename Value="units/uPleaseDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPleaseDlg"/></Unit51>
+      <Unit52><Filename Value="units/uPostponeDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPostponeDlg"/></Unit52>
+      <Unit53><Filename Value="units/uPriorityDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uPriorityDlg"/></Unit53>
+      <Unit54><Filename Value="units/uProgressBox.pas"/><IsPartOfProject Value="True"/><UnitName Value="uProgressBox"/></Unit54>
+      <Unit55><Filename Value="units/uQODDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uQODDlg"/></Unit55>
+      <Unit56><Filename Value="units/uQuestions.pas"/><IsPartOfProject Value="True"/><UnitName Value="uQuestions"/></Unit56>
+      <Unit57><Filename Value="units/uRecoveryDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRecoveryDialog"/></Unit57>
+      <Unit58><Filename Value="units/uRegistrationForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRegistrationForm"/></Unit58>
+      <Unit59><Filename Value="units/uRegistryForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRegistryForm"/></Unit59>
+      <Unit60><Filename Value="units/uRepGraphDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRepGraphDlg"/></Unit60>
+      <Unit61><Filename Value="units/uRepHistoryForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRepHistoryForm"/></Unit61>
+      <Unit62><Filename Value="units/uRepSimDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRepSimDlg"/></Unit62>
+      <Unit63><Filename Value="units/uRepSortDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRepSortDlg"/></Unit63>
+      <Unit64><Filename Value="units/uRotateForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uRotateForm"/></Unit64>
+      <Unit65><Filename Value="units/uScriptEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uScriptEditor"/></Unit65>
+      <Unit66><Filename Value="units/uSetPendingDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSetPendingDlg"/></Unit66>
+      <Unit67><Filename Value="units/uShowTimeDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uShowTimeDialog"/></Unit67>
+      <Unit68><Filename Value="units/uSimDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSimDlg"/></Unit68>
+      <Unit69><Filename Value="units/uSleepForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSleepForm"/></Unit69>
+      <Unit70><Filename Value="units/uSleepGraph.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSleepGraph"/></Unit70>
+      <Unit71><Filename Value="units/uSMMain.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSMMain"/></Unit71>
+      <Unit72><Filename Value="units/uSpellDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSpellDlg"/></Unit72>
+      <Unit73><Filename Value="units/uSpreadPrioritiesDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uSpreadPrioritiesDlg"/></Unit73>
+      <Unit74><Filename Value="units/uStatBar.pas"/><IsPartOfProject Value="True"/><UnitName Value="uStatBar"/></Unit74>
+      <Unit75><Filename Value="units/uStats.pas"/><IsPartOfProject Value="True"/><UnitName Value="uStats"/></Unit75>
+      <Unit76><Filename Value="units/uStylesheetEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uStylesheetEditor"/></Unit76>
+      <Unit77><Filename Value="units/uTargetDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTargetDlg"/></Unit77>
+      <Unit78><Filename Value="units/uTasklistEditor.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTasklistEditor"/></Unit78>
+      <Unit79><Filename Value="units/uTaskManager.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTaskManager"/></Unit79>
+      <Unit80><Filename Value="units/uThemeTestDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uThemeTestDlg"/></Unit80>
+      <Unit81><Filename Value="units/uTileDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTileDlg"/></Unit81>
+      <Unit82><Filename Value="units/uTitleEdit.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTitleEdit"/></Unit82>
+      <Unit83><Filename Value="units/uTranslationDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uTranslationDlg"/></Unit83>
+      <Unit84><Filename Value="units/uURLOpenDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uURLOpenDlg"/></Unit84>
+      <Unit85><Filename Value="units/uVBrowser.pas"/><IsPartOfProject Value="True"/><UnitName Value="uVBrowser"/></Unit85>
+      <Unit86><Filename Value="units/uWebDlg.pas"/><IsPartOfProject Value="True"/><UnitName Value="uWebDlg"/></Unit86>
+      <Unit87><Filename Value="units/uWorkload.pas"/><IsPartOfProject Value="True"/><UnitName Value="uWorkload"/></Unit87>
+      <Unit88><Filename Value="units/uWorkloadForm.pas"/><IsPartOfProject Value="True"/><UnitName Value="uWorkloadForm"/></Unit88>
+      <Unit89><Filename Value="units/uXMLExportDialog.pas"/><IsPartOfProject Value="True"/><UnitName Value="uXMLExportDialog"/></Unit89>
+      <Unit90><Filename Value="units/sm20alg.pas"/><IsPartOfProject Value="True"/><UnitName Value="sm20alg"/></Unit90>
+      <Unit91><Filename Value="units/smcollection.pas"/><IsPartOfProject Value="True"/><UnitName Value="smcollection"/></Unit91>
+      <Unit92><Filename Value="units/smengine.pas"/><IsPartOfProject Value="True"/><UnitName Value="smengine"/></Unit92>
+      <Unit93><Filename Value="units/smdemo.pas"/><IsPartOfProject Value="True"/><UnitName Value="smdemo"/></Unit93>
+      <Unit94><Filename Value="units/smactions.pas"/><IsPartOfProject Value="True"/><UnitName Value="smactions"/></Unit94>
+      <Unit95><Filename Value="units/smsettings.pas"/><IsPartOfProject Value="True"/><UnitName Value="smsettings"/></Unit95>
+      <Unit96><Filename Value="units/smimport.pas"/><IsPartOfProject Value="True"/><UnitName Value="smimport"/></Unit96>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target><Filename Value="sm19"/></Target>
+    <SearchPaths><UnitOutputDirectory Value="lib"/><IncludeFiles Value="units"/><OtherUnitFiles Value="units"/></SearchPaths>
+    <Parsing><SyntaxOptions><SyntaxMode Value="ObjFpc"/></SyntaxOptions></Parsing>
+    <Other><CustomOptions Value="-Se10"/></Other>
+    <Linking><Options><Win32><GraphicApplication Value="True"/></Win32></Options></Linking>
+  </CompilerOptions>
+</CONFIG>

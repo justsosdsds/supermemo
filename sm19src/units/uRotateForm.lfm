@@ -1,0 +1,269 @@
+object RotateForm: TRotateForm
+  Left = 0
+  Top = 0
+  Caption = 'RotateForm'
+  ClientHeight = 685
+  ClientWidth = 1300
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object PaintBox1: TPaintBox
+    Left = 0
+    Top = 0
+    Width = 1300
+    Height = 385
+    Align = alClient
+    Color = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -10
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    OnMouseDown = PaintBox1MouseDown
+    OnMouseMove = PaintBox1MouseMove
+    OnMouseUp = PaintBox1MouseUp
+    OnPaint = PaintBox1Paint
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 385
+    Width = 1300
+    Height = 300
+    Align = alBottom
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -10
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object CasesLabel: TLabel
+      Left = 635
+      Top = 219
+      Width = 25
+      Height = 12
+      Hint = 'Repetition cases displayed and the minimum required for a data point'
+      Caption = 'Cases'
+    end
+    object DifficultyLabel: TLabel
+      Left = 635
+      Top = 174
+      Width = 39
+      Height = 12
+      Caption = 'Difficulty'
+    end
+    object ParamsPaint: TPaintBox
+      Left = 976
+      Top = 57
+      Width = 313
+      Height = 232
+    end
+    object SliceLabel: TLabel
+      Left = 635
+      Top = 264
+      Width = 20
+      Height = 12
+      Caption = 'Slice'
+    end
+    object TrackBar1: TTrackBar
+      Left = 0
+      Top = 69
+      Width = 919
+      Height = 33
+      Max = 360
+      PageSize = 15
+      TabOrder = 0
+      OnChange = TrackBar1Change
+      OnKeyDown = TrackBar1KeyDown
+    end
+    object TrackBar2: TTrackBar
+      Left = 0
+      Top = 113
+      Width = 919
+      Height = 34
+      Max = 360
+      PageSize = 15
+      TabOrder = 1
+      OnChange = TrackBar2Change
+      OnKeyPress = TrackBar2KeyPress
+    end
+    object DiffBar: TTrackBar
+      Left = 0
+      Top = 158
+      Width = 623
+      Height = 45
+      Max = 20
+      Min = 1
+      Position = 1
+      TabOrder = 2
+      OnChange = DiffBarChange
+    end
+    object Smoothing: TButton
+      Left = 888
+      Top = 175
+      Width = 68
+      Height = 19
+      Caption = 'Smoothing'
+      TabOrder = 3
+      OnClick = SmoothingClick
+    end
+    object CasesBar: TTrackBar
+      Left = 0
+      Top = 203
+      Width = 623
+      Height = 45
+      Max = 100
+      TabOrder = 4
+      OnChange = CasesBarChange
+    end
+    object ComputeBtn: TButton
+      Left = 744
+      Top = 175
+      Width = 68
+      Height = 19
+      Caption = 'Compute'
+      TabOrder = 5
+      OnClick = ComputeBtnClick
+    end
+    object Reset: TButton
+      Left = 816
+      Top = 175
+      Width = 68
+      Height = 19
+      Caption = 'Reset'
+      TabOrder = 6
+      OnClick = ResetClick
+    end
+    object ResetCases: TButton
+      Left = 816
+      Top = 198
+      Width = 67
+      Height = 19
+      Caption = 'Reset Cases'
+      TabOrder = 7
+      OnClick = ResetCasesClick
+    end
+    object Cancel: TButton
+      Left = 744
+      Top = 221
+      Width = 67
+      Height = 19
+      Caption = 'Cancel'
+      TabOrder = 8
+      OnClick = CancelClick
+    end
+    object ExportBtn: TButton
+      Left = 816
+      Top = 221
+      Width = 67
+      Height = 19
+      Caption = 'Export'
+      TabOrder = 9
+      OnClick = ExportBtnClick
+    end
+    object Button1: TButton
+      Left = 744
+      Top = 198
+      Width = 67
+      Height = 19
+      Caption = 'Subset'
+      TabOrder = 10
+      OnClick = Button1Click
+    end
+    object AverageBox: TCheckBox
+      Left = 895
+      Top = 204
+      Width = 68
+      Height = 13
+      Hint = 'Sooth up SInc[] matrix by averaging neighboring entries'
+      Caption = 'Average'
+      TabOrder = 11
+      OnClick = AverageBoxClick
+    end
+    object TheGraphs: TTabControl
+      Left = 1
+      Top = 1
+      Width = 1298
+      Height = 25
+      Hint = 'Types of graphs available for 4D display'
+      Align = alTop
+      HotTrack = True
+      TabOrder = 12
+      TabPosition = tpBottom
+      Tabs.Strings = (
+        'Matrices'
+        'Stabilization'
+        'SInc Approx'
+        'Recall'
+        'Recall Approx'
+        'First Interval'
+        'PLS Approx'
+        'Sleep'
+        'Forgetting'
+        'RF Matrix')
+      TabIndex = 0
+      OnChange = TheGraphsChange
+    end
+    object TheMatrices: TTabControl
+      Left = 1
+      Top = 26
+      Width = 1298
+      Height = 25
+      Align = alTop
+      HotTrack = True
+      TabOrder = 13
+      Tabs.Strings = (
+        'S90'
+        'SIncMin'
+        'SIncMax'
+        'Gain'
+        'Decay'
+        'OS'
+        'Recall'
+        'R90'
+        'Metric'
+        'Cases'
+        'RF'
+        'OF'
+        'Intervals'
+        'RF Cases')
+      TabIndex = 0
+      Visible = False
+      OnChange = TheMatricesChange
+    end
+    object SliceBar: TTrackBar
+      Left = 0
+      Top = 248
+      Width = 623
+      Height = 45
+      Max = 21
+      Min = 1
+      Position = 1
+      TabOrder = 14
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    object MIParameteroptimization: TMenuItem
+      Caption = 'Parameter optimization'
+      Hint = 'Compute the optimum value of a selected algorithmic parameter'
+      ShortCut = 118
+      OnClick = MIParameteroptimizationClick
+    end
+    object Close1: TMenuItem
+      Caption = 'Close'
+      ShortCut = 27
+      OnClick = Close1Click
+    end
+  end
+end

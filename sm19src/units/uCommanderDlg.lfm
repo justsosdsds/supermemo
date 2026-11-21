@@ -1,0 +1,167 @@
+object CommanderDlg: TCommanderDlg
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'SuperMemo Commander'
+  ClientHeight = 507
+  ClientWidth = 714
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -15
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Label1: TLabel
+    Left = 17
+    Top = 11
+    Width = 67
+    Height = 18
+    Caption = '&Command'
+    FocusControl = CommandLine
+  end
+  object Label2: TLabel
+    Left = 302
+    Top = 11
+    Width = 92
+    Height = 18
+    Caption = 'C&ustom name'
+    FocusControl = OCommandLine
+  end
+  object HintArea: TLabel
+    Left = 17
+    Top = 412
+    Width = 693
+    Height = 86
+    AutoSize = False
+    Color = clYellow
+    ParentColor = False
+    Transparent = False
+    WordWrap = True
+  end
+  object CommandLine: TEdit
+    Left = 17
+    Top = 41
+    Width = 270
+    Height = 26
+    TabOrder = 0
+    OnChange = CommandLineChange
+  end
+  object OCommandLine: TEdit
+    Left = 302
+    Top = 41
+    Width = 271
+    Height = 26
+    TabOrder = 1
+    OnChange = OCommandLineChange
+  end
+  object CommandBox: TListBox
+    Left = 17
+    Top = 71
+    Width = 270
+    Height = 334
+    ItemHeight = 18
+    Sorted = True
+    TabOrder = 2
+    OnClick = CommandBoxClick
+  end
+  object OCommandBox: TListBox
+    Left = 302
+    Top = 71
+    Width = 271
+    Height = 334
+    ItemHeight = 18
+    Sorted = True
+    TabOrder = 3
+    OnClick = OCommandBoxClick
+  end
+  object OK: TButton
+    Left = 578
+    Top = 39
+    Width = 130
+    Height = 31
+    Caption = 'OK'
+    Default = True
+    TabOrder = 4
+    OnClick = OKClick
+  end
+  object Cancel: TButton
+    Left = 578
+    Top = 77
+    Width = 130
+    Height = 31
+    Caption = 'Cancel'
+    TabOrder = 5
+    OnClick = MICloseClick
+  end
+  object Rename: TButton
+    Left = 578
+    Top = 115
+    Width = 130
+    Height = 31
+    Hint = 'Rename the command'
+    Caption = '&Rename'
+    TabOrder = 6
+    OnClick = RenameClick
+  end
+  object Button1: TButton
+    Left = 578
+    Top = 153
+    Width = 130
+    Height = 30
+    Hint = 'Restore the default command set'
+    Caption = 'Default'
+    TabOrder = 7
+    OnClick = Button1Click
+  end
+  object PopupMenu1: TPopupMenu
+    object Execute1: TMenuItem
+      Caption = 'Execute'
+      ShortCut = 13
+      OnClick = Execute1Click
+    end
+    object MIClose: TMenuItem
+      Caption = 'Close'
+      ShortCut = 27
+      OnClick = MICloseClick
+    end
+    object Up1: TMenuItem
+      Caption = 'Inv: Up'
+      ShortCut = 38
+      Visible = False
+      OnClick = Up1Click
+    end
+    object Down1: TMenuItem
+      Caption = 'Inv: Down'
+      ShortCut = 40
+      Visible = False
+      OnClick = Down1Click
+    end
+    object InvRight1: TMenuItem
+      Caption = 'Inv: Right'
+      ShortCut = 39
+      Visible = False
+      OnClick = InvRight1Click
+    end
+    object InvLeft1: TMenuItem
+      Caption = 'Inv: Left'
+      ShortCut = 37
+      Visible = False
+      OnClick = InvLeft1Click
+    end
+    object InvTab1: TMenuItem
+      Caption = 'Inv: Tab'
+      ShortCut = 9
+      Visible = False
+      OnClick = InvTab1Click
+    end
+  end
+end

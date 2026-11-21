@@ -1,0 +1,954 @@
+object RegistryForm: TRegistryForm
+  Left = 378
+  Top = 275
+  ClientHeight = 686
+  ClientWidth = 1417
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -15
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  PopupMenu = PopupMenu1
+  Position = poDefault
+  Scaled = False
+  ShowHint = True
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDeactivate = FormDeactivate
+  OnMouseWheel = FormMouseWheel
+  OnPaint = FormPaint
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Splitter1: TSplitter
+    Left = 226
+    Top = 136
+    Width = 6
+    Height = 336
+    Align = alNone
+    Color = clBtnShadow
+    MinSize = 2
+    ParentColor = False
+  end
+  object RightPanel: TPanel
+    Left = 258
+    Top = 105
+    Width = 481
+    Height = 336
+    ParentBackground = False
+    ParentColor = True
+    TabOrder = 0
+    OnClick = RightPanelClick
+    object Splitter2: TSplitter
+      Left = 25
+      Top = 202
+      Width = 400
+      Height = 7
+      Align = alNone
+      Color = clBtnShadow
+      MinSize = 2
+      ParentColor = False
+    end
+    object UserListBox: TCheckListBox
+      Left = 9
+      Top = 240
+      Width = 440
+      Height = 63
+      TabOrder = 0
+      OnDblClick = UserListBoxDblClick
+      OnKeyDown = UserListBoxKeyDown
+      OnKeyUp = UserListBoxKeyUp
+      OnMouseUp = UserListBoxMouseUp
+    end
+  end
+  object ButtonPanel: TPanel
+    Left = 0
+    Top = 651
+    Width = 1417
+    Height = 35
+    Align = alBottom
+    TabOrder = 1
+    object Insert: TButton
+      Left = 431
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Create a new component linked to the currently selected member'
+      Caption = '&Insert'
+      TabOrder = 2
+      TabStop = False
+      OnClick = InsertClick
+    end
+    object Accept: TButton
+      Left = 603
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Link the selected registry member with the requesting source'
+      Caption = 'Accept'
+      TabOrder = 5
+      TabStop = False
+      OnClick = AcceptClick
+    end
+    object Rename: TButton
+      Left = 345
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Rename the currently selected registry member (Alt+R)'
+      Caption = '&Rename'
+      TabOrder = 3
+      TabStop = False
+      OnClick = RenameClick
+    end
+    object List: TButton
+      Left = 87
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Show the list of elements that use the currently selected registry member'
+      Caption = '&List'
+      Default = True
+      TabOrder = 0
+      TabStop = False
+      OnClick = ListClick
+    end
+    object Browse: TButton
+      Left = 1
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Browse elements that use the selected registry members (or the highlighted member if none selected)'
+      Caption = '&Browse'
+      TabOrder = 1
+      TabStop = False
+      OnClick = MIBrowseCurrentClick
+    end
+    object Add: TButton
+      Left = 517
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Add a new registry member'
+      Caption = '&Add'
+      TabOrder = 4
+      OnClick = AddClick
+    end
+    object Go: TButton
+      Left = 173
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Go to the first element or member using the currently selected registry member'
+      Caption = '&Go to'
+      TabOrder = 6
+      OnClick = GoClick
+    end
+    object Button1: TButton
+      Left = 259
+      Top = 2
+      Width = 87
+      Height = 30
+      Hint = 'Execute neural review over the selected registry member'
+      Caption = '&Neural'
+      TabOrder = 7
+      OnClick = Button1Click
+    end
+  end
+  object PathPanel: TPanel
+    Left = 0
+    Top = 621
+    Width = 1417
+    Height = 30
+    Hint = 'Number of elements using the selected registry member and the path to the registry object associated with the member (if any)'
+    Align = alBottom
+    TabOrder = 2
+    object PathLabel: TPanel
+      Left = 381
+      Top = 1
+      Width = 1035
+      Height = 28
+      Hint = 'Path to the object associated with the registry in the filespace'
+      Align = alClient
+      Alignment = taLeftJustify
+      BevelOuter = bvLowered
+      ParentBackground = False
+      TabOrder = 0
+    end
+    object SlotLabel: TPanel
+      Left = 281
+      Top = 1
+      Width = 100
+      Height = 28
+      Hint = 'Filespace slot used by the member (if any)'
+      Align = alLeft
+      BevelOuter = bvLowered
+      Caption = '0'
+      TabOrder = 1
+    end
+    object PositLabel: TPanel
+      Left = 181
+      Top = 1
+      Width = 100
+      Height = 28
+      Hint = 'Member''s physical position in the registry'
+      Align = alLeft
+      BevelOuter = bvLowered
+      Caption = '0'
+      TabOrder = 2
+    end
+    object UserLabel: TPanel
+      Left = 81
+      Top = 1
+      Width = 100
+      Height = 28
+      Hint = 'Number of users of the member (enumerated with List)'
+      Align = alLeft
+      BevelOuter = bvLowered
+      Caption = '0'
+      TabOrder = 3
+    end
+    object IndexLabel: TPanel
+      Left = 1
+      Top = 1
+      Width = 80
+      Height = 28
+      Hint = 'Member''s current index (i.e. position in sorted registry)'
+      Align = alLeft
+      BevelOuter = bvLowered
+      Caption = '0'
+      TabOrder = 4
+    end
+  end
+  object ComboPanel: TPanel
+    Left = 0
+    Top = 25
+    Width = 1417
+    Height = 25
+    Align = alTop
+    TabOrder = 3
+    object ComboBox1: TComboBox
+      Left = 116
+      Top = 0
+      Width = 497
+      Height = 24
+      AutoComplete = False
+      Anchors = []
+      DropDownCount = 21
+      TabOrder = 0
+      TextHint = '[type the name of a registry member]'
+      OnChange = ComboBox1Change
+      OnKeyDown = ComboBox1KeyDown
+    end
+  end
+  object MemberPanel: TPanel
+    Left = 8
+    Top = 120
+    Width = 185
+    Height = 306
+    TabOrder = 4
+    object MemberListBox: TCheckListBox
+      Left = 38
+      Top = 44
+      Width = 72
+      Height = 201
+      OnClickCheck = MemberListBoxClickCheck
+      Style = lbOwnerDrawVariable
+      TabOrder = 1
+      OnDblClick = MemberListBoxDblClick
+      OnDrawItem = MemberListBoxDrawItem
+      OnKeyPress = MemberListBoxKeyPress
+      OnKeyUp = MemberListBoxKeyUp
+      OnMouseDown = MemberListBoxMouseDown
+      OnMouseMove = MemberListBoxMouseMove
+      OnMouseUp = MemberListBoxMouseUp
+    end
+    object ScrollPanel: TPanel
+      Left = 136
+      Top = 16
+      Width = 32
+      Height = 255
+      TabOrder = 0
+      OnResize = ScrollPanelResize
+      object ScrollBar1: TScrollBar
+        Left = 10
+        Top = 28
+        Width = 13
+        Height = 189
+        Kind = sbVertical
+        PageSize = 0
+        TabOrder = 0
+        TabStop = False
+        OnScroll = ScrollBar1Scroll
+      end
+    end
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Top = 0
+    Width = 1417
+    Height = 25
+    AutoSize = True
+    ButtonHeight = 25
+    Caption = 'ToolBar1'
+    Images = AboutBox.ImageList1
+    TabOrder = 5
+    object MenuBtn: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'Open registry context menu (Alt+F10)'
+      Caption = 'MenuBtn'
+      ImageIndex = 4
+      OnClick = PopUpButtonClick
+    end
+    object ListButton: TToolButton
+      Left = 23
+      Top = 0
+      Hint = 'Show the list of elements that use the currently selected registry member'
+      Caption = 'ListButton'
+      ImageIndex = 47
+      OnClick = ListClick
+    end
+    object GoToBtn: TToolButton
+      Left = 46
+      Top = 0
+      Hint = 'Go to the currently selected element on the element list (or first element if none selected)'
+      Caption = 'GoToBtn'
+      ImageIndex = 70
+      OnClick = UserListBoxDblClick
+    end
+    object ViewButton: TToolButton
+      Left = 69
+      Top = 0
+      Hint = 'View the currently selected element using the selected registry member (or first element on the list if none selected)'
+      Caption = 'ViewButton'
+      ImageIndex = 23
+      OnClick = ViewButtonClick
+    end
+    object GoNeuralBtn: TToolButton
+      Left = 92
+      Top = 0
+      Hint = 'Execute neural review over the selected registry member'
+      Caption = 'GoNeuralBtn'
+      ImageIndex = 213
+      OnClick = GoNeuralBtnClick
+    end
+    object FindButton: TToolButton
+      Left = 115
+      Top = 0
+      Hint = 'Find substrings among registry members (Ctrl+S)'
+      Caption = 'FindButton'
+      ImageIndex = 5
+      OnClick = MIFindAllClick
+    end
+    object ReplaceButton: TToolButton
+      Left = 138
+      Top = 0
+      Hint = 'Find and replace text in registry items (Ctrl+R)'
+      Caption = 'ReplaceButton'
+      ImageIndex = 107
+      OnClick = MIReplaceClick
+    end
+    object SuperSet: TToolButton
+      Left = 161
+      Top = 0
+      Hint = 'View the superset of the current registry subset'
+      Caption = 'SuperSet'
+      ImageIndex = 133
+      OnClick = SuperSetClick
+    end
+    object SubSet: TToolButton
+      Left = 184
+      Top = 0
+      Hint = 'View the subsequent subset in registry subset hierarchy'
+      Caption = 'SubSet'
+      ImageIndex = 134
+      OnClick = SubSetClick
+    end
+    object CheckBtn: TToolButton
+      Left = 207
+      Top = 0
+      Hint = 'Create a new registry subset from the selected members'
+      Caption = 'CheckBtn'
+      ImageIndex = 110
+      OnClick = CheckBtnClick
+    end
+    object UnCheckBtn: TToolButton
+      Left = 230
+      Top = 0
+      Hint = 'Create a new registry subset from the unselected members'
+      Caption = 'UnCheckBtn'
+      ImageIndex = 109
+      OnClick = UnCheckBtnClick
+    end
+    object RandomButton: TToolButton
+      Left = 253
+      Top = 0
+      Hint = 'Switch to a randomly selected item in the registry (F11)'
+      Caption = 'RandomButton'
+      ImageIndex = 41
+      OnClick = RandomButtonClick
+    end
+    object FontButton: TToolButton
+      Left = 276
+      Top = 0
+      Hint = 'Change font in the font registry'
+      Caption = 'FontButton'
+      ImageIndex = 24
+      OnClick = FontButtonClick
+    end
+    object SwitchRegistry: TToolButton
+      Left = 299
+      Top = 0
+      Hint = 'Switch to the complementary registry (twin,  reference, lexicon, etc.)'
+      Caption = 'SwitchRegistry'
+      ImageIndex = 57
+      OnClick = SwitchRegistryClick
+    end
+    object BrowseBtn: TToolButton
+      Left = 322
+      Top = 0
+      Hint = 'Browse all elements using the currently selected registry subset'
+      Caption = 'BrowseBtn'
+      ImageIndex = 186
+      OnClick = BrowseBtnClick
+    end
+    object ImportBtn: TToolButton
+      Left = 345
+      Top = 0
+      Hint = 'Import files to registry (e.g. bitmaps, wave files, etc.)'
+      Caption = 'ImportBtn'
+      ImageIndex = 141
+      OnClick = MIImportFileClick
+    end
+    object ModeBtn: TToolButton
+      Left = 368
+      Top = 0
+      Hint = 'Stretch or unstretch images'
+      AllowAllUp = True
+      Caption = 'ModeBtn'
+      Grouped = True
+      ImageIndex = 143
+      Style = tbsCheck
+      OnClick = ModeButtonClick
+    end
+    object SaveBtn: TToolButton
+      Left = 391
+      Top = 0
+      Hint = 'Save the object file'
+      Caption = 'SaveBtn'
+      ImageIndex = 51
+      OnClick = ExportButtonClick
+    end
+    object MediaPlayer1: TMediaPlayer
+      Left = 414
+      Top = 0
+      Width = -2
+      Height = 25
+      Hint = 'Play, pause, rewind, record or save the current sound'
+      Enabled = False
+      DoubleBuffered = True
+      Visible = False
+      ParentDoubleBuffered = False
+      TabOrder = 0
+    end
+  end
+  object SaveDialog1: TSaveDialog
+  end
+  object PopupMenu1: TPopupMenu
+    Images = AboutBox.ImageList1
+    OnPopup = PopupMenu1Popup
+    object MIGoNeural: TMenuItem
+      Caption = '&Go neural'
+      Hint = 'Begin a neural review of a concept or associated members'
+      ImageIndex = 213
+      ShortCut = 32846
+      OnClick = MIGoNeuralClick
+    end
+    object MIViewMenu: TMenuItem
+      Caption = '&View'
+      Hint = 'Options for viewing elements and lists of elements '
+      ImageIndex = 23
+      object MIListUsers: TMenuItem
+        Caption = '&List elements'
+        Hint = 'List all elements using the current member'
+        OnClick = ListClick
+      end
+      object MIView: TMenuItem
+        Caption = '&View element'
+        Hint = 'View the selected element in the element window'
+        OnClick = ViewButtonClick
+      end
+      object MIGoTo: TMenuItem
+        Caption = '&Go to element'
+        Hint = 'Go to the the selected element (or the first element on the list)'
+        ImageIndex = 70
+        OnClick = UserListBoxDblClick
+      end
+      object MIConceptMap: TMenuItem
+        Caption = '&Map'
+        Hint = 'View the concept or contents map associated with the concept or link'
+        Visible = False
+      end
+      object MIViewReference: TMenuItem
+        Caption = '&Reference'
+        Hint = 'View the reference associated with the image'
+        OnClick = MIViewReferenceClick
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object MIBrowseCurrent: TMenuItem
+        Caption = '&Browse current'
+        Hint = 'Open a browser with all elements that use the highlighted member of the registry'
+        ShortCut = 16450
+        OnClick = MIBrowseCurrentClick
+      end
+      object MIBrowseSelected: TMenuItem
+        Caption = 'Browse &selected'
+        Hint = 'Open a browser with all elements that use any of the selected members of the registry'
+        ShortCut = 24642
+        OnClick = MIBrowseSelectedClick
+      end
+      object MIBrowseAll: TMenuItem
+        Caption = 'Browse &all'
+        Hint = 'Open a browser with all elements that use any of the members of the entire registry'
+        ImageIndex = 186
+        OnClick = MIBrowseAllClick
+      end
+      object N12: TMenuItem
+        Caption = '-'
+      end
+      object MIRandomPick: TMenuItem
+        Caption = '&Random pick'
+        Hint = 'Choose a new randomly selected item '
+        ImageIndex = 41
+        ShortCut = 122
+        OnClick = RandomButtonClick
+      end
+      object MISelectPosition: TMenuItem
+        Caption = 'Go to position'
+        Hint = 'Select a registry member by physical position in the registry'
+        ShortCut = 16455
+        OnClick = MISelectPositionClick
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object MIShowPath: TMenuItem
+        Caption = 'Path'
+        Hint = 'Path to the member''s object file(s)'
+        OnClick = MIShowPathClick
+      end
+      object MIPlay: TMenuItem
+        Caption = 'Play'
+        Enabled = False
+        Hint = 'Play the player'
+        ShortCut = 16505
+        OnClick = MIPlayClick
+      end
+      object MIUTF8codes: TMenuItem
+        Caption = 'Encoding'
+        Hint = 'Display UTF-8 codes of the registry member name'
+        OnClick = MIUTF8codesClick
+      end
+      object N11: TMenuItem
+        Caption = '-'
+      end
+      object MIClear: TMenuItem
+        Caption = '&Clear'
+        Hint = 'Clear the combo box or exit if cleared'
+        ShortCut = 27
+        OnClick = ClearClick
+      end
+    end
+    object MIEditMenu: TMenuItem
+      Caption = '&Edit'
+      Hint = 'Editing options'
+      ImageIndex = 43
+      OnClick = MIEditMenuClick
+      object MIPaste: TMenuItem
+        Caption = '&Paste'
+        Hint = 'Paste object into the registry'
+        ImageIndex = 139
+        OnClick = MIPasteClick
+      end
+      object MIPasteOver: TMenuItem
+        Caption = '&Paste over'
+        Hint = 'Replace the object by pasting in a new version'
+        OnClick = MIPasteOverClick
+      end
+      object MIOverwrite: TMenuItem
+        Caption = '&Overwrite file'
+        Hint = 'Overwrite the current object file with a new file'
+        OnClick = MIOverwriteClick
+      end
+      object N15: TMenuItem
+        Caption = '-'
+      end
+      object MIEditText: TMenuItem
+        Caption = '&Edit text'
+        Hint = 'Edit the name of the registry member'
+        OnClick = MIEditTextClick
+      end
+      object MIEditTranslation: TMenuItem
+        Caption = 'Edit &translation'
+        Hint = 'Edit the translation field (if translation registry exists)'
+        OnClick = MIEditTranslationClick
+      end
+      object MICopyPath: TMenuItem
+        Caption = '&Copy path'
+        Hint = 'Copy the path to the registry member object file to the clipboard'
+        OnClick = MICopyPathClick
+      end
+    end
+    object MISearch: TMenuItem
+      Caption = '&Search'
+      Hint = 'Options for search registry for substrings (and replacing strings)'
+      ImageIndex = 5
+      object MIFindAll: TMenuItem
+        Caption = '&Find texts'
+        Hint = 'Find registry members containing a given substring'
+        ImageIndex = 5
+        ShortCut = 16467
+        OnClick = MIFindAllClick
+      end
+      object MIFindFirst: TMenuItem
+        Caption = 'Find first'
+        Hint = 'Find the first substring occurrence after the currently selected registry member'
+        ShortCut = 16454
+        OnClick = MIFindFirstClick
+      end
+      object MIFindNext: TMenuItem
+        Caption = 'Find &next'
+        Hint = 'Repeat last search'
+        ShortCut = 114
+        OnClick = MIFindNextClick
+      end
+      object N10: TMenuItem
+        Caption = '-'
+      end
+      object MIReplace: TMenuItem
+        Caption = 'Search and &replace'
+        Hint = 'Find text and replace it with another'
+        ImageIndex = 107
+        ShortCut = 16466
+        OnClick = MIReplaceClick
+      end
+      object MIApplyFilter: TMenuItem
+        Caption = '&Apply filter'
+        Hint = 'Replace texts in the registry by using a filter file (FLT)'
+        ImageIndex = 182
+        OnClick = MIApplyFilterClick
+      end
+    end
+    object MIRename: TMenuItem
+      Caption = '&Rename'
+      Hint = 'Rename the currently selected member'
+      ShortCut = 32850
+      OnClick = RenameClick
+    end
+    object MIDeleteMember: TMenuItem
+      Caption = '&Delete'
+      Hint = 'Delete the currently selected registry member'
+      ImageIndex = 16
+      OnClick = DeleteClick
+    end
+    object N9: TMenuItem
+      Caption = '-'
+    end
+    object MITools: TMenuItem
+      Caption = '&Tools'
+      Hint = 'Advanced registry tools'
+      ImageIndex = 156
+      object MIImportFile: TMenuItem
+        Caption = '&Import files'
+        Hint = 'Import files to registry (e.g. bitmaps, AVI files, etc.)'
+        ImageIndex = 141
+        OnClick = MIImportFileClick
+      end
+      object MIImportText: TMenuItem
+        Caption = 'Import text'
+        Hint = 'Imports a previously exported text file (e.g. after spellchecking)'
+        OnClick = MIImportTextClick
+      end
+      object MIExportFile: TMenuItem
+        Caption = 'Export file'
+        Hint = 'Export the file associated with the selected member'
+        ImageIndex = 51
+        OnClick = ExportButtonClick
+      end
+      object MIExportText: TMenuItem
+        Caption = 'Export as text'
+        Hint = 'Export registry members into a text file '
+        OnClick = MIExportTextClick
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object MISort: TMenuItem
+        Caption = 'Sort for frequency'
+        Hint = 'Sort registry for member use frequency (most often used members first)'
+        OnClick = MISortClick
+      end
+      object MISortSize: TMenuItem
+        Caption = 'Sort for size'
+        Hint = 'Sort the registry for the size of files'
+        OnClick = MISortSizeClick
+      end
+      object MISortPriority: TMenuItem
+        Caption = 'Sort for priority'
+        Hint = 'Sort registry for member priority (members with highest ordinal average first)'
+        OnClick = MISortPriorityClick
+      end
+      object N6: TMenuItem
+        Caption = '-'
+      end
+      object MIExternalize: TMenuItem
+        Caption = 'Externalize files'
+        Hint = 'Export all registry files to secondary storage (i.e. secondary \ELEMENTS\ folder)'
+        OnClick = MIExternalizeClick
+      end
+      object MIInternalize: TMenuItem
+        Caption = 'Internalize files'
+        Hint = 'Integrate all external files into the filespace (i.e. primary \ELEMENTS\ folder)'
+        OnClick = MIInternalizeClick
+      end
+      object MIRecover: TMenuItem
+        Caption = 'Repair'
+        Hint = 'Reindex registry or recover linked registries (e.g. transcription registry)'
+        ImageIndex = 0
+        OnClick = MIRecoverClick
+      end
+      object MINormalizeURLs: TMenuItem
+        Caption = 'Normalize URLs'
+        Enabled = False
+        Hint = 'Convert all URLs to a normalized form for reliable detection of duplicates'
+        Visible = False
+        OnClick = MINormalizeURLsClick
+      end
+      object MIDeleteUnused: TMenuItem
+        Caption = 'Delete unused'
+        Hint = 'Delete registry members that are not registered in use'
+        OnClick = MIDeleteUnusedClick
+      end
+      object MIComputeSize: TMenuItem
+        Caption = 'Size statistics'
+        Hint = 'Compute the size of texts, files, linked files, HTML objects, etc.'
+        OnClick = MIComputeSizeClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object MIAddPredefined: TMenuItem
+        Caption = 'Add predefined templates'
+        Hint = 'Add the set of predefined templates to the template registry'
+        OnClick = MIAddPredefinedClick
+      end
+      object MIGenerateCollection: TMenuItem
+        Caption = 'Generate elements'
+        Hint = 'Insert all registry members into newly created elements'
+        OnClick = MIGenerateCollectionClick
+      end
+      object MIGenerateImageReferences: TMenuItem
+        Caption = 'Generate references'
+        Hint = 'Generate references from member names that carry reference data'
+        OnClick = MIGenerateImageReferencesClick
+      end
+      object MIDeleteAllMembers: TMenuItem
+        Caption = 'Delete all members'
+        Enabled = False
+        Hint = 'Delete all members from the registry'
+        Visible = False
+        OnClick = MIDeleteAllMembersClick
+      end
+    end
+    object Selection1: TMenuItem
+      Caption = 'Selection'
+      Hint = 'Set selection by checking or unchecking member boxes'
+      object MISelectAllMembers: TMenuItem
+        Caption = '&Select all'
+        Hint = 'Check all members as selected'
+        OnClick = MISelectAllMembersClick
+      end
+      object MIUnslectAll: TMenuItem
+        Caption = '&Unselect all'
+        Hint = 'Uncheck all members as unselected'
+        OnClick = MIUnslectAllClick
+      end
+      object MISwapSelection: TMenuItem
+        Caption = 'S&wap selection'
+        Hint = 'Swap the registry subset selection'
+        OnClick = MISwapSelectionClick
+      end
+      object N14: TMenuItem
+        Caption = '-'
+      end
+      object MISelectIndexRange: TMenuItem
+        Caption = 'Select index range'
+        Hint = 'Select member by their index range'
+        OnClick = MISelectIndexRangeClick
+      end
+      object MISelectPositionRange: TMenuItem
+        Caption = 'Select position range'
+        Hint = 'Select members in a range of registry positions'
+        OnClick = MISelectPositionRangeClick
+      end
+      object N16: TMenuItem
+        Caption = '-'
+      end
+      object MISelectedSubset: TMenuItem
+        Caption = '&Extract to subset'
+        Hint = 'Display selected registry members in a separate subset'
+        ImageIndex = 110
+        ShortCut = 24589
+        OnClick = MISelectedSubsetClick
+      end
+    end
+    object Subset1: TMenuItem
+      Caption = 'Subset'
+      object MIPreviousSubset: TMenuItem
+        Caption = 'Previous subset'
+        Enabled = False
+        Hint = 'Open the superset of the current registry subset'
+        ShortCut = 32805
+        OnClick = SuperSetClick
+      end
+      object MINextSubset: TMenuItem
+        Caption = 'Next subset'
+        Hint = 'Move to the next registry subset in the subset hierarchy'
+        ShortCut = 32807
+        OnClick = SubSetClick
+      end
+      object MIDeleteSubset: TMenuItem
+        Caption = 'Delete subset'
+        Hint = 'Delete the currently selected registry subset'
+        OnClick = MIDeleteSubsetClick
+      end
+      object N13: TMenuItem
+        Caption = '-'
+      end
+      object MIMatchToSubset: TMenuItem
+        Caption = '&Match to subset'
+        Hint = 'Find registry members whose users belong to an element subset'
+        OnClick = MIMatchToSubsetClick
+      end
+      object Selectformat1: TMenuItem
+        Caption = 'Select format'
+        object MISelectHTML: TMenuItem
+          Caption = 'HTML'
+          Hint = 'Select subset of texts in HTML format'
+          OnClick = MISelectHTMLClick
+        end
+        object MISelectTXT: TMenuItem
+          Caption = 'Text (plain)'
+          Hint = 'Select subset of texts in plain text format'
+          OnClick = MISelectTXTClick
+        end
+        object MISelectEML: TMenuItem
+          Caption = 'EML'
+          Hint = 'Select all EML mail into a registry subset'
+          OnClick = MISelectEMLClick
+        end
+        object MISelectRTF: TMenuItem
+          Caption = 'RTF'
+          Hint = 'Select subset of texts in RTF format'
+          OnClick = MISelectRTFClick
+        end
+        object N8: TMenuItem
+          Caption = '-'
+        end
+        object MISelectBMP: TMenuItem
+          Caption = 'BMP'
+          Hint = 'Select subset of images in BMP format'
+          OnClick = MISelectBMPClick
+        end
+        object MISelectJPG: TMenuItem
+          Caption = 'JPEG'
+          Hint = 'Select subset of images in JPEG format'
+          OnClick = MISelectJPGClick
+        end
+        object MISelectGIF: TMenuItem
+          Caption = 'GIF'
+          Hint = 'Select subset of images in GIF format'
+          OnClick = MISelectGIFClick
+        end
+        object PNG1: TMenuItem
+          Caption = 'PNG'
+          Hint = 'Select subset of images in PNG format'
+          OnClick = PNG1Click
+        end
+      end
+      object MISelectBySizeRange: TMenuItem
+        Caption = 'Size range'
+        Hint = 'Select elements in a range of sizes'
+        OnClick = MISelectBySizeRangeClick
+      end
+      object MISelectUntranslated: TMenuItem
+        Caption = 'Select untranslated'
+        Enabled = False
+        Hint = 'Select all text entries that have not been translated'
+        OnClick = MISelectUntranslatedClick
+      end
+    end
+    object MIUseStatistics: TMenuItem
+      Caption = 'Use statistics'
+      Hint = 'Generate a file with the number of users of individual members'
+      OnClick = MIUseStatisticsClick
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object MIClose: TMenuItem
+      Caption = '&Close'
+      Hint = 'Close the registry window'
+      ShortCut = 16499
+      OnClick = MICloseClick
+    end
+    object N1: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object InvAdd1: TMenuItem
+      Caption = 'Inv: Add'
+      ShortCut = 32833
+      Visible = False
+      OnClick = AddClick
+    end
+    object InvAdd2: TMenuItem
+      Caption = 'Inv: Add'
+      ShortCut = 16449
+      Visible = False
+      OnClick = AddClick
+    end
+    object InvBrowse1: TMenuItem
+      Caption = 'Inv: Browse'
+      ShortCut = 32834
+      Visible = False
+      OnClick = MIBrowseCurrentClick
+    end
+    object InvPopup1: TMenuItem
+      Caption = 'Inv: Popup'
+      ShortCut = 32889
+      Visible = False
+      OnClick = InvPopup1Click
+    end
+    object InvEdit1: TMenuItem
+      Caption = 'Inv: Rename/Edit'
+      ShortCut = 16453
+      Visible = False
+      OnClick = InvEdit1Click
+    end
+    object InvGoneural1: TMenuItem
+      Caption = 'Inv: Go neural'
+      ShortCut = 16497
+      Visible = False
+      OnClick = MIGoNeuralClick
+    end
+  end
+end

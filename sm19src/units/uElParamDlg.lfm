@@ -1,0 +1,624 @@
+object ElParamDlg: TElParamDlg
+  Left = 549
+  Top = 178
+  HelpContext = 16
+  ActiveControl = TitleEdit
+  BorderStyle = bsDialog
+  Caption = 'Element parameters'
+  ClientHeight = 716
+  ClientWidth = 645
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clBlack
+  Font.Height = -15
+  Font.Name = 'Arial'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  ShowHint = True
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 645
+    Height = 691
+    ActivePage = ElementTab
+    Align = alClient
+    TabOrder = 0
+    object ElementTab: TTabSheet
+      Caption = 'Element'
+      object Bevel1: TBevel
+        Left = 4
+        Top = 13
+        Width = 629
+        Height = 626
+        Shape = bsFrame
+      end
+      object Title: TLabel
+        Left = 17
+        Top = 41
+        Width = 26
+        Height = 17
+        Caption = 'Title'
+        FocusControl = TitleEdit
+        OnClick = TitleClick
+      end
+      object Label1: TLabel
+        Left = 17
+        Top = 80
+        Width = 46
+        Height = 17
+        Hint = 'Current interval'
+        Caption = '&Interval'
+        FocusControl = IntervalEdit
+      end
+      object Label2: TLabel
+        Left = 17
+        Top = 122
+        Width = 92
+        Height = 17
+        Hint = 'Date of the next repetition'
+        Caption = 'Next repetition'
+      end
+      object Label3: TLabel
+        Left = 17
+        Top = 287
+        Width = 56
+        Height = 17
+        Caption = '&A-Factor'
+        FocusControl = AFactor
+      end
+      object Label4: TLabel
+        Left = 17
+        Top = 246
+        Width = 103
+        Height = 17
+        Hint = 'Acceptable probability of forgetting the element during repetitions'
+        Caption = '&Forgetting index'
+        FocusControl = FI
+      end
+      object Label5: TLabel
+        Left = 17
+        Top = 204
+        Width = 47
+        Height = 17
+        Hint = 'Ordinal number that is low for important items and high for less important items'
+        Caption = '&Ordinal'
+        FocusControl = Ordinal
+      end
+      object Label6: TLabel
+        Left = 17
+        Top = 331
+        Width = 40
+        Height = 17
+        Hint = 'Concept group to which the element should be moved'
+        Caption = '&Group'
+        FocusControl = TargetConceptCombo
+      end
+      object Label7: TLabel
+        Left = 17
+        Top = 414
+        Width = 69
+        Height = 17
+        Hint = 'Comment associated with the element'
+        Caption = 'Co&mment:'
+        FocusControl = Comment
+      end
+      object Label8: TLabel
+        Left = 17
+        Top = 372
+        Width = 59
+        Height = 17
+        Hint = 'Template to be applied'
+        Caption = '&Template'
+        FocusControl = TemplateCombo
+      end
+      object IntervalBtn: TSpeedButton
+        Left = 412
+        Top = 75
+        Width = 23
+        Height = 21
+        Hint = 'Change the inter-repetition interval'
+        OnClick = IntervalBtnClick
+      end
+      object ChooseDate: TSpeedButton
+        Left = 412
+        Top = 117
+        Width = 23
+        Height = 22
+        Hint = 'Change the date of the next repetition'
+        OnClick = IntervalBtnClick
+      end
+      object Label13: TLabel
+        Left = 17
+        Top = 164
+        Width = 45
+        Height = 17
+        Caption = '&Priority'
+        FocusControl = PriorityEdit
+      end
+      object IntervalEdit: TEdit
+        Left = 203
+        Top = 76
+        Width = 208
+        Height = 25
+        Hint = 'Current interval'
+        Color = clBtnFace
+        ReadOnly = True
+        TabOrder = 1
+        Text = '1'
+        OnEnter = IntervalEditEnter
+        OnKeyPress = ParamsKeyPress
+      end
+      object NextRepetition: TEdit
+        Left = 203
+        Top = 118
+        Width = 208
+        Height = 25
+        Hint = 'Date of the next repetition'
+        Color = clBtnFace
+        ReadOnly = True
+        TabOrder = 2
+        Text = '01.01.2000'
+        OnKeyPress = ParamsKeyPress
+      end
+      object AFactor: TEdit
+        Left = 203
+        Top = 284
+        Width = 237
+        Height = 25
+        Hint = 'Element''s A-Factor (see: supermemo.guru for definitions)'
+        TabOrder = 6
+        Text = '3.0'
+        OnKeyPress = ParamsKeyPress
+      end
+      object FI: TEdit
+        Left = 203
+        Top = 242
+        Width = 237
+        Height = 25
+        Hint = 'Acceptable probability of forgetting the element during repetitions'
+        TabOrder = 5
+        Text = '10'
+        OnKeyPress = ParamsKeyPress
+      end
+      object Ordinal: TEdit
+        Left = 203
+        Top = 200
+        Width = 237
+        Height = 25
+        Hint = 'Ordinal number that is low for important items and high for less important items'
+        TabOrder = 4
+        Text = '100'
+        OnKeyPress = ParamsKeyPress
+      end
+      object TargetConceptCombo: TComboBox
+        Left = 143
+        Top = 322
+        Width = 473
+        Height = 25
+        Hint = 'Concept group to which the element belongs or should be moved'
+        Sorted = True
+        TabOrder = 7
+        Text = 'No change'
+        OnChange = TargetConceptComboChange
+        OnClick = TargetConceptComboClick
+        OnDropDown = TargetConceptComboDropDown
+        OnEnter = TargetConceptComboEnter
+        OnKeyDown = TargetConceptComboKeyDown
+        OnKeyPress = TargetConceptComboKeyPress
+      end
+      object Comment: TMemo
+        Left = 17
+        Top = 451
+        Width = 599
+        Height = 172
+        Hint = 'Comment associated with the element (Ctrl+Enter for new line)'
+        ScrollBars = ssVertical
+        TabOrder = 9
+        OnKeyDown = DescriptionKeyDown
+        OnKeyPress = ParamsKeyPress
+      end
+      object ETypeGroup: TRadioGroup
+        Left = 455
+        Top = 104
+        Width = 161
+        Height = 210
+        Hint = 'Choose an element type (e.g. items for review, topics for reading, concepts for neural review, etc.)'
+        Caption = 'Element type'
+        Items.Strings = (
+          'Item'
+          'Topic'
+          'Concept'
+          'Task')
+        TabOrder = 10
+        OnClick = ETypeGroupClick
+      end
+      object TitleEdit: TEdit
+        Left = 69
+        Top = 34
+        Width = 547
+        Height = 25
+        Hint = 'Element''s title'
+        TabOrder = 0
+        OnKeyPress = TitleEditKeyPress
+      end
+      object TemplateCombo: TComboBox
+        Left = 143
+        Top = 369
+        Width = 473
+        Height = 25
+        Hint = 'Template that is currently applied or should be applied to the element'
+        Sorted = True
+        TabOrder = 8
+        Text = 'None'
+        OnChange = TemplateComboChange
+        OnEnter = TemplateComboEnter
+        OnKeyDown = TemplateComboKeyDown
+        OnKeyPress = TemplateComboKeyPress
+      end
+      object PriorityEdit: TEdit
+        Left = 203
+        Top = 160
+        Width = 237
+        Height = 25
+        Hint = 'Element''s priority'
+        TabOrder = 3
+        Text = '2.5'
+        OnKeyPress = ParamsKeyPress
+      end
+    end
+    object TaskTab: TTabSheet
+      Caption = 'Task'
+      ImageIndex = 1
+      object Bevel3: TBevel
+        Left = 0
+        Top = 10
+        Width = 634
+        Height = 629
+        Shape = bsFrame
+      end
+      object DescriptionLabel: TLabel
+        Left = 17
+        Top = 67
+        Width = 74
+        Height = 17
+        Hint = 'Task description'
+        Caption = '&Description'
+        FocusControl = Description
+      end
+      object Label9: TLabel
+        Left = 31
+        Top = 471
+        Width = 68
+        Height = 17
+        Hint = 'The date on which this task was introduced in the collection'
+        Caption = 'Introduced'
+        FocusControl = Introduced
+      end
+      object Label10: TLabel
+        Left = 31
+        Top = 408
+        Width = 55
+        Height = 17
+        Hint = 'Task priority equal Value/Time'
+        Caption = 'Val/Time'
+        FocusControl = TaskPriority
+      end
+      object ValueLabel: TLabel
+        Left = 31
+        Top = 316
+        Width = 35
+        Height = 17
+        Hint = 'Value of the task'
+        Caption = '&Value'
+        FocusControl = Value
+      end
+      object TimeLabel: TLabel
+        Left = 31
+        Top = 362
+        Width = 32
+        Height = 17
+        Hint = 'Time needed to execute the task (or other related cost)'
+        Caption = '&Time'
+        FocusControl = Time
+      end
+      object Tasklist: TLabel
+        Left = 17
+        Top = 17
+        Width = 48
+        Height = 17
+        Caption = 'Ta&sklist'
+        FocusControl = TaskCombo
+      end
+      object Label11: TLabel
+        Left = 361
+        Top = 408
+        Width = 26
+        Height = 17
+        Caption = 'Max'
+      end
+      object Label12: TLabel
+        Left = 361
+        Top = 316
+        Width = 26
+        Height = 17
+        Caption = 'Pos'
+      end
+      object Description: TMemo
+        Left = 17
+        Top = 96
+        Width = 600
+        Height = 213
+        Hint = 'Task description (Ctrl+Enter for new line)'
+        TabOrder = 0
+        OnKeyDown = DescriptionKeyDown
+        OnKeyPress = ParamsKeyPress
+      end
+      object RadioGroup1: TRadioGroup
+        Left = 330
+        Top = 456
+        Width = 287
+        Height = 176
+        Hint = 'Function describing the changes of value before and after the deadline'
+        Caption = 'Deadline &function'
+        ItemIndex = 0
+        Items.Strings = (
+          'None'
+          'Standard'
+          'Post-Date'
+          'Decline'
+          'Post-Decline')
+        TabOrder = 5
+        OnClick = RadioGroup1Click
+      end
+      object Value: TEdit
+        Left = 148
+        Top = 316
+        Width = 164
+        Height = 25
+        Hint = 'Value of the task'
+        TabOrder = 1
+        Text = '10'
+        OnKeyPress = ParamsKeyPress
+      end
+      object Time: TEdit
+        Left = 148
+        Top = 359
+        Width = 469
+        Height = 25
+        Hint = 'Time needed to execute the task (or other related cost)'
+        TabOrder = 2
+        Text = '1'
+        OnKeyPress = ParamsKeyPress
+      end
+      object TaskPriority: TEdit
+        Left = 148
+        Top = 403
+        Width = 164
+        Height = 25
+        Hint = 'Task priority equal Value/Time'
+        ReadOnly = True
+        TabOrder = 3
+        Text = '10'
+        OnKeyPress = ParamsKeyPress
+      end
+      object Introduced: TEdit
+        Left = 148
+        Top = 468
+        Width = 174
+        Height = 25
+        Hint = 'The date on which this task was introduced in the collection'
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 7
+        OnKeyPress = ParamsKeyPress
+      end
+      object DeadlineEdit: TEdit
+        Left = 148
+        Top = 516
+        Width = 174
+        Height = 25
+        Hint = 'Task deadline'
+        ReadOnly = True
+        TabOrder = 4
+        OnKeyPress = ParamsKeyPress
+      end
+      object Halftime: TEdit
+        Left = 148
+        Top = 565
+        Width = 174
+        Height = 25
+        Hint = 'Deadline half-time (i.e. time at which value reaches 50% of deadline maximum)'
+        ReadOnly = True
+        TabOrder = 6
+        OnKeyPress = ParamsKeyPress
+      end
+      object TaskCombo: TComboBox
+        Left = 124
+        Top = 17
+        Width = 493
+        Height = 25
+        Hint = 'Tasklist to which the task belongs'
+        TabOrder = 8
+        Text = 'Tasks'
+        OnChange = TaskComboChange
+        OnClick = TaskComboClick
+        OnDropDown = TaskComboDropDown
+        OnEnter = TaskComboEnter
+        OnKeyPress = TaskComboKeyPress
+      end
+      object DeadlineBtn: TButton
+        Left = 24
+        Top = 516
+        Width = 117
+        Height = 29
+        Caption = 'D&eadline'
+        TabOrder = 9
+        OnClick = DeadlineBtnClick
+      end
+      object HalfTimeBtn: TButton
+        Left = 24
+        Top = 565
+        Width = 117
+        Height = 29
+        Caption = '&Half-time'
+        TabOrder = 10
+        OnClick = HalfTimeBtnClick
+      end
+      object MaxPriority: TEdit
+        Left = 417
+        Top = 403
+        Width = 200
+        Height = 25
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 11
+      end
+      object Position_Ctl: TEdit
+        Left = 417
+        Top = 316
+        Width = 200
+        Height = 25
+        Hint = 'Position of the task on the tasklist'
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 12
+      end
+    end
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Top = 691
+    Width = 645
+    Height = 25
+    Align = alBottom
+    AutoSize = True
+    ButtonHeight = 25
+    ButtonWidth = 62
+    Caption = 'ToolBar1'
+    ShowCaptions = True
+    TabOrder = 1
+    object ToolButton2: TToolButton
+      Left = 0
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton2'
+      ImageIndex = 3
+      Style = tbsSeparator
+    end
+    object HistoryButton: TToolButton
+      Left = 8
+      Top = 0
+      Hint = 'View the history of repetitions for this element'
+      AutoSize = True
+      Caption = '&History'
+      ImageIndex = 3
+      OnClick = HistoryClick
+    end
+    object ToolButton7: TToolButton
+      Left = 64
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton7'
+      ImageIndex = 5
+      Style = tbsSeparator
+    end
+    object FutureButton: TToolButton
+      Left = 72
+      Top = 0
+      Hint = 'Expected future repetitions'
+      AutoSize = True
+      Caption = 'Future'
+      ImageIndex = 4
+      Visible = False
+    end
+    object ToolButton6: TToolButton
+      Left = 125
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton6'
+      ImageIndex = 5
+      Style = tbsSeparator
+      Visible = False
+    end
+    object Difficulty: TToolButton
+      Left = 133
+      Top = 0
+      Hint = 'Display estimation fo element''s difficulty'
+      Caption = 'Difficulty'
+      ImageIndex = 3
+      OnClick = DifficultyClick
+    end
+    object ToolButton8: TToolButton
+      Left = 195
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton8'
+      ImageIndex = 3
+      Style = tbsSeparator
+    end
+    object ToolButton1: TToolButton
+      Left = 203
+      Top = 0
+      Hint = 'Accept changes to element parameters'
+      AutoSize = True
+      Caption = 'OK'
+      ImageIndex = 0
+      OnClick = OKBtnClick
+    end
+    object ToolButton4: TToolButton
+      Left = 236
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton4'
+      ImageIndex = 4
+      Style = tbsSeparator
+    end
+    object CancelBtn: TToolButton
+      Left = 244
+      Top = 0
+      Hint = 'Close the dialog and discard the changes'
+      AutoSize = True
+      Caption = 'Cancel'
+      ImageIndex = 1
+      OnClick = CancelClick
+    end
+    object ToolButton3: TToolButton
+      Left = 301
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton3'
+      ImageIndex = 3
+      Style = tbsSeparator
+    end
+    object HelpButton: TToolButton
+      Left = 309
+      Top = 0
+      Hint = 'Get help on element parameters dialog'
+      AutoSize = True
+      Caption = 'Help'
+      ImageIndex = 2
+      OnClick = HelpButtonClick
+    end
+    object ToolButton5: TToolButton
+      Left = 349
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton5'
+      ImageIndex = 3
+      Style = tbsSeparator
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    object Close1: TMenuItem
+      Caption = 'Close'
+      ShortCut = 27
+      OnClick = CancelClick
+    end
+  end
+end

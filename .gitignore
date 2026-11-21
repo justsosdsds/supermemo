@@ -1,0 +1,66 @@
+# ===== 编译产物 =====
+*.exe
+*.dll
+*.o
+*.ppu
+*.a
+*.compiled
+*.res
+*.or
+*.rst
+*.bak
+bin/
+lib/
+backup/
+
+# ===== Lazarus 会话/缓存 =====
+*.lps
+*.local
+*.lpi.bak
+*.ppl
+*.compiled
+
+# ===== 运行时生成 =====
+sm19settings.ini
+import_test.log
+settings_test.log
+sm19runtime.log
+
+# ===== 采集到的数据（体积大、可重新生成）=====
+run/
+work/
+extracted/
+*.zip
+*.7z
+
+# ===== SuperMemo 集合（用户数据）=====
+*.Kno
+*.kno
+info/
+registry/
+alg17/
+stats/
+history/
+systems/
+elements/
+temp/
+
+# ===== Python =====
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ===== 编辑器/系统 =====
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+~$*
+
+# ===== 临时/中间目录 =====
+_tmp/
+scratch/
+*.parts
+*.part00
+*.part01

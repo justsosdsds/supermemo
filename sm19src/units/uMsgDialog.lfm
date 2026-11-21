@@ -1,0 +1,196 @@
+object MsgDialog: TMsgDialog
+  Left = 381
+  Top = 210
+  BorderStyle = bsDialog
+  Caption = 'Message'
+  ClientHeight = 172
+  ClientWidth = 956
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnDeactivate = FormDeactivate
+  OnHide = FormHide
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Bevel1: TBevel
+    Left = 7
+    Top = 7
+    Width = 40
+    Height = 40
+  end
+  object MsgLabel: TLabel
+    Left = 7
+    Top = 59
+    Width = 891
+    Height = 39
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Message'
+    ShowAccelChar = False
+    OnMouseDown = MsgLabelMouseDown
+  end
+  object ToolBar1: TToolBar
+    Left = 3
+    Top = 143
+    Width = 950
+    Height = 26
+    Align = alBottom
+    AutoSize = True
+    ButtonWidth = 61
+    EdgeBorders = [ebLeft, ebTop, ebRight, ebBottom]
+    Images = AboutBox.ImageList1
+    List = True
+    ParentShowHint = False
+    ShowCaptions = True
+    ShowHint = False
+    TabOrder = 0
+    Transparent = False
+    Wrapable = False
+    object Ok: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'Close this message'
+      AutoSize = True
+      Caption = '&OK'
+      ImageIndex = 72
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = OkClick
+    end
+    object Yes: TToolButton
+      Left = 46
+      Top = 0
+      AutoSize = True
+      Caption = '&Yes'
+      ImageIndex = 72
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = YesClick
+    end
+    object No: TToolButton
+      Left = 95
+      Top = 0
+      AutoSize = True
+      Caption = '&No'
+      ImageIndex = 22
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = NoClick
+    end
+    object All: TToolButton
+      Left = 140
+      Top = 0
+      AutoSize = True
+      Caption = '&All'
+      ImageIndex = 122
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = AllClick
+    end
+    object Copy: TToolButton
+      Left = 182
+      Top = 0
+      Hint = 'Copy this message to the clipboard'
+      AutoSize = True
+      Caption = 'Co&py'
+      ImageIndex = 81
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = CopyClick
+    end
+    object Search: TToolButton
+      Left = 237
+      Top = 0
+      Hint = 'Search for solutions with Google'
+      AutoSize = True
+      Caption = '&Search'
+      ImageIndex = 106
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = SearchClick
+    end
+    object Help: TToolButton
+      Left = 302
+      Top = 0
+      Hint = 'See help for more information'
+      AutoSize = True
+      Caption = '&Help'
+      ImageIndex = 68
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = HelpClick
+    end
+    object Info: TToolButton
+      Left = 355
+      Top = 0
+      Cursor = crHandPoint
+      Hint = 'Look for more information at SuperMemo Website'
+      AutoSize = True
+      Caption = '&Info'
+      ImageIndex = 31
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = InfoClick
+    end
+    object Report: TToolButton
+      Left = 404
+      Top = 0
+      Hint = 'Report this bug to SuperMemo World'
+      AutoSize = True
+      Caption = '&Report'
+      ImageIndex = 130
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = ReportClick
+    end
+    object EMailBtn: TToolButton
+      Left = 467
+      Top = 0
+      Hint = 'E-mail this message (to anyone)'
+      AutoSize = True
+      Caption = '&E-Mail'
+      ImageIndex = 130
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = EMailBtnClick
+    end
+    object Cancel: TToolButton
+      Left = 527
+      Top = 0
+      AutoSize = True
+      Caption = '&Cancel'
+      ImageIndex = 16
+      ParentShowHint = False
+      ShowHint = False
+      Style = tbsButton
+      Visible = False
+      OnClick = CancelClick
+    end
+  end
+end

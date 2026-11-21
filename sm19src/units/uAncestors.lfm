@@ -1,0 +1,72 @@
+object Ancestors: TAncestors
+  Left = 589
+  Top = 225
+  Hint = 'List of ancestors in the contents tree'
+  Caption = 'Ancestors'
+  ClientHeight = 236
+  ClientWidth = 420
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  Position = poDesigned
+  Scaled = False
+  ShowHint = True
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object ListBox1: TCheckListBox
+    Left = 0
+    Top = 0
+    Width = 420
+    Height = 236
+    Align = alClient
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 13
+    ParentFont = False
+    TabOrder = 0
+    OnClick = ListBox1Click
+    OnDblClick = ListBox1DblClick
+    OnKeyDown = ListBox1KeyDown
+  end
+  object PopupMenu1: TPopupMenu
+    object ViewElement1: TMenuItem
+      Caption = 'View element'
+      Visible = False
+    end
+    object Viewbranch1: TMenuItem
+      Caption = 'View branch'
+      ShortCut = 16416
+      OnClick = Viewbranch1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MILearn: TMenuItem
+      Caption = 'Learn'
+      Hint = 'Learn selected branch'
+      Visible = False
+    end
+    object MIPostpone: TMenuItem
+      Caption = 'Postpone branch'
+      Hint = 'Postpone repetitions in the selected branch'
+      OnClick = MIPostponeClick
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object MIReturn: TMenuItem
+      Caption = 'Element window'
+      Hint = 'Return to the element window (e.g. to continue learning)'
+      ShortCut = 27
+      OnClick = MIReturnClick
+    end
+  end
+end

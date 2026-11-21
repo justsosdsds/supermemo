@@ -1,0 +1,206 @@
+object ProgressBox: TProgressBox
+  Left = 501
+  Top = 298
+  Cursor = crHourGlass
+  VertScrollBar.Visible = False
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Progress'
+  ClientHeight = 235
+  ClientWidth = 761
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Passed_: TLabel
+    Left = 8
+    Top = 75
+    Width = 53
+    Height = 20
+    Caption = 'Passed'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object ToDo_: TLabel
+    Left = 8
+    Top = 107
+    Width = 40
+    Height = 20
+    Caption = 'To do'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object Total_: TLabel
+    Left = 8
+    Top = 139
+    Width = 35
+    Height = 20
+    Caption = 'Total'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object Passed: TLabel
+    Left = 319
+    Top = 75
+    Width = 9
+    Height = 20
+    Alignment = taRightJustify
+    Caption = '0'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object ToDo: TLabel
+    Left = 319
+    Top = 107
+    Width = 9
+    Height = 20
+    Alignment = taRightJustify
+    Caption = '0'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object Total: TLabel
+    Left = 256
+    Top = 139
+    Width = 72
+    Height = 20
+    Alignment = taRightJustify
+    Caption = 'Searching'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object PaintBox1: TPaintBox
+    Left = 8
+    Top = 2
+    Width = 742
+    Height = 34
+    Cursor = crHourGlass
+    Color = clBtnShadow
+    ParentColor = False
+    OnPaint = PaintBox1Paint
+  end
+  object MemoryLabel: TLabel
+    Left = 277
+    Top = 192
+    Width = 90
+    Height = 20
+    Caption = 'Memory use:'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object Memory: TLabel
+    Left = 434
+    Top = 192
+    Width = 9
+    Height = 20
+    Caption = '0'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object CountLabel: TLabel
+    Left = 8
+    Top = 192
+    Width = 47
+    Height = 20
+    Caption = 'Errors:'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object CountValue: TLabel
+    Left = 171
+    Top = 192
+    Width = 9
+    Height = 20
+    Caption = '0'
+    Color = clBtnFace
+    ParentColor = False
+  end
+  object Panel2: TPanel
+    Left = 351
+    Top = 69
+    Width = 399
+    Height = 104
+    Cursor = crHourGlass
+    Color = clBtnShadow
+    TabOrder = 0
+    object TimePassed_: TLabel
+      Left = 13
+      Top = 8
+      Width = 90
+      Height = 20
+      Caption = 'Time passed'
+      Color = clBtnShadow
+      ParentColor = False
+    end
+    object TimeLeft_: TLabel
+      Left = 13
+      Top = 38
+      Width = 60
+      Height = 20
+      Caption = 'Time left'
+      Color = clBtnShadow
+      ParentColor = False
+    end
+    object TimePassed: TLabel
+      Left = 235
+      Top = 8
+      Width = 27
+      Height = 20
+      Caption = '000'
+    end
+    object TimeLeft: TLabel
+      Left = 235
+      Top = 38
+      Width = 27
+      Height = 20
+      Caption = '000'
+    end
+    object TimeExpected_: TLabel
+      Left = 13
+      Top = 69
+      Width = 103
+      Height = 20
+      Caption = 'Time expected'
+      Color = clBtnShadow
+      ParentColor = False
+    end
+    object TimeExpected: TLabel
+      Left = 235
+      Top = 69
+      Width = 27
+      Height = 20
+      Caption = '000'
+    end
+  end
+  object Cancel: TBitBtn
+    Left = 560
+    Top = 178
+    Width = 190
+    Height = 50
+    Cursor = crArrow
+    Enabled = False
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 1
+    OnClick = CancelClick
+  end
+  object ReportLabel: TPanel
+    Left = 8
+    Top = 33
+    Width = 742
+    Height = 31
+    Cursor = crHourGlass
+    Alignment = taLeftJustify
+    BevelInner = bvLowered
+    Caption = 'Please wait ...'
+    Color = clWindow
+    TabOrder = 2
+  end
+end

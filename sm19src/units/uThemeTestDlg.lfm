@@ -1,0 +1,131 @@
+object ThemeTestDlg: TThemeTestDlg
+  Left = 0
+  Top = 0
+  ActiveControl = ThemeBox
+  Caption = 'Theme testing'
+  ClientHeight = 386
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object Label1: TLabel
+    Left = 24
+    Top = 8
+    Width = 267
+    Height = 25
+    Caption = 'Choose the style you like:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object OKBtn: TButton
+    Left = 409
+    Top = 8
+    Width = 218
+    Height = 81
+    Caption = 'OK'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    OnClick = OKBtnClick
+  end
+  object StringGrid1: TStringGrid
+    Left = 24
+    Top = 84
+    Width = 369
+    Height = 224
+    RowCount = 10
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 409
+    Top = 160
+    Width = 218
+    Height = 148
+    Caption = 'Radio Group'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Items.Strings = (
+      'Choice 1'
+      'Choice 2'
+      'Choice 3')
+    ParentFont = False
+    TabOrder = 2
+  end
+  object Memo1: TMemo
+    Left = 24
+    Top = 314
+    Width = 603
+    Height = 64
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Lines.Strings = (
+      'Some text to type ...')
+    ParentFont = False
+    TabOrder = 3
+  end
+  object ThemeBox: TComboBox
+    Left = 24
+    Top = 39
+    Width = 369
+    Height = 24
+    Hint = 'Current theme'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Sorted = True
+    TabOrder = 4
+    Text = 'Theme'
+    OnChange = ThemeBoxChange
+    OnKeyPress = ThemeBoxKeyPress
+  end
+  object CancelBtn: TButton
+    Left = 409
+    Top = 95
+    Width = 218
+    Height = 50
+    Caption = 'Cancel'
+    TabOrder = 5
+    OnClick = CancelBtnClick
+  end
+  object PopupMenu1: TPopupMenu
+    object MIClose: TMenuItem
+      Caption = 'Close'
+      ShortCut = 27
+      OnClick = MICloseClick
+    end
+  end
+end

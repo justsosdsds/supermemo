@@ -1,0 +1,1086 @@
+object Browser: TBrowser
+  Left = 468
+  Top = 191
+  HelpContext = 2
+  HorzScrollBar.Visible = False
+  VertScrollBar.Visible = False
+  Caption = 'Browser'
+  ClientHeight = 746
+  ClientWidth = 1214
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'System'
+  Font.Style = []
+  KeyPreview = True
+  PopupMenu = PopupMenu1
+  Position = poDefault
+  Scaled = False
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDeactivate = FormDeactivate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object ThumbCanvas: TImage
+    Left = 672
+    Top = 72
+    Width = 105
+    Height = 105
+    Visible = False
+    OnDblClick = ThumbCanvasDblClick
+    OnMouseDown = ThumbCanvasMouseDown
+  end
+  object StringGrid1: TStringGrid
+    Left = 46
+    Top = 56
+    Width = 433
+    Height = 257
+    HelpContext = 2
+    Color = clBtnFace
+    ColCount = 2
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'System'
+    Font.Style = [fsBold]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goDrawFocusSelected, goColSizing, goColMoving, goTabs]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    Visible = False
+    OnDblClick = StringGrid1DblClick
+    OnDrawCell = StringGrid1DrawCell
+    OnKeyDown = StringGrid1KeyDown
+    OnMouseDown = StringGrid1MouseDown
+    OnMouseMove = StringGrid1MouseMove
+    OnMouseUp = StringGrid1MouseUp
+    OnSelectCell = StringGrid1SelectCell
+  end
+  object Speedbar: TToolBar
+    Left = 0
+    Top = 0
+    Width = 1214
+    Height = 29
+    ButtonHeight = 26
+    Images = AboutBox.ImageList1
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+    Wrapable = False
+    object MenuButton: TToolButton
+      Left = 0
+      Top = 0
+      Hint = 'Open browser context menu (Alt+F10)'
+      Caption = 'MenuButton'
+      ImageIndex = 4
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = MenuButtonClick
+    end
+    object ProcessElementsButton: TToolButton
+      Left = 23
+      Top = 0
+      Hint = 'Open a menu with operation for processing all elements in the browser'
+      Caption = 'ProcessElementsButton'
+      DropdownMenu = Contents.ProcessMenu
+      ImageIndex = 47
+      ParentShowHint = False
+      ShowHint = True
+      OnMouseDown = ProcessElementsButtonMouseDown
+    end
+    object StandardSize: TToolButton
+      Left = 46
+      Top = 0
+      Hint = 'Align the browser with the Element and Element data windows for easy browsing'
+      Caption = 'StandardSize'
+      ImageIndex = 53
+      OnClick = StandardSizeClick
+    end
+    object ToolButton8: TToolButton
+      Left = 69
+      Top = 0
+      Hint = 'Show browser elements as thumbs (i.e. small pictures)'
+      Caption = 'ToolButton8'
+      ImageIndex = 124
+      OnClick = ToolButton8Click
+    end
+    object ReviewButton: TToolButton
+      Left = 92
+      Top = 0
+      Hint = 'Review all the material in the browser in the presently displayed sequence (Ctrl+Shift+L)'
+      ImageIndex = 34
+      OnClick = ReviewButtonClick
+    end
+    object ToolButton9: TToolButton
+      Left = 115
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton9'
+      ImageIndex = 57
+      Style = tbsSeparator
+    end
+    object ReviewTopics: TToolButton
+      Left = 123
+      Top = 0
+      Hint = 'Review all topics in the browser'
+      ImageIndex = 86
+      OnClick = ReviewTopicsClick
+    end
+    object ToolButton3: TToolButton
+      Left = 146
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton3'
+      ImageIndex = 6
+      Style = tbsSeparator
+    end
+    object ChildSelected: TToolButton
+      Left = 154
+      Top = 0
+      Hint = 'Open a new browser with only selected elements'
+      Caption = 'ChildSelected'
+      ImageIndex = 110
+      OnClick = ChildSelectedClick
+    end
+    object ChildUnselected: TToolButton
+      Left = 177
+      Top = 0
+      Hint = 'Open a new browser with only unselected elements '
+      Caption = 'ChildUnselected'
+      ImageIndex = 109
+      OnClick = ChildUnselectedClick
+    end
+    object ToolButton1: TToolButton
+      Left = 200
+      Top = 0
+      Hint = 'Leave only items in the browser'
+      ImageIndex = 104
+      OnClick = MIChildItemClick
+    end
+    object TopicsBtn: TToolButton
+      Left = 223
+      Top = 0
+      Hint = 'Leave only topics in the browser'
+      Caption = 'TopicsBtn'
+      ImageIndex = 103
+      OnClick = MIChildTopicClick
+    end
+    object MemorizedButton: TToolButton
+      Left = 246
+      Top = 0
+      Hint = 'Leave only memorized elements in the browser'
+      ImageIndex = 112
+      OnClick = MemorizedClick
+    end
+    object ToolButton5: TToolButton
+      Left = 269
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton5'
+      ImageIndex = 6
+      Style = tbsSeparator
+    end
+    object Sources: TToolButton
+      Left = 277
+      Top = 0
+      Hint = 'List sources of the elements in the browser'
+      Caption = 'Sources'
+      ImageIndex = 12
+      OnClick = SourcesClick
+    end
+    object SortBtn: TToolButton
+      Left = 300
+      Top = 0
+      Hint = 'Sort the browser by the order of the knowledge tree'
+      Caption = 'SortBtn'
+      ImageIndex = 69
+      OnClick = SortBtnClick
+    end
+    object PostponeBtn: TToolButton
+      Left = 323
+      Top = 0
+      Hint = 'Delay repetitions'
+      Caption = 'PostponeBtn'
+      ImageIndex = 95
+      OnClick = PostponeBtnClick
+    end
+    object AdvanceTopicsBtn: TToolButton
+      Left = 346
+      Top = 0
+      Hint = 'Advance topic review'
+      Caption = 'AdvanceTopicsBtn'
+      ImageIndex = 115
+      OnClick = AdvanceTopicsBtnClick
+    end
+    object AdvanceItemsBtn: TToolButton
+      Left = 369
+      Top = 0
+      Hint = 'Shorten item intervals'
+      Caption = 'AdvanceItemsBtn'
+      ImageIndex = 114
+      OnClick = AdvanceItemsBtnClick
+    end
+    object AddToOutstanding: TToolButton
+      Left = 392
+      Top = 0
+      Hint = 'Add browsed elements to the outstanding queue'
+      Caption = 'AddToOutstanding'
+      ImageIndex = 175
+      OnClick = AddToOutstandingClick
+    end
+    object SpreadPriorityBtn: TToolButton
+      Left = 415
+      Top = 0
+      Hint = 'Spread the priority of elements in the browser in a selected range in proportion to current priority'
+      ImageIndex = 105
+      OnClick = SpreadPriorityBtnClick
+    end
+    object ToolButton11: TToolButton
+      Left = 438
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton11'
+      ImageIndex = 59
+      Style = tbsSeparator
+    end
+    object ApplyTemplateBtn: TToolButton
+      Left = 446
+      Top = 0
+      Hint = 'Apply a template to all elements in the browser'
+      Caption = 'ApplyTemplateBtn'
+      ImageIndex = 113
+      OnClick = ApplyTemplateBtnClick
+    end
+    object InsertPicture: TToolButton
+      Left = 469
+      Top = 0
+      Hint = 'Add a picture to all elements in the browser'
+      Caption = 'InsertPicture'
+      ImageIndex = 108
+      OnClick = InsertPictureClick
+    end
+    object RandomBtn: TToolButton
+      Left = 492
+      Top = 0
+      Hint = 'Randomize the content of the browser (Ctrl+Shift+F11)'
+      Caption = '`'
+      ImageIndex = 41
+      OnClick = MIRandomizeClick
+    end
+    object SaveRepsButton: TToolButton
+      Left = 515
+      Top = 0
+      Hint = 'Schedule repetition of elements listed in the browser for today'
+      ImageIndex = 94
+      OnClick = MISaveRepetitionsClick
+    end
+    object ToolButton6: TToolButton
+      Left = 538
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton6'
+      ImageIndex = 6
+      Style = tbsSeparator
+    end
+    object FindBtn: TToolButton
+      Left = 546
+      Top = 0
+      Hint = 'Find text in element titles in the browser (Alt+F and F3)'
+      Caption = 'FindBtn'
+      ImageIndex = 5
+      OnClick = FindButtonClick
+    end
+    object GoToBtn: TToolButton
+      Left = 569
+      Top = 0
+      Hint = 'Go to the currently selected element (Enter or double-click)'
+      Caption = 'GoToBtn'
+      ImageIndex = 23
+      OnClick = GoToButtonClick
+    end
+    object SaveSubsetButton: TToolButton
+      Left = 592
+      Top = 0
+      Hint = 'Save the browser in a subset file'
+      Caption = 'SaveSubsetButton'
+      ImageIndex = 51
+      OnClick = SaveSubsetButtonClick
+    end
+    object ToolButton7: TToolButton
+      Left = 615
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton7'
+      ImageIndex = 57
+      Style = tbsSeparator
+    end
+    object Synch: TToolButton
+      Left = 623
+      Top = 0
+      Hint = 'Synchronize the element displayed in the element window with the current selection in the browser'
+      Caption = 'Synch'
+      ImageIndex = 57
+      Style = tbsCheck
+      OnClick = SynchClick
+    end
+    object GoToElWindElement: TToolButton
+      Left = 646
+      Top = 0
+      Hint = 'Find the element currently displayed in the element window'
+      Caption = 'GoToElWindElement'
+      ImageIndex = 106
+      OnClick = GoToElWindElementClick
+    end
+  end
+  object ScrollBar1: TScrollBar
+    Left = 1189
+    Top = 29
+    Width = 25
+    Height = 717
+    Align = alRight
+    Kind = sbVertical
+    PageSize = 0
+    TabOrder = 2
+    Visible = False
+    OnKeyUp = ScrollBar1KeyUp
+    OnScroll = ScrollBar1Scroll
+  end
+  object PopupMenu1: TPopupMenu
+    HelpContext = 14
+    Images = AboutBox.ImageList1
+    object Invisible1: TMenuItem
+      Caption = 'Invisible'
+      Visible = False
+      object InvApplytemplate1: TMenuItem
+        Caption = 'Apply template'
+        ShortCut = 24653
+        Visible = False
+        OnClick = InvApplytemplate1Click
+      end
+      object InvClose: TMenuItem
+        Caption = 'Inv: Close'
+        ShortCut = 16499
+        Visible = False
+        OnClick = InvCloseClick
+      end
+      object InvCommander1: TMenuItem
+        Caption = 'Inv: Commander'
+        ShortCut = 16397
+        Visible = False
+        OnClick = InvCommander1Click
+      end
+      object InvCountBurden1: TMenuItem
+        Caption = 'Inv: Count Burden'
+        ShortCut = 24642
+        Visible = False
+        OnClick = InvCountBurden1Click
+      end
+      object InvDismiss1: TMenuItem
+        Caption = 'Inv: Dismiss'
+        ShortCut = 16452
+        Visible = False
+        OnClick = InvDismiss1Click
+      end
+      object InvDone1: TMenuItem
+        Caption = 'Inv: Done'
+        ShortCut = 24589
+        Visible = False
+        OnClick = InvDone1Click
+      end
+      object InvElParam1: TMenuItem
+        Caption = 'Inv: El Param'
+        ShortCut = 24656
+        Visible = False
+        OnClick = InvElParam1Click
+      end
+      object InvExecuterepetition1: TMenuItem
+        Caption = 'Inv: Execute repetition'
+        ShortCut = 24658
+        Visible = False
+        OnClick = InvExecuterepetition1Click
+      end
+      object InvGoto1: TMenuItem
+        Caption = 'Inv: Go to'
+        ShortCut = 16455
+        Visible = False
+        OnClick = InvGoto1Click
+      end
+      object InvImpose1: TMenuItem
+        Caption = 'Inv: Impose'
+        ShortCut = 24689
+        Visible = False
+        OnClick = InvImpose1Click
+      end
+      object Linkmember1: TMenuItem
+        Caption = 'Link member'
+        ShortCut = 24651
+        OnClick = Linkmember1Click
+      end
+      object Memorize1: TMenuItem
+        Caption = 'Memorize'
+        ShortCut = 16461
+        OnClick = Memorize1Click
+      end
+      object Nextcomponent1: TMenuItem
+        Caption = 'Next component'
+        ShortCut = 16468
+        OnClick = Nextcomponent1Click
+      end
+      object InvPlan1: TMenuItem
+        Caption = 'Inv: Plan'
+        ShortCut = 16464
+        Visible = False
+        OnClick = InvPlan1Click
+      end
+      object InvPostpone1: TMenuItem
+        Caption = 'Inv: Postpone'
+        Visible = False
+        OnClick = InvPostpone1Click
+      end
+      object InvPriority1: TMenuItem
+        Caption = 'Inv: Priority'
+        ShortCut = 32848
+        Visible = False
+        OnClick = InvPriority1Click
+      end
+      object InvRepetitionhistory1: TMenuItem
+        Caption = 'Inv: Repetition history'
+        ShortCut = 24648
+        Visible = False
+        OnClick = InvRepetitionhistory1Click
+      end
+      object InvReviewall1: TMenuItem
+        Caption = 'Inv: Review all'
+        ShortCut = 24652
+        Visible = False
+        OnClick = InvReviewall1Click
+      end
+      object InvShift1: TMenuItem
+        Caption = 'Inv: Shift'
+        ShortCut = 24650
+        Visible = False
+        OnClick = InvShift1Click
+      end
+      object InvShowAncestors1: TMenuItem
+        Caption = 'Inv: Show Ancestors'
+        ShortCut = 24664
+        OnClick = InvShowAncestors1Click
+      end
+      object SleepChart1: TMenuItem
+        Caption = 'SleepChart'
+        ShortCut = 123
+        OnClick = SleepChart1Click
+      end
+      object InvTasklist1: TMenuItem
+        Caption = 'Inv: Tasklist'
+        ShortCut = 115
+        Visible = False
+        OnClick = InvTasklist1Click
+      end
+      object InvTitle1: TMenuItem
+        Caption = 'Inv: Title'
+        ShortCut = 32852
+        Visible = False
+        OnClick = InvTitle1Click
+      end
+      object InvTransfer1: TMenuItem
+        Caption = 'Inv: Transfer'
+        ShortCut = 24660
+        Visible = False
+        OnClick = InvTransfer1Click
+      end
+    end
+    object MILearn: TMenuItem
+      Caption = '&Learn'
+      ImageIndex = 34
+      ShortCut = 16460
+      OnClick = MILearnClick
+    end
+    object MIGoNeural: TMenuItem
+      Caption = 'Go neural'
+      Hint = 'Begin neural review using the contents of the browser as the starting point'
+      ImageIndex = 213
+      ShortCut = 16497
+      OnClick = MIGoNeuralClick
+    end
+    object MIGoTo: TMenuItem
+      Caption = '&View'
+      Hint = 'Display the selected element in the element window (double-click)'
+      ImageIndex = 23
+      ShortCut = 13
+      OnClick = GoToButtonClick
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MIChild: TMenuItem
+      Caption = '&Child'
+      Hint = 'Open a child browser with a subset of elements'
+      ImageIndex = 186
+      object MIChildPriority: TMenuItem
+        Caption = '&Priority'
+        Hint = 'Open a child browser with elements whose priority surpasses a selected value'
+        ImageIndex = 138
+        OnClick = MIChildPriorityClick
+      end
+      object N21: TMenuItem
+        Caption = '-'
+      end
+      object MISelected: TMenuItem
+        Caption = '&Selected'
+        Hint = 'Open a child browser with all selected elements'
+        ImageIndex = 110
+        OnClick = MISelectedClick
+      end
+      object MIUnselected: TMenuItem
+        Caption = 'Unselected'
+        Hint = 'Open a child browser with all elements that are not selected'
+        ImageIndex = 109
+        OnClick = MIUnselectedClick
+      end
+      object N15: TMenuItem
+        Caption = '-'
+      end
+      object MIChildSources: TMenuItem
+        Caption = '&Sources'
+        Hint = 'Open a browser with sources of all extracts and clozes in the present browser'
+        ImageIndex = 12
+        OnClick = MIChildSourcesClick
+      end
+      object MIChildArticles: TMenuItem
+        Caption = '&Articles'
+        Hint = 'Open a child browser with top-level topics and tasks (i.e. non-extract articles)'
+        OnClick = MIChildArticlesClick
+      end
+      object MIExtracts: TMenuItem
+        Caption = '&Extracts'
+        Hint = 'Open a child browser that includes only article extracts (as opposed to top-level articles)'
+        ImageIndex = 144
+        OnClick = MIExtractsClick
+      end
+      object MIChildDescendants: TMenuItem
+        Caption = '&Descendants'
+        Hint = 'Create a new browser with children and descendants of the elements currently held in the browser'
+        OnClick = MIChildDescendantsClick
+      end
+      object N18: TMenuItem
+        Caption = '-'
+      end
+      object MIOutstanding: TMenuItem
+        Caption = '&Outstanding'
+        Hint = 'Open a child browser that includes only the outstanding element'
+        OnClick = MIOutstandingClick
+      end
+      object MIMemorized: TMenuItem
+        Caption = '&Memorized'
+        Hint = 'Open a child browser with elements that have been memorized'
+        ImageIndex = 112
+        OnClick = MemorizedClick
+      end
+      object MIPending: TMenuItem
+        Caption = 'Pending'
+        Hint = 'Open a child browser with all pending elements'
+        OnClick = MIPendingClick
+      end
+      object MIDismissed: TMenuItem
+        Caption = 'Dismissed'
+        Hint = 'Open a child browser with all dismissed elements'
+        OnClick = MIDismissedClick
+      end
+      object N12: TMenuItem
+        Caption = '-'
+      end
+      object MIChildItem: TMenuItem
+        Caption = '&Items'
+        Hint = 'Open a child browser with all topics included in the current browser'
+        ImageIndex = 34
+        OnClick = MIChildItemClick
+      end
+      object MIChildTopic: TMenuItem
+        Caption = '&Topics'
+        Hint = 'Open a child browser with all topics included in the current browser'
+        ImageIndex = 86
+        OnClick = MIChildTopicClick
+      end
+      object MIChildTask: TMenuItem
+        Caption = 'Tas&ks'
+        Hint = 'Open a child browser with tasks only'
+        ImageIndex = 151
+        OnClick = MIChildTaskClick
+      end
+      object MIChildTasksAndTopics: TMenuItem
+        Caption = 'Tasks/Topics'
+        Hint = 'Open a child browser with tasks and topics only'
+        OnClick = MIChildTasksAndTopicsClick
+      end
+      object N13: TMenuItem
+        Caption = '-'
+      end
+      object MIChildFilter: TMenuItem
+        Caption = '&Filter'
+        Hint = 'Open a child browser with elements that meet selected filter criteria'
+        ImageIndex = 182
+        ShortCut = 119
+        OnClick = MIChildFilterClick
+      end
+      object N16: TMenuItem
+        Caption = '-'
+      end
+      object MIChildBranch: TMenuItem
+        Caption = '&Branch'
+        Hint = 'Open a child browser with only elements belonging to a given branch in the contents window'
+        ImageIndex = 73
+        OnClick = MIChildBranchClick
+      end
+    end
+    object Select1: TMenuItem
+      Caption = 'Select'
+      object MISelectElement: TMenuItem
+        Caption = 'Select element'
+        Hint = 'Mark the current element as selected (+ in the leftmost column)'
+        ShortCut = 45
+        OnClick = MISelectElementClick
+      end
+      object MISelectAll: TMenuItem
+        Caption = 'Select all elements'
+        Hint = 'Select all elements in the browser'
+        OnClick = MISelectAllClick
+      end
+      object MIClearSelection: TMenuItem
+        Caption = 'Clear selection'
+        Hint = 'Remove selection markers from all elements'
+        OnClick = MIClearSelectionClick
+      end
+      object MIInvertSelection: TMenuItem
+        Caption = 'Invert selection'
+        Hint = 'Invert the selection (i.e. unslect selected and select unselected)'
+        OnClick = MIInvertSelectionClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object MISelectBrowserRange: TMenuItem
+        Caption = 'Browser range'
+        Hint = 'Select a range of rows in the browser'
+        OnClick = MISelectBrowserRangeClick
+      end
+      object MISelectElementRange: TMenuItem
+        Caption = 'Element range'
+        Hint = 'Select a range of elements in the browser'
+        OnClick = MISelectElementRangeClick
+      end
+      object MIUnselectBrowserRange: TMenuItem
+        Caption = 'Unselect browser range'
+        Hint = 'Remove selection from a range of rows in the browser'
+        OnClick = MIUnselectBrowserRangeClick
+      end
+      object MIUnselectElementRange: TMenuItem
+        Caption = 'Unselect element range'
+        Hint = 'Remove selection from a range of elements in the browser'
+        OnClick = MIUnselectElementRangeClick
+      end
+      object N17: TMenuItem
+        Caption = '-'
+      end
+      object MIUnselectSubtract: TMenuItem
+        Caption = 'Unselect-Subtract'
+        Hint = 'Unselect all elements that belong to a given subset file'
+        OnClick = MIUnselectSubtractClick
+      end
+      object MIUnselectIntersect: TMenuItem
+        Caption = 'Unselect-Intersect'
+        Hint = 'Unselect all elements that cannot be found in a subset file'
+        OnClick = MIUnselectIntersectClick
+      end
+      object N14: TMenuItem
+        Caption = '-'
+      end
+      object MISaveSelection: TMenuItem
+        Caption = '&Save selection'
+        Hint = 'Save all marked elements into a subset file'
+        OnClick = MISaveSelectionClick
+      end
+    end
+    object MISubset: TMenuItem
+      Caption = '&Subset'
+      object MISaveAll: TMenuItem
+        Caption = 'Save all'
+        Hint = 'Save all browsed elements in a subset file'
+        OnClick = MISaveAllClick
+      end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object MIAddSubset: TMenuItem
+        Caption = '&Add subset file'
+        Hint = 'Create a new browser with the sum of subset elements'
+        OnClick = MIAddSubsetClick
+      end
+      object MISubtractSubset: TMenuItem
+        Caption = 'Sub&tract subset file'
+        Hint = 'Create a new browser with the difference of subset elements'
+        OnClick = MISubtractSubsetClick
+      end
+      object MIIntersectSubset: TMenuItem
+        Caption = '&Intersect subset file'
+        Hint = 'Create a new browser with the intersection of subset elements'
+        OnClick = MIIntersectSubsetClick
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object MIIntersperseSubset: TMenuItem
+        Caption = 'Intersperse subset'
+        Hint = 'Mix two subsets randomly using a selected frequency ratio'
+        OnClick = MIIntersperseSubsetClick
+      end
+      object N9: TMenuItem
+        Caption = '-'
+        Hint = '-'
+      end
+      object MIDelete: TMenuItem
+        Caption = '&Delete'
+        Hint = 'Delete a selected subset file'
+        OnClick = MIDeleteClick
+      end
+    end
+    object N19: TMenuItem
+      Caption = '-'
+    end
+    object Search1: TMenuItem
+      Caption = 'Search'
+      ImageIndex = 5
+      object MISearchBrowser: TMenuItem
+        Caption = '&Search browser'
+        Hint = 'Search for texts in elements included in the browser'
+        ImageIndex = 5
+        ShortCut = 16454
+        OnClick = MISearchBrowserClick
+      end
+      object N22: TMenuItem
+        Caption = '-'
+      end
+      object Find1: TMenuItem
+        Caption = '&Find title'
+        Hint = 'Find a text among titles displayed in the browser (starting with the current row)'
+        ShortCut = 32838
+        OnClick = FindButtonClick
+      end
+      object Findnext1: TMenuItem
+        Caption = 'Find &next '
+        Hint = 'Find the same string again (in browsed element titles)'
+        ShortCut = 114
+        OnClick = Findnext1Click
+      end
+      object MIFindAll: TMenuItem
+        Caption = 'Find all titles'
+        Hint = 'Find all titles including a given substring'
+        OnClick = MIFindAllClick
+      end
+      object MIFindCurrent: TMenuItem
+        Caption = 'Find current'
+        Hint = 'Find the element currently displayed in the element window'
+        OnClick = GoToElWindElementClick
+      end
+      object N24: TMenuItem
+        Caption = '-'
+      end
+      object MISearchAndReplace: TMenuItem
+        Caption = 'Search and &replace'
+        Hint = 'Search and replace texts in the browser'
+        ImageIndex = 107
+        ShortCut = 16466
+        OnClick = MISearchAndReplaceClick
+      end
+    end
+    object MISort: TMenuItem
+      Caption = 'S&ort'
+      Hint = 'Sort the browser'
+      ImageIndex = 69
+      object MISortForReview: TMenuItem
+        Caption = 'For &Review'
+        Hint = 'Sort elements using repetition sorting criteria (proportion of topics, randomization, etc.)'
+        ShortCut = 16467
+        OnClick = MISortForReviewClick
+      end
+      object N20: TMenuItem
+        Caption = '-'
+      end
+      object MISortByInterval: TMenuItem
+        Caption = 'By interval'
+        Hint = 'Sort the browser by current intervals'
+        OnClick = MISortByIntervalClick
+      end
+      object MISortByStability: TMenuItem
+        Caption = 'By stability'
+        Hint = 'Sort the browser by memory stability (S)'
+        OnClick = MISortByStabilityClick
+      end
+      object MISortByRetrievability: TMenuItem
+        Caption = 'By retrievability'
+        Hint = 'Sort browser elements by probability of recall (R)'
+        OnClick = MISortByRetrievabilityClick
+      end
+      object MISortByDifficulty: TMenuItem
+        Caption = 'By difficulty'
+        Hint = 'Sort the browser for element difficulty'
+        OnClick = MISortByDifficultyClick
+      end
+      object MISortByFirstRepetition: TMenuItem
+        Caption = 'By first rep. date'
+        Hint = 'Sort the browser for the date of the first repetition'
+        OnClick = MISortByFirstRepetitionClick
+      end
+      object MIByLastRep: TMenuItem
+        Caption = 'By last rep. date'
+        Hint = 'Sort the browser for the date of the last repetition'
+        OnClick = MIByLastRepClick
+      end
+      object MIByNextRep: TMenuItem
+        Caption = 'By next rep. date'
+        Hint = 'Sort the browser for the date of the next repetition'
+        OnClick = MIByNextRepClick
+      end
+      object MIByForgetting: TMenuItem
+        Caption = 'By memory lapses'
+        Hint = 'Sort the browser for the number of memory lapses'
+        OnClick = MIByForgettingClick
+      end
+      object MISortByPostpone: TMenuItem
+        Caption = 'By postpone count'
+        Hint = 'Sort the browser by the postpone count'
+        OnClick = MISortByPostponeClick
+      end
+      object MISortByPriority: TMenuItem
+        Caption = 'By priority'
+        Hint = 'Sort the browser by element priority'
+        ImageIndex = 138
+        OnClick = MISortByPriorityClick
+      end
+      object MIByRepetitions: TMenuItem
+        Caption = 'By repetition count'
+        Hint = 'Sort the browser for the number of repetitions afforded an item'
+        OnClick = MIByRepetitionsClick
+      end
+      object Bytextsize1: TMenuItem
+        Caption = 'By text &size'
+        Hint = 'Sort the browser for the size of texts included in elements'
+        OnClick = Bytextsize1Click
+      end
+      object Byfilesize1: TMenuItem
+        Caption = 'By picture size'
+        Hint = 'Sort the browser for the size of pictures included in elements'
+        OnClick = Byfilesize1Click
+      end
+      object MISortByTree: TMenuItem
+        Caption = 'By tree'
+        Hint = 'Sort elements by their position in the contents window'
+        ImageIndex = 69
+        OnClick = MISortByTreeClick
+      end
+      object Other1: TMenuItem
+        Caption = '&Other'
+        object MIByTitle: TMenuItem
+          Caption = 'By &title'
+          Hint = 'Sort the browser by the title of elements'
+          OnClick = MIByTitleClick
+        end
+        object MISortByType: TMenuItem
+          Caption = 'By type'
+          Hint = 'Sort the browser by element type'
+          OnClick = MISortByTypeClick
+        end
+        object MISortByAFactor: TMenuItem
+          Caption = 'By A-Factor'
+          Hint = 'Sort the browser by A-Factors'
+          OnClick = MISortByAFactorClick
+        end
+        object MIByElementNo: TMenuItem
+          Caption = 'By element number'
+          Hint = 'Sort the browser by the element number'
+          OnClick = MIByElementNoClick
+        end
+        object MISortByFI: TMenuItem
+          Caption = 'By forgetting index'
+          Hint = 'Sort the browser for forgetting index'
+          OnClick = MISortByFIClick
+        end
+        object MIByOrdinal: TMenuItem
+          Caption = 'By ordinal number'
+          Hint = 'Sort the browser by the ordinal number'
+          OnClick = MIByOrdinalClick
+        end
+        object MISortByUFactor: TMenuItem
+          Caption = 'By U-Factor'
+          Hint = 'Sort browser by UFactors'
+          OnClick = MISortByUFactorClick
+        end
+      end
+      object N11: TMenuItem
+        Caption = '-'
+      end
+      object MIRandomize: TMenuItem
+        Caption = 'Randomize'
+        Hint = 'Randomize the sequence of elements in the browser'
+        ShortCut = 24698
+        OnClick = MIRandomizeClick
+      end
+    end
+    object Export1: TMenuItem
+      Caption = '&Export'
+      Hint = 'Export from the browser'
+      ImageIndex = 42
+      object MITransfer: TMenuItem
+        Caption = '&Transfer elements'
+        Hint = 'Replicate the contents of the browser by transfering copies of elements to another collection '
+        OnClick = MITransferClick
+      end
+      object N23: TMenuItem
+        Caption = '-'
+      end
+      object MIExportDocument: TMenuItem
+        Caption = '&Document'
+        Hint = 'Export the browser as a single HTML document (with or without the contents file)'
+        OnClick = MIExportDocumentClick
+      end
+      object MIExportQAText: TMenuItem
+        Caption = '&Q&&A text file'
+        Hint = 'Export questions and answers from the browser into a Q&A file'
+        OnClick = MIExportQATextClick
+      end
+      object N6: TMenuItem
+        Caption = '-'
+      end
+      object MIExportasXML: TMenuItem
+        Caption = '&XML'
+        Hint = 'Export the subset as questions and answers in XML format for import on other platforms'
+        OnClick = MIExportasXMLClick
+      end
+      object MIExportAsText: TMenuItem
+        Caption = '&Source text'
+        Hint = 'Export browsed elements as text'
+        OnClick = MIExportAsTextClick
+      end
+      object N25: TMenuItem
+        Caption = '-'
+      end
+      object MITextSubset: TMenuItem
+        Caption = 'Text subset'
+        Hint = 'Open the text registry subset corresponding with browser texts'
+        OnClick = MITextSubsetClick
+      end
+      object N26: TMenuItem
+        Caption = '-'
+      end
+      object MIExportRepetitionHistoryCSV: TMenuItem
+        Caption = 'Repetition history (CSV)'
+        Hint = 'Export subset''s history of repetitions into a CSV file'
+        OnClick = MIExportRepetitionHistoryCSVClick
+      end
+      object MIExportRepetitionHistoryText: TMenuItem
+        Caption = 'Repetition history (Text)'
+        Hint = 'Export subset''s history of repetitions into a SuperMemo-importable file'
+        OnClick = MIExportRepetitionHistoryTextClick
+      end
+    end
+    object Random1: TMenuItem
+      Caption = '&Random'
+      ImageIndex = 41
+      object Randomchange1: TMenuItem
+        Caption = '&Random review'
+        Hint = 'Jump to a randomly selected element for a quick review of the browsers contents'
+        ShortCut = 122
+        OnClick = RandomButtonClick
+      end
+      object MIRandomTest: TMenuItem
+        Caption = 'Random test'
+        Hint = 'Start random test on the elements of the browser'
+        ShortCut = 16506
+        OnClick = MIRandomTestClick
+      end
+      object MIRandomizeBrowser: TMenuItem
+        Caption = 'Randomize browser'
+        Hint = 'Randomize the sequence of elements in the browser'
+        ShortCut = 24698
+        OnClick = MIRandomizeClick
+      end
+    end
+    object MITools: TMenuItem
+      Caption = '&Tools'
+      Hint = 'Various operations on the browser'
+      ImageIndex = 156
+      object MISavePending: TMenuItem
+        Caption = 'Save &pending'
+        Hint = 'Save pending browser in the pending queue (e.g. after sorting)'
+        OnClick = MISavePendingClick
+      end
+      object MISavePriority: TMenuItem
+        Caption = 'Save priority'
+        Hint = 'Save the browser at the top of  the priority queue'
+        OnClick = MISavePriorityClick
+      end
+      object Savedrill1: TMenuItem
+        Caption = 'Save &drill'
+        Hint = 'Save the browser in the final drill queue'
+        OnClick = Savedrill1Click
+      end
+      object MISaveRepetitions: TMenuItem
+        Caption = 'Save &repetitions'
+        Hint = 'Schedule repetition of elements listed in the browser for today'
+        OnClick = MISaveRepetitionsClick
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object MISwapQA: TMenuItem
+        Caption = 'Swap Q&&A'
+        Hint = 'Swap questions with answers in the browser'
+        OnClick = MISwapQAClick
+      end
+      object N27: TMenuItem
+        Caption = '-'
+      end
+      object MITotalKnowledge: TMenuItem
+        Caption = 'Total knowledge'
+        Hint = 'Compute the estimate of changes in subset knowledge over time'
+        OnClick = MITotalKnowledgeClick
+      end
+      object N10: TMenuItem
+        Caption = '-'
+      end
+      object MIRepetitionsGraph: TMenuItem
+        Caption = 'Repetitions &graph'
+        Hint = 'Plot the graph of repetition intervals using repetition history of elements in the browser'
+        OnClick = MIRepetitionsGraphClick
+      end
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object MIProcessBrowser: TMenuItem
+      Caption = '&Process browser>'
+      Hint = 'Process elements in the selected branch'
+      ImageIndex = 186
+      OnClick = MIProcessBrowserClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object MIClose: TMenuItem
+      Caption = 'Close'
+      Hint = 'Close the browser'
+      ShortCut = 27
+      OnClick = MICloseClick
+    end
+  end
+  object SaveDialog1: TSaveDialog
+  end
+  object OpenDialog1: TOpenDialog
+  end
+end

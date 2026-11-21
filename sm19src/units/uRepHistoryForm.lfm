@@ -1,0 +1,81 @@
+object RepHistoryForm: TRepHistoryForm
+  Left = 367
+  Top = 258
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Repetition History'
+  ClientHeight = 172
+  ClientWidth = 460
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -14
+  Font.Name = 'System'
+  Font.Style = []
+  PopupMenu = PopupMenu1
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  object StringGrid1: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 460
+    Height = 172
+    Align = alClient
+    ColCount = 10
+    RowCount = 2
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving, goThumbTracking]
+    TabOrder = 0
+    OnDrawCell = StringGrid1DrawCell
+  end
+  object PopupMenu1: TPopupMenu
+    object MIEditHistory: TMenuItem
+      Caption = '&Edit'
+      Hint = 'Edit repetition history (this may affect the algorithm and sleep optimization)'
+      ShortCut = 16453
+      OnClick = MIEditHistoryClick
+    end
+    object MICopy: TMenuItem
+      Caption = '&Copy'
+      ShortCut = 16451
+      OnClick = MICopyClick
+    end
+    object MIDelete: TMenuItem
+      Caption = '&Delete'
+      Hint = 'Delete repetition history'
+      ShortCut = 46
+      OnClick = MIDeleteClick
+    end
+    object MIResave: TMenuItem
+      Caption = '&Save'
+      Enabled = False
+      Hint = 'Save repetition history if it has been corrected for errors'
+      ShortCut = 16467
+      OnClick = MIResaveClick
+    end
+    object Close1: TMenuItem
+      Caption = 'Close'
+      ShortCut = 27
+      OnClick = Close1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object Memorystatus1: TMenuItem
+      Caption = 'Memory status'
+      Hint = 'Show changes in memory retrievability and stability over time'
+      ShortCut = 113
+      OnClick = Memorystatus1Click
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object MIFixAndEdit: TMenuItem
+      Caption = 'Fix and Edit'
+      Hint = 'Correct errors in repetition history before editing'
+      OnClick = MIFixAndEditClick
+    end
+  end
+end

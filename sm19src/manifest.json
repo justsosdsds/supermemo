@@ -1,0 +1,714 @@
+[
+ {
+  "unit": "uAboutBox",
+  "cls": "TAboutBox",
+  "name": "AboutBox",
+  "fields": 13,
+  "events": 8,
+  "source": "001_0.json"
+ },
+ {
+  "unit": "uAddressDlg",
+  "cls": "TAddressDlg",
+  "name": "AddressDlg",
+  "fields": 5,
+  "events": 2,
+  "source": "002_0.json"
+ },
+ {
+  "unit": "uAddTranscription",
+  "cls": "TAddTranscription",
+  "name": "AddTranscription",
+  "fields": 6,
+  "events": 3,
+  "source": "003_0.json"
+ },
+ {
+  "unit": "uAlignDlg",
+  "cls": "TAlignDlg",
+  "name": "AlignDlg",
+  "fields": 26,
+  "events": 2,
+  "source": "004_0.json"
+ },
+ {
+  "unit": "uAnalysisDlg",
+  "cls": "TAnalysisDlg",
+  "name": "AnalysisDlg",
+  "fields": 57,
+  "events": 61,
+  "source": "005_0.json"
+ },
+ {
+  "unit": "uAncestors",
+  "cls": "TAncestors",
+  "name": "Ancestors",
+  "fields": 9,
+  "events": 8,
+  "source": "006_0.json"
+ },
+ {
+  "unit": "uBack",
+  "cls": "TBack",
+  "name": "Back",
+  "fields": 1,
+  "events": 0,
+  "source": "007_0.json"
+ },
+ {
+  "unit": "uBrImp",
+  "cls": "TBrImp",
+  "name": "BrImp",
+  "fields": 60,
+  "events": 51,
+  "source": "008_0.json"
+ },
+ {
+  "unit": "uBrowser",
+  "cls": "TBrowser",
+  "name": "Browser",
+  "fields": 187,
+  "events": 149,
+  "source": "009_0.json"
+ },
+ {
+  "unit": "uChangeCompSize",
+  "cls": "TChangeCompSize",
+  "name": "ChangeCompSize",
+  "fields": 13,
+  "events": 2,
+  "source": "010_0.json"
+ },
+ {
+  "unit": "uChecksDlg",
+  "cls": "TChecksDlg",
+  "name": "ChecksDlg",
+  "fields": 7,
+  "events": 7,
+  "source": "011_0.json"
+ },
+ {
+  "unit": "uChoicesDlg",
+  "cls": "TChoicesDlg",
+  "name": "ChoicesDlg",
+  "fields": 5,
+  "events": 7,
+  "source": "012_0.json"
+ },
+ {
+  "unit": "uCommanderDlg",
+  "cls": "TCommanderDlg",
+  "name": "CommanderDlg",
+  "fields": 19,
+  "events": 19,
+  "source": "013_0.json"
+ },
+ {
+  "unit": "uComponentEditor",
+  "cls": "TComponentEditor",
+  "name": "ComponentEditor",
+  "fields": 0,
+  "events": 7,
+  "source": "014_0.json"
+ },
+ {
+  "unit": "uConceptEditor",
+  "cls": "TConceptEditor",
+  "name": "ConceptEditor",
+  "fields": 17,
+  "events": 11,
+  "source": "015_0.json"
+ },
+ {
+  "unit": "uConceptMapForm",
+  "cls": "TConceptMapForm",
+  "name": "ConceptMapForm",
+  "fields": 7,
+  "events": 5,
+  "source": "016_0.json"
+ },
+ {
+  "unit": "uConceptSelectBox",
+  "cls": "TConceptSelectBox",
+  "name": "ConceptSelectBox",
+  "fields": 10,
+  "events": 16,
+  "source": "017_0.json"
+ },
+ {
+  "unit": "uContents",
+  "cls": "TContents",
+  "name": "Contents",
+  "fields": 189,
+  "events": 137,
+  "source": "018_0.json"
+ },
+ {
+  "unit": "uContributions",
+  "cls": "TContributions",
+  "name": "Contributions",
+  "fields": 4,
+  "events": 2,
+  "source": "019_0.json"
+ },
+ {
+  "unit": "uElDataWind",
+  "cls": "TElDataWind",
+  "name": "ElDataWind",
+  "fields": 7,
+  "events": 13,
+  "source": "020_0.json"
+ },
+ {
+  "unit": "uElementFilter",
+  "cls": "TElementFilter",
+  "name": "ElementFilter",
+  "fields": 55,
+  "events": 23,
+  "source": "021_0.json"
+ },
+ {
+  "unit": "uElParamDlg",
+  "cls": "TElParamDlg",
+  "name": "ElParamDlg",
+  "fields": 65,
+  "events": 34,
+  "source": "022_0.json"
+ },
+ {
+  "unit": "uElWind",
+  "cls": "TElWind",
+  "name": "ElWind",
+  "fields": 638,
+  "events": 403,
+  "source": "023_0.json"
+ },
+ {
+  "unit": "uFAQDlg",
+  "cls": "TFAQDlg",
+  "name": "FAQDlg",
+  "fields": 25,
+  "events": 16,
+  "source": "024_0.json"
+ },
+ {
+  "unit": "uFileBrowser",
+  "cls": "TFileBrowser",
+  "name": "FileBrowser",
+  "fields": 41,
+  "events": 53,
+  "source": "025_0.json"
+ },
+ {
+  "unit": "uGetIntervalDlg",
+  "cls": "TGetIntervalDlg",
+  "name": "GetIntervalDlg",
+  "fields": 9,
+  "events": 7,
+  "source": "026_0.json"
+ },
+ {
+  "unit": "uHitEditor",
+  "cls": "THitEditor",
+  "name": "HitEditor",
+  "fields": 14,
+  "events": 10,
+  "source": "027_0.json"
+ },
+ {
+  "unit": "uHTMLForm",
+  "cls": "THTMLForm",
+  "name": "HTMLForm",
+  "fields": 23,
+  "events": 6,
+  "source": "028_0.json"
+ },
+ {
+  "unit": "uImgDown",
+  "cls": "TImgDown",
+  "name": "ImgDown",
+  "fields": 27,
+  "events": 22,
+  "source": "029_0.json"
+ },
+ {
+  "unit": "uImgScaler",
+  "cls": "TImgScaler",
+  "name": "ImgScaler",
+  "fields": 19,
+  "events": 6,
+  "source": "030_0.json"
+ },
+ {
+  "unit": "uImportMailDlg",
+  "cls": "TImportMailDlg",
+  "name": "ImportMailDlg",
+  "fields": 31,
+  "events": 26,
+  "source": "031_0.json"
+ },
+ {
+  "unit": "uImportTXTDlg",
+  "cls": "TImportTXTDlg",
+  "name": "ImportTXTDlg",
+  "fields": 8,
+  "events": 6,
+  "source": "032_0.json"
+ },
+ {
+  "unit": "uInputDlg",
+  "cls": "TInputDlg",
+  "name": "InputDlg",
+  "fields": 7,
+  "events": 9,
+  "source": "033_0.json"
+ },
+ {
+  "unit": "uLayoutDlg",
+  "cls": "TLayoutDlg",
+  "name": "LayoutDlg",
+  "fields": 9,
+  "events": 9,
+  "source": "034_0.json"
+ },
+ {
+  "unit": "uLeechManagerDlg",
+  "cls": "TLeechManagerDlg",
+  "name": "LeechManagerDlg",
+  "fields": 26,
+  "events": 24,
+  "source": "035_0.json"
+ },
+ {
+  "unit": "uLocalizationDlg",
+  "cls": "TLocalizationDlg",
+  "name": "LocalizationDlg",
+  "fields": 13,
+  "events": 13,
+  "source": "036_0.json"
+ },
+ {
+  "unit": "uLoginDialog",
+  "cls": "TLoginDialog",
+  "name": "LoginDialog",
+  "fields": 11,
+  "events": 1,
+  "source": "037_0.json"
+ },
+ {
+  "unit": "uMemForm",
+  "cls": "TMemForm",
+  "name": "MemForm",
+  "fields": 7,
+  "events": 3,
+  "source": "038_0.json"
+ },
+ {
+  "unit": "uMercyForm",
+  "cls": "TMercyForm",
+  "name": "MercyForm",
+  "fields": 23,
+  "events": 7,
+  "source": "039_0.json"
+ },
+ {
+  "unit": "uMercyOptions",
+  "cls": "TMercyOptions",
+  "name": "MercyOptions",
+  "fields": 21,
+  "events": 5,
+  "source": "040_0.json"
+ },
+ {
+  "unit": "uMsgDialog",
+  "cls": "TMsgDialog",
+  "name": "MsgDialog",
+  "fields": 14,
+  "events": 18,
+  "source": "041_0.json"
+ },
+ {
+  "unit": "uMyFindDlg",
+  "cls": "TMyFindDlg",
+  "name": "MyFindDlg",
+  "fields": 32,
+  "events": 19,
+  "source": "042_0.json"
+ },
+ {
+  "unit": "uMyReplaceDlg",
+  "cls": "TMyReplaceDlg",
+  "name": "MyReplaceDlg",
+  "fields": 10,
+  "events": 8,
+  "source": "043_0.json"
+ },
+ {
+  "unit": "uOptions",
+  "cls": "TOptions",
+  "name": "Options",
+  "fields": 127,
+  "events": 36,
+  "source": "044_0.json"
+ },
+ {
+  "unit": "uOrderEditor",
+  "cls": "TOrderEditor",
+  "name": "OrderEditor",
+  "fields": 4,
+  "events": 8,
+  "source": "045_0.json"
+ },
+ {
+  "unit": "uPasswordDialog",
+  "cls": "TPasswordDialog",
+  "name": "PasswordDialog",
+  "fields": 7,
+  "events": 5,
+  "source": "046_0.json"
+ },
+ {
+  "unit": "uPasswordDlg",
+  "cls": "TPasswordDlg",
+  "name": "PasswordDlg",
+  "fields": 4,
+  "events": 3,
+  "source": "047_0.json"
+ },
+ {
+  "unit": "uPlanDlg",
+  "cls": "TPlanDlg",
+  "name": "PlanDlg",
+  "fields": 76,
+  "events": 63,
+  "source": "048_0.json"
+ },
+ {
+  "unit": "uPlanParamDlg",
+  "cls": "TPlanParamDlg",
+  "name": "PlanParamDlg",
+  "fields": 10,
+  "events": 10,
+  "source": "049_0.json"
+ },
+ {
+  "unit": "uPlayerForm",
+  "cls": "TPlayerForm",
+  "name": "PlayerForm",
+  "fields": 46,
+  "events": 36,
+  "source": "050_0.json"
+ },
+ {
+  "unit": "uPleaseDlg",
+  "cls": "TPleaseDlg",
+  "name": "PleaseDlg",
+  "fields": 8,
+  "events": 5,
+  "source": "051_0.json"
+ },
+ {
+  "unit": "uPostponeDlg",
+  "cls": "TPostponeDlg",
+  "name": "PostponeDlg",
+  "fields": 63,
+  "events": 16,
+  "source": "052_0.json"
+ },
+ {
+  "unit": "uPriorityDlg",
+  "cls": "TPriorityDlg",
+  "name": "PriorityDlg",
+  "fields": 32,
+  "events": 18,
+  "source": "053_0.json"
+ },
+ {
+  "unit": "uProgressBox",
+  "cls": "TProgressBox",
+  "name": "ProgressBox",
+  "fields": 20,
+  "events": 6,
+  "source": "054_0.json"
+ },
+ {
+  "unit": "uQODDlg",
+  "cls": "TQODDlg",
+  "name": "QODDlg",
+  "fields": 9,
+  "events": 7,
+  "source": "055_0.json"
+ },
+ {
+  "unit": "uQuestions",
+  "cls": "TQuestions",
+  "name": "Questions",
+  "fields": 59,
+  "events": 7,
+  "source": "056_0.json"
+ },
+ {
+  "unit": "uRecoveryDialog",
+  "cls": "TRecoveryDialog",
+  "name": "RecoveryDialog",
+  "fields": 19,
+  "events": 7,
+  "source": "057_0.json"
+ },
+ {
+  "unit": "uRegistrationForm",
+  "cls": "TRegistrationForm",
+  "name": "RegistrationForm",
+  "fields": 21,
+  "events": 8,
+  "source": "058_0.json"
+ },
+ {
+  "unit": "uRegistryForm",
+  "cls": "TRegistryForm",
+  "name": "RegistryForm",
+  "fields": 143,
+  "events": 109,
+  "source": "059_0.json"
+ },
+ {
+  "unit": "uRepGraphDlg",
+  "cls": "TRepGraphDlg",
+  "name": "RepGraphDlg",
+  "fields": 5,
+  "events": 4,
+  "source": "060_0.json"
+ },
+ {
+  "unit": "uRepHistoryForm",
+  "cls": "TRepHistoryForm",
+  "name": "RepHistoryForm",
+  "fields": 11,
+  "events": 11,
+  "source": "061_0.json"
+ },
+ {
+  "unit": "uRepSimDlg",
+  "cls": "TRepSimDlg",
+  "name": "RepSimDlg",
+  "fields": 15,
+  "events": 5,
+  "source": "062_0.json"
+ },
+ {
+  "unit": "uRepSortDlg",
+  "cls": "TRepSortDlg",
+  "name": "RepSortDlg",
+  "fields": 18,
+  "events": 7,
+  "source": "063_0.json"
+ },
+ {
+  "unit": "uRotateForm",
+  "cls": "TRotateForm",
+  "name": "RotateForm",
+  "fields": 24,
+  "events": 24,
+  "source": "064_0.json"
+ },
+ {
+  "unit": "uScriptEditor",
+  "cls": "TScriptEditor",
+  "name": "ScriptEditor",
+  "fields": 47,
+  "events": 41,
+  "source": "065_0.json"
+ },
+ {
+  "unit": "uSetPendingDlg",
+  "cls": "TSetPendingDlg",
+  "name": "SetPendingDlg",
+  "fields": 8,
+  "events": 5,
+  "source": "066_0.json"
+ },
+ {
+  "unit": "uShowTimeDialog",
+  "cls": "TShowTimeDialog",
+  "name": "ShowTimeDialog",
+  "fields": 10,
+  "events": 4,
+  "source": "067_0.json"
+ },
+ {
+  "unit": "uSimDlg",
+  "cls": "TSimDlg",
+  "name": "SimDlg",
+  "fields": 36,
+  "events": 10,
+  "source": "068_0.json"
+ },
+ {
+  "unit": "uSleepForm",
+  "cls": "TSleepForm",
+  "name": "SleepForm",
+  "fields": 133,
+  "events": 96,
+  "source": "069_0.json"
+ },
+ {
+  "unit": "uSleepGraph",
+  "cls": "TSleepGraph",
+  "name": "SleepGraph",
+  "fields": 6,
+  "events": 8,
+  "source": "070_0.json"
+ },
+ {
+  "unit": "uSMMain",
+  "cls": "TSMMain",
+  "name": "SMMain",
+  "fields": 577,
+  "events": 406,
+  "source": "071_0.json"
+ },
+ {
+  "unit": "uSpellDlg",
+  "cls": "TSpellDlg",
+  "name": "SpellDlg",
+  "fields": 9,
+  "events": 3,
+  "source": "072_0.json"
+ },
+ {
+  "unit": "uSpreadPrioritiesDlg",
+  "cls": "TSpreadPrioritiesDlg",
+  "name": "SpreadPrioritiesDlg",
+  "fields": 25,
+  "events": 11,
+  "source": "073_0.json"
+ },
+ {
+  "unit": "uStatBar",
+  "cls": "TStatBar",
+  "name": "StatBar",
+  "fields": 5,
+  "events": 3,
+  "source": "074_0.json"
+ },
+ {
+  "unit": "uStats",
+  "cls": "TStats",
+  "name": "Stats",
+  "fields": 16,
+  "events": 18,
+  "source": "075_0.json"
+ },
+ {
+  "unit": "uStylesheetEditor",
+  "cls": "TStylesheetEditor",
+  "name": "StylesheetEditor",
+  "fields": 14,
+  "events": 12,
+  "source": "076_0.json"
+ },
+ {
+  "unit": "uTargetDlg",
+  "cls": "TTargetDlg",
+  "name": "TargetDlg",
+  "fields": 15,
+  "events": 17,
+  "source": "077_0.json"
+ },
+ {
+  "unit": "uTasklistEditor",
+  "cls": "TTasklistEditor",
+  "name": "TasklistEditor",
+  "fields": 12,
+  "events": 5,
+  "source": "078_0.json"
+ },
+ {
+  "unit": "uTaskManager",
+  "cls": "TTaskManager",
+  "name": "TaskManager",
+  "fields": 57,
+  "events": 44,
+  "source": "079_0.json"
+ },
+ {
+  "unit": "uThemeTestDlg",
+  "cls": "TThemeTestDlg",
+  "name": "ThemeTestDlg",
+  "fields": 9,
+  "events": 7,
+  "source": "080_0.json"
+ },
+ {
+  "unit": "uTileDlg",
+  "cls": "TTileDlg",
+  "name": "TileDlg",
+  "fields": 11,
+  "events": 8,
+  "source": "081_0.json"
+ },
+ {
+  "unit": "uTitleEdit",
+  "cls": "TTitleEdit",
+  "name": "TitleEdit",
+  "fields": 5,
+  "events": 7,
+  "source": "082_0.json"
+ },
+ {
+  "unit": "uTranslationDlg",
+  "cls": "TTranslationDlg",
+  "name": "TranslationDlg",
+  "fields": 5,
+  "events": 7,
+  "source": "083_0.json"
+ },
+ {
+  "unit": "uURLOpenDlg",
+  "cls": "TURLOpenDlg",
+  "name": "URLOpenDlg",
+  "fields": 6,
+  "events": 7,
+  "source": "084_0.json"
+ },
+ {
+  "unit": "uVBrowser",
+  "cls": "TVBrowser",
+  "name": "VBrowser",
+  "fields": 4,
+  "events": 2,
+  "source": "085_0.json"
+ },
+ {
+  "unit": "uWebDlg",
+  "cls": "TWebDlg",
+  "name": "WebDlg",
+  "fields": 53,
+  "events": 41,
+  "source": "086_0.json"
+ },
+ {
+  "unit": "uWorkload",
+  "cls": "TWorkload",
+  "name": "Workload",
+  "fields": 40,
+  "events": 36,
+  "source": "087_0.json"
+ },
+ {
+  "unit": "uWorkloadForm",
+  "cls": "TWorkloadForm",
+  "name": "WorkloadForm",
+  "fields": 2,
+  "events": 10,
+  "source": "088_0.json"
+ },
+ {
+  "unit": "uXMLExportDialog",
+  "cls": "TXMLExportDialog",
+  "name": "XMLExportDialog",
+  "fields": 11,
+  "events": 0,
+  "source": "089_0.json"
+ }
+]
