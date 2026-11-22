@@ -74,3 +74,12 @@ ghidra_proj/
 *.gpr
 *.rep
 
+# Android / Gradle
+mobile/.gradle/
+mobile/build/
+mobile/app/build/
+mobile/local.properties
+*.apk
+*.aab
+*.hprof
+.kotlin/
