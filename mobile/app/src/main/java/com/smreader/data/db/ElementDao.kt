@@ -20,6 +20,13 @@ interface ElementDao {
     @Query("SELECT * FROM elements WHERE parentId IS NULL ORDER BY createdAt DESC")
     fun observeRoots(): Flow<List<Element>>
 
+    /** Every element, ordered so the tree can be built in one pass. */
+    @Query("SELECT * FROM elements ORDER BY parentId IS NULL DESC, parentId, sortKey, id")
+    fun observeAll(): Flow<List<Element>>
+
+    @Query("SELECT * FROM elements ORDER BY parentId IS NULL DESC, parentId, sortKey, id")
+    suspend fun all(): List<Element>
+
     @Query("SELECT * FROM elements WHERE id = :id")
     suspend fun findById(id: Long): Element?
 

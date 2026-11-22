@@ -12,6 +12,11 @@ class ArticleRepository(private val db: AppDatabase) {
 
     fun observeArticles(): Flow<List<Element>> = elements.observeRoots()
 
+    /** Every element, for the contents tree. */
+    fun observeAll(): Flow<List<Element>> = elements.observeAll()
+
+    suspend fun all(): List<Element> = elements.all()
+
     fun observeElement(id: Long): Flow<Element?> = elements.observeById(id)
 
     suspend fun get(id: Long): Element? = elements.findById(id)

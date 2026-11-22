@@ -13,8 +13,21 @@ import kotlinx.coroutines.launch
 
 class ArticleListViewModel(private val repo: ArticleRepository) : ViewModel() {
 
-    val articles: StateFlow<List<Element>> =
-        repo.observeArticles().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    private val _collapsed = MutableStateFlow<Set<Long>>(emptySet())
+
+    /** Flattened contents tree, recomputed whenever elements or collapse state change. */
+    val rows: StateFlow<List<com.smreader.domain.TreeRow>> =
+        kotlinx.coroutines.flow.combine(
+            repo.observeAll(),
+            _collapsed
+        ) { all, collapsed ->
+            com.smreader.domain.TreeBuilder.flatten(all, collapsed)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    fun toggle(id: Long) {
+        _collapsed.value = _collapsed.value.let { if (id in it) it - id else it + id }
+    }
+
 
     private val _message = MutableStateFlow<String?>(null)
     val message: StateFlow<String?> = _message.asStateFlow()
