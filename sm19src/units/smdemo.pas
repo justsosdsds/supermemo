@@ -32,7 +32,7 @@ procedure RunStudyStep(const CollectionRoot: string; ElemId, Grade: Integer;
 procedure SMStartupStudy(Data: PtrInt);
 procedure SMTestSettings(Data: PtrInt);
 procedure RunImportDemo(AOwner: TComponent);
-procedure SMImportCli(Data: PtrInt);
+procedure RunLearnClick(AOwner: TComponent);
 
 implementation
 
@@ -328,7 +328,6 @@ end;
 
 procedure RunImportDemo(AOwner: TComponent);
 
-procedure SMImportCli(Data: PtrInt);
 var
   path, err, logPath: string;
   added, i: Integer;

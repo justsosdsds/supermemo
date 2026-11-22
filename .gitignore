@@ -68,3 +68,9 @@ scratch/
 # 原版程序（用户要求纳入版本控制，否定规则必须在最后）
 !original/
 !original/*.exe
+
+# Ghidra 分析项目（体积大，可重新生成）
+ghidra_proj/
+*.gpr
+*.rep
+
