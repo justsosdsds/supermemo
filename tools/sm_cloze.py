@@ -33,10 +33,10 @@ FREE_ID = 65535
 KIND_ITEM, KIND_FREE = 1, 3
 
 # markup constants confirmed present in the binary
-CLOZE_OPEN = b'<SPAN class=clozed>'
+CLOZE_OPEN = b'<SPAN class=cloze>'      # parent-side marker: 'cloze' (no d) - measured in 2.HTM
 CLOZE_CLOSE = b'</SPAN>'
 # A2: rendering of the deletion in the produced item (NOT verified)
-DELETION = '\u2003[...]\u2003'
+DELETION = '[...]'                     # measured: item text contains literal [...]
 
 
 def load(p):
@@ -88,12 +88,18 @@ def text_ids(rtx):
 
 
 def mark_keyword(body, keyword):
-    """A1: wrap the keyword in clozed markup inside the source body."""
+    """A1 (measured): wrap the keyword in <SPAN class=cloze>..</SPAN> in the
+    parent body, replacing the keyword with the literal placeholder [...],
+    and normalise any outer <SPAN class=extract> to a bare <SPAN> (this is what
+    FUN_00b2f61c does)."""
     kw = keyword.encode('utf-8')
     pos = body.find(kw)
     if pos < 0:
         raise ValueError('keyword not found in source body')
-    return body[:pos] + CLOZE_OPEN + kw + CLOZE_CLOSE + body[pos + len(kw):]
+    out = body[:pos] + CLOZE_OPEN + DELETION.encode('utf-8') + CLOZE_CLOSE + body[pos + len(kw):]
+    out = out.replace(b'<SPAN class=extract>', b'<SPAN>')
+    out = out.replace(b'<FONT class=extract>', b'<FONT>')
+    return out
 
 
 def build_cloze_text(body_text, keyword):
@@ -104,6 +110,30 @@ def build_cloze_text(body_text, keyword):
     hide it instead of writing a placeholder into the text pool.
     """
     return body_text.replace(keyword, DELETION, 1)
+
+
+def _recount_subtrees(conts):
+    """kids = number of descendants in the whole subtree (measured: root has 3
+    while only one direct child, which itself has two).  Rebuild the hierarchy
+    from the parent field rather than chasing first/next links."""
+    n = len(conts)
+    children = {}
+    for i, c in enumerate(conts):
+        p = struct.unpack_from('<H', c['raw'], 1)[0]
+        children.setdefault(p, []).append(i + 1)
+
+    def count(ordinal, depth=0):
+        if depth > 40:
+            return 0
+        total = 0
+        for k in children.get(ordinal, []):
+            total += 1 + count(k, depth + 1)
+        return total
+
+    for i, c in enumerate(conts):
+        raw = bytearray(c['raw'])
+        struct.pack_into('<H', raw, 21, count(i + 1))
+        c['raw'] = bytes(raw)
 
 
 def cloze(coll, topic_id, keyword, dry_run=False):
@@ -139,6 +169,28 @@ def cloze(coll, topic_id, keyword, dry_run=False):
     text = marked.decode('utf-8', 'replace')
     item_text = build_cloze_text(text, keyword)
 
+    # the child element's own body keeps the real keyword, wrapped in
+    # <SPAN class=clozed> (WITH d) - measured in 3.HTM
+    # every element body that still contains the raw keyword gets the
+    # <SPAN class=clozed> marker (measured: extract child 3.HTM carries it)
+    kwb = keyword.encode('utf-8')
+    el_dir = os.path.join(coll, 'elements')
+    marked_files = []
+    if os.path.isdir(el_dir):
+        for fn in sorted(os.listdir(el_dir)):
+            if not fn.lower().endswith('.htm'):
+                continue
+            fp = os.path.join(el_dir, fn)
+            cb = open(fp, 'rb').read()
+            if b'<SPAN class=clozed>' in cb:
+                continue                     # already marked
+            if kwb not in cb:
+                continue
+            nb = cb.replace(kwb, b'<SPAN class=clozed>' + kwb + b'</SPAN>', 1)
+            if not dry_run:
+                open(fp, 'wb').write(nb)
+            marked_files.append(fn)
+
     if not dry_run:
         open(body_file, 'wb').write(marked)
 
@@ -172,13 +224,13 @@ def cloze(coll, topic_id, keyword, dry_run=False):
 
     erec = bytearray(free['raw'] if reused else tpl['raw'])
     slot_index = free['slot'] if reused else len(info) // DIM
-    erec[0] = 0x00
+    erec[0] = 0x01                        # measured: cloze child has flags=0x1
     erec[1] = KIND_ITEM                  # A3
     struct.pack_into('<H', erec, 2, new_id)
     struct.pack_into('<I', erec, 6, c_off)
     struct.pack_into('<H', erec, 10, tpl['comp_size'])
     struct.pack_into('<i', erec, 12, 1)            # A3 / PROVISIONAL
-    struct.pack_into('<I', erec, 16, 0x00010006)   # A3 / PROVISIONAL
+    struct.pack_into('<I', erec, 16, 0x00010003)   # measured: cloze child pack=0x00010003
     now = (datetime.datetime.now() - datetime.datetime(1899, 12, 30)).total_seconds() / 86400.0
     struct.pack_into('<d', erec, 20, now)
     struct.pack_into('<i', erec, 40, new_ord0)
@@ -213,8 +265,8 @@ def cloze(coll, topic_id, keyword, dry_run=False):
     if last == 0:
         struct.pack_into('<H', pr, 5, new_ord)
     struct.pack_into('<H', pr, 9, new_ord)
-    struct.pack_into('<H', pr, 21, conts[p_ord - 1]['kids'] + 1)
     conts[p_ord - 1]['raw'] = bytes(pr)
+    _recount_subtrees(conts)   # after pr is stored, so subtree sizes see the new child
 
     out = bytearray()
     for c in conts:
@@ -229,7 +281,8 @@ def cloze(coll, topic_id, keyword, dry_run=False):
         save(cont_p, out)
 
     return dict(new_id=new_id, new_ordinal=new_ord, slot=slot_index + 1,
-                reused=reused, topic=topic_id, item_text=item_text), None
+                reused=reused, topic=topic_id, item_text=item_text,
+                marked_files=marked_files), None
 
 
 def main():
@@ -244,7 +297,7 @@ def main():
     print('  new item : id=%d ordinal=%d slot=%d' % (res['new_id'], res['new_ordinal'], res['slot']))
     print('  parent   : #%d' % res['topic'])
     print('  reused   : %s' % ('yes' if res['reused'] else 'no'))
-    print('  item text: %s' % res['item_text'][:120])
+    print('  marked files: %s' % res.get('marked_files'))
     return 0
 
 

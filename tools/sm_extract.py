@@ -111,7 +111,7 @@ def wrap_selection(body, needle):
     tail = body[p_end:]
 
     out = bytearray(head)
-    out += b'\r\n<P></P><SPAN class=extract>\r\n'
+    out += b' \r\n<P></P><SPAN class=extract>\r\n'   # measured: a space precedes the newline
     out += para
     if tail:
         out += b'\r\n<P></SPAN>'
@@ -123,6 +123,30 @@ def wrap_selection(body, needle):
         out += b'</SPAN>'
     out += tail
     return bytes(out)
+
+
+def _recount_subtrees(conts):
+    """kids = number of descendants in the whole subtree (measured: root has 3
+    while only one direct child, which itself has two).  Rebuild the hierarchy
+    from the parent field rather than chasing first/next links."""
+    n = len(conts)
+    children = {}
+    for i, c in enumerate(conts):
+        p = struct.unpack_from('<H', c['raw'], 1)[0]
+        children.setdefault(p, []).append(i + 1)
+
+    def count(ordinal, depth=0):
+        if depth > 40:
+            return 0
+        total = 0
+        for k in children.get(ordinal, []):
+            total += 1 + count(k, depth + 1)
+        return total
+
+    for i, c in enumerate(conts):
+        raw = bytearray(c['raw'])
+        struct.pack_into('<H', raw, 21, count(i + 1))
+        c['raw'] = bytes(raw)
 
 
 def extract(coll, parent_id, selection, dry_run=False):
@@ -238,12 +262,18 @@ def extract(coll, parent_id, selection, dry_run=False):
     if last == 0:
         struct.pack_into('<H', pr, 5, new_ord)
     struct.pack_into('<H', pr, 9, new_ord)
-    struct.pack_into('<H', pr, 21, conts[p_ord - 1]['kids'] + 1)
     conts[p_ord - 1]['raw'] = bytes(pr)
+    _recount_subtrees(conts)   # after pr is stored, so subtree sizes see the new child
 
     out = bytearray()
     for c in conts:
         out += c['raw']
+
+    # the original also materialises the child element's own body file,
+    # elements\<slot>.HTM, holding the same markup (measured: 3.HTM = 135 bytes)
+    child_body = os.path.join(coll, 'elements', '%d.HTM' % (slot_index + 1))
+    if body_changed and not dry_run:
+        open(child_body, 'wb').write(wrapped)
 
     if not dry_run:
         # write order matters: text pool first, then element/contents/compon so a
