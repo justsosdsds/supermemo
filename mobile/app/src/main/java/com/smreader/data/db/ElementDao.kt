@@ -1,4 +1,4 @@
-﻿package com.smreader.data.db
+package com.smreader.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -31,6 +31,15 @@ interface ElementDao {
 
     @Query("SELECT COUNT(*) FROM elements WHERE parentId = :parentId")
     suspend fun childCount(parentId: Long): Int
+
+    @Query("SELECT * FROM elements WHERE parentId = :parentId ORDER BY sortKey, id")
+    fun observeChildren(parentId: Long): Flow<List<Element>>
+
+    @Query("SELECT * FROM elements WHERE parentId = :parentId ORDER BY sortKey, id")
+    suspend fun childrenOf(parentId: Long): List<Element>
+
+    @Query("SELECT COALESCE(MAX(sortKey), -1) FROM elements WHERE parentId = :parentId")
+    suspend fun maxSortKey(parentId: Long): Int
 
     @Insert
     suspend fun insert(e: Element): Long

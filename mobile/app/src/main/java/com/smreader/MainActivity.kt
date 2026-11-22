@@ -1,4 +1,4 @@
-﻿package com.smreader
+package com.smreader
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -47,7 +47,8 @@ class MainActivity : ComponentActivity() {
                     is Dest.Reader -> ReaderScreen(
                         elementId = d.id,
                         vm = readerVm,
-                        onBack = { dest = Dest.Home }
+                        onBack = { dest = Dest.Home },
+                        onOpenChild = { childId -> dest = Dest.Reader(childId) }
                     )
                 }
             }

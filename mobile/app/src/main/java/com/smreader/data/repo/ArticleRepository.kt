@@ -56,4 +56,35 @@ class ArticleRepository(private val db: AppDatabase) {
         positions.delete(id)
         elements.deleteById(id)
     }
+    /** Direct children of an element (extracts / clozes made from it). */
+    fun observeChildren(parentId: Long): Flow<List<Element>> = elements.observeChildren(parentId)
+
+    suspend fun childrenOf(parentId: Long): List<Element> = elements.childrenOf(parentId)
+
+    /**
+     * Extract a range of a topic's body into a child topic.
+     *
+     * The parent body is never modified: the selected range is recorded in
+     * sourceFrom/sourceTo so the reader can highlight it and jump back. This is
+     * deliberate - rewriting the parent text is exactly what made the Windows
+     * version fragile when the same phrase appeared more than once.
+     */
+    suspend fun extract(parentId: Long, start: Int, end: Int): Long {
+        val parent = elements.findById(parentId)
+            ?: throw IllegalArgumentException("parent $parentId not found")
+        val sel = com.smreader.domain.SelectionOps.trimmed(parent.body, start, end)
+            ?: throw IllegalArgumentException("selection is empty or out of range")
+        val order = elements.maxSortKey(parentId) + 1
+        val child = Element(
+            type = ElementType.TOPIC,
+            parentId = parentId,
+            rootId = parent.rootId,
+            title = com.smreader.domain.SelectionOps.titleOf(sel.text),
+            body = sel.text,
+            sourceFrom = sel.start,
+            sourceTo = sel.end,
+            sortKey = order
+        )
+        return elements.insert(child)
+    }
 }

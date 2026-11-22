@@ -1,4 +1,4 @@
-﻿package com.smreader.ui
+package com.smreader.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +45,16 @@ class ReaderViewModel(private val repo: ArticleRepository) : ViewModel() {
     private val _savedOffset = MutableStateFlow(0)
     val savedOffset: StateFlow<Int> = _savedOffset.asStateFlow()
 
+    private val _children = MutableStateFlow<List<Element>>(emptyList())
+    val children: StateFlow<List<Element>> = _children.asStateFlow()
+
+    private val _message = MutableStateFlow<String?>(null)
+    val message: StateFlow<String?> = _message.asStateFlow()
+
     private var loadedId: Long? = null
+    private var childJob: kotlinx.coroutines.Job? = null
+
+    val currentId: Long? get() = loadedId
 
     fun load(id: Long) {
         if (loadedId == id) return
@@ -54,11 +63,29 @@ class ReaderViewModel(private val repo: ArticleRepository) : ViewModel() {
             _element.value = repo.get(id)
             _savedOffset.value = repo.loadPosition(id)
         }
+        childJob?.cancel()
+        childJob = viewModelScope.launch {
+            repo.observeChildren(id).collect { _children.value = it }
+        }
     }
 
-    /** Persist the reading offset. Called on scroll stop and on leave. */
     fun saveOffset(offset: Int) {
         val id = loadedId ?: return
         viewModelScope.launch { repo.savePosition(id, offset) }
     }
+
+    /** Extract the given character range of the current element into a child topic. */
+    fun extract(start: Int, end: Int) {
+        val id = loadedId ?: return
+        viewModelScope.launch {
+            try {
+                val childId = repo.extract(id, start, end)
+                _message.value = "已提取（id=$childId）"
+            } catch (t: Throwable) {
+                _message.value = "提取失败：${t.message}"
+            }
+        }
+    }
+
+    fun clearMessage() { _message.value = null }
 }

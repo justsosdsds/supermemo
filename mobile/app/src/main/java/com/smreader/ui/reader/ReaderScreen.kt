@@ -1,13 +1,22 @@
-﻿package com.smreader.ui.reader
+package com.smreader.ui.reader
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -16,79 +25,161 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smreader.domain.SelectionOps
 import com.smreader.ui.ReaderViewModel
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReaderScreen(
     elementId: Long,
     vm: ReaderViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenChild: (Long) -> Unit
 ) {
     LaunchedEffect(elementId) { vm.load(elementId) }
     val element by vm.element.collectAsState()
+    val children by vm.children.collectAsState()
     val savedOffset by vm.savedOffset.collectAsState()
+    val message by vm.message.collectAsState()
     val scroll = rememberScrollState()
+    val snackbar = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
-    // Restore the saved character offset once the text is available.
-    var restored = false
+    // A read-only BasicTextField is used instead of Text: only TextFieldValue
+    // exposes the selection range, which we need for accurate extract offsets.
+    var value by remember(elementId) { mutableStateOf(TextFieldValue("", TextRange.Zero)) }
+    var appliedText by remember(elementId) { mutableStateOf("") }
+
+    LaunchedEffect(element) {
+        val e = element ?: return@LaunchedEffect
+        if (appliedText != e.body) {
+            appliedText = e.body
+            value = TextFieldValue(e.body, TextRange.Zero)
+        }
+    }
+
+    // Restore the saved character offset (converted to a scroll position).
+    var restored by remember(elementId) { mutableStateOf(false) }
     LaunchedEffect(element, savedOffset) {
         val e = element ?: return@LaunchedEffect
-        if (!restored && savedOffset > 0 && e.body.isNotEmpty()) {
+        if (!restored && savedOffset > 0 && e.body.isNotEmpty() && scroll.maxValue > 0) {
             val ratio = savedOffset.toFloat() / e.body.length.toFloat()
             scroll.scrollTo((scroll.maxValue * ratio).toInt().coerceIn(0, scroll.maxValue))
             restored = true
         }
     }
 
-    // Persist the position while scrolling, debounced so we do not write per frame.
+    // Persist position while scrolling.
     LaunchedEffect(scroll, element) {
         val e = element ?: return@LaunchedEffect
         snapshotFlow { scroll.value to scroll.maxValue }
             .debounce(400)
-            .collect { (value, max) ->
-                if (max > 0) {
-                    val ratio = value.toFloat() / max.toFloat()
-                    vm.saveOffset((e.body.length * ratio).toInt())
-                }
+            .collect { (v, max) ->
+                if (max > 0) vm.saveOffset((e.body.length * (v.toFloat() / max)).toInt())
             }
     }
 
     DisposableEffect(elementId) {
         onDispose {
-            // last-chance save when leaving the screen
             val e = element
             if (e != null && scroll.maxValue > 0) {
-                val ratio = scroll.value.toFloat() / scroll.maxValue.toFloat()
-                vm.saveOffset((e.body.length * ratio).toInt())
+                vm.saveOffset((e.body.length * (scroll.value.toFloat() / scroll.maxValue)).toInt())
             }
         }
     }
 
+    LaunchedEffect(message) {
+        message?.let {
+            snackbar.showSnackbar(it)
+            vm.clearMessage()
+        }
+    }
+
+    val selection = SelectionOps.trimmed(
+        element?.body ?: "",
+        value.selection.start,
+        value.selection.end
+    )
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
                 title = { Text(element?.title ?: "加载中…", maxLines = 1) },
                 navigationIcon = { TextButton(onClick = onBack) { Text("返回") } }
             )
+        },
+        bottomBar = {
+            if (selection != null) {
+                SelectionBar(
+                    text = selection.text,
+                    onExtract = {
+                        vm.extract(selection.start, selection.end)
+                        value = value.copy(selection = TextRange.Zero)
+                    }
+                )
+            }
         }
     ) { pad ->
         Column(
-            Modifier.fillMaxSize().padding(pad).verticalScroll(scroll).padding(16.dp)
+            Modifier.fillMaxSize().padding(pad).verticalScroll(scroll).padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = element?.body ?: "",
-                fontSize = 18.sp,
-                lineHeight = 30.sp,
-                fontFamily = FontFamily.Serif,
-                style = MaterialTheme.typography.bodyLarge
+            BasicTextField(
+                value = value,
+                onValueChange = { value = it },
+                readOnly = true,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, lineHeight = 30.sp),
+                modifier = Modifier.fillMaxWidth()
             )
+
+            if (children.isNotEmpty()) {
+                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Text("已提取（${children.size}）", style = MaterialTheme.typography.titleSmall)
+                children.forEach { c ->
+                    Text(
+                        text = "· ${c.title}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        textDecoration = TextDecoration.Underline,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                            .clickableChild { onOpenChild(c.id) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun Modifier.clickableChild(onClick: () -> Unit): Modifier =
+    this.clickable(onClick = onClick)
+
+@Composable
+private fun SelectionBar(text: String, onExtract: () -> Unit) {
+    Surface(tonalElevation = 3.dp) {
+        Column(Modifier.fillMaxWidth().padding(12.dp)) {
+            Text(
+                "选中 ${text.length} 字：${SelectionOps.excerpt(text)}",
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 2
+            )
+            Row(horizontalArrangement = Arrangement.End) {
+                TextButton(onClick = onExtract) { Text("提取为子主题") }
+            }
         }
     }
 }

@@ -62,6 +62,5 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.3")
     testImplementation(libs.kotlinx.coroutines.test)
 }
