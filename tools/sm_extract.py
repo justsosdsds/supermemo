@@ -1,14 +1,15 @@
 """Extract a selected paragraph into a child Topic — rebuilt on the verified
 element/component layouts.
 
-Verified against a measured original-program delta (EXTEST_base -> EXTEST):
+Historical sample observations (EXTEST_base / EXTEST; not a clean single-operation oracle).
+Current writes are experimental; see IR_STATUS.md and TEXT_REGISTRY_EVIDENCE.md:
 
   body markup   "AAA first paragraph \r\n<P></P><SPAN class=extract>\r\n
                  <P>BBB second paragraph</P>\r\n<P></SPAN>CCC third paragraph"
                 i.e. the previous paragraph's </P> is replaced by
                 "space + CRLF + <P></P><SPAN class=extract> + CRLF", and </SPAN>
                 is inserted right after the opening <P> of the NEXT paragraph.
-  child element reuse of the kind=3/id=65535 free slot
+  child element reuse of a free slot with titleTextId == -1
   child type     elementType = 0x00  (Topic)
   child record   +1 unknown1 = 0x01, +2 titleTextId = new text id,
                  +6 componPos = new offset in compon.dat
@@ -20,14 +21,14 @@ Verified against a measured original-program delta (EXTEST_base -> EXTEST):
 NOT decoded and therefore copied from the template verbatim:
   +10 unknownId, +28 AF[6], +103 ordinal[5]
 """
-import os, struct, sys
+import os, struct, sys, argparse
+from sm_selection import locate
+from sm_transaction import commit_files, assert_ready
 import smwrite as W
 
 
-def wrap_selection(body, needle):
-    pos = body.find(needle)
-    if pos < 0:
-        raise ValueError('selection not found in body')
+def wrap_selection(body, needle, occurrence=None, byte_offset=None):
+    pos = locate(body, needle, occurrence, byte_offset)
     p_start = body.rfind(b'<P>', 0, pos)
     if p_start < 0:
         p_start = 0
@@ -54,7 +55,12 @@ def wrap_selection(body, needle):
     return bytes(out)
 
 
-def extract(coll, parent_id, selection, dry_run=False):
+def extract(coll, parent_id, selection, dry_run=False, occurrence=None, byte_offset=None, experimental_registry=False):
+    if not experimental_registry:
+        return None, ('Text registry indexes are not fully reconstructed; use only a disposable copy '
+                      'with --experimental-registry for research')
+    coll = os.path.abspath(coll)
+    assert_ready(coll)
     P = W.paths(coll)
     info = W.load(P['info'])
     cont = W.load(P['cont'])
@@ -64,7 +70,10 @@ def extract(coll, parent_id, selection, dry_run=False):
     ptr = W.load(P['ptr'])
 
     els = W.parse_elements(info)
-    parent = next((e for e in els if e['title_id'] == parent_id), None)
+    candidates = [e for e in els if e['title_id'] == parent_id and parent_id != -1]
+    if len(candidates) > 1:
+        return None, 'title id is shared by multiple elements; cannot select safely'
+    parent = candidates[0] if candidates else None
     if parent is None:
         return None, 'parent element %d not found' % parent_id
 
@@ -76,9 +85,13 @@ def extract(coll, parent_id, selection, dry_run=False):
     body_path = os.path.join(P['eldir'], '%d.HTM' % parent['slot'])
     body_written = False
     wrapped = None
-    if os.path.exists(body_path):
-        wrapped = wrap_selection(open(body_path, 'rb').read(), selection.encode('utf-8'))
-        body_written = True
+    if not os.path.exists(body_path):
+        return None, 'parent has no HTM body'
+    try:
+        wrapped = wrap_selection(W.load(body_path), selection.encode('utf-8'), occurrence, byte_offset)
+    except ValueError as exc:
+        return None, str(exc)
+    body_written = True
 
     # ---- 2. text records ----
     # Title text is the single-line form; the component's registryId is the
@@ -86,8 +99,8 @@ def extract(coll, parent_id, selection, dry_run=False):
     # original reuses a single record (measured: slot3 titleId == comp rid).
     sel_bytes = selection.encode('utf-8')
     single = sel_bytes.replace(b'\r\n', b' ').replace(b'\n', b' ')
-    new_text_id = W.add_text(rtx, mem, ptr, sel_bytes)
-    title_id = new_text_id if single == sel_bytes else W.add_text(rtx, mem, ptr, single)
+    new_text_id = W.add_text(rtx, mem, ptr, sel_bytes, experimental=True)
+    title_id = new_text_id if single == sel_bytes else W.add_text(rtx, mem, ptr, single, experimental=True)
 
     # ---- 3. component block ----
     comp_pos = len(comp)
@@ -119,20 +132,14 @@ def extract(coll, parent_id, selection, dry_run=False):
     conts[child_ord - 1]['raw'] = bytes(crec)
     W.attach_child(conts, parent['slot'], child_ord)
 
-    # ---- 6. child body file ----
-    if body_written and not dry_run:
-        os.makedirs(P['eldir'], exist_ok=True)
-        open(os.path.join(P['eldir'], '%d.HTM' % slot_no), 'wb').write(wrapped)
-
     if not dry_run:
-        W.save_atomic(P['rtx'], rtx)
-        W.save_atomic(P['mem'], mem)
-        W.save_atomic(P['ptr'], ptr)
-        W.save_atomic(P['comp'], comp)
-        W.save_atomic(P['info'], info)
-        W.save_atomic(P['cont'], W.concat_contents(conts))
+        changes = {P['rtx']: rtx, P['mem']: mem, P['ptr']: ptr,
+                   P['comp']: comp, P['info']: info,
+                   P['cont']: W.concat_contents(conts)}
         if body_written:
-            open(body_path, 'wb').write(wrapped)
+            changes[os.path.join(P['eldir'], '%d.HTM' % slot_no)] = wrapped
+            changes[body_path] = wrapped
+        commit_files(coll, changes)
 
     return dict(element_id=title_id, slot=slot_no, parent=parent_id,
                 title_id=title_id, content_id=new_text_id,
@@ -141,10 +148,19 @@ def extract(coll, parent_id, selection, dry_run=False):
 
 
 def main():
-    if len(sys.argv) < 4:
-        print('usage: sm_extract.py <collection> <parent_element_id> "<text>" [--dry]')
-        return 1
-    res, err = extract(sys.argv[1], int(sys.argv[2]), sys.argv[3], '--dry' in sys.argv)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('collection')
+    parser.add_argument('parent_id', type=int)
+    parser.add_argument('selection')
+    parser.add_argument('--dry', action='store_true')
+    parser.add_argument('--experimental-registry', action='store_true',
+                        help='unverified registry indexes; disposable copies only')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--occurrence', type=int)
+    group.add_argument('--byte-offset', type=int)
+    args = parser.parse_args()
+    res, err = extract(args.collection, args.parent_id, args.selection, args.dry,
+                       args.occurrence, args.byte_offset, args.experimental_registry)
     if err:
         print('ERROR:', err)
         return 2

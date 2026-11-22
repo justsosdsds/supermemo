@@ -1,6 +1,7 @@
 """Cloze: turn a keyword into a deletion and produce a child Item.
 
-Verified against a measured original-program delta (EXTEST_base -> EXTEST):
+Historical sample observations (EXTEST_base / EXTEST; not a clean single-operation oracle).
+Current writes are experimental; see IR_STATUS.md and TEXT_REGISTRY_EVIDENCE.md:
 
   parent body         <SPAN class=cloze>[...]</SPAN> replaces the keyword,
                       and an outer <SPAN class=extract> is normalised to <SPAN>
@@ -15,12 +16,14 @@ Verified against a measured original-program delta (EXTEST_base -> EXTEST):
                       comp2.rid   = the keyword itself
   (verified across slots 2/3/4 of EXTEST: titles carry no CRLF, component text does)
 
-Only the target topic and its DIRECT children are touched. A global keyword
-replace would silently rewrite unrelated articles — it is never used here.
+Only the target topic and the newly created child are written. Existing
+children are not rewritten merely because they contain the same keyword.
 
 NOT decoded and copied from the template: +10 unknownId, +28 AF[6], +103 ordinal[5]
 """
-import os, struct, sys
+import os, struct, sys, argparse
+from sm_selection import locate
+from sm_transaction import commit_files, assert_ready
 import smwrite as W
 
 CLOZE_OPEN = b'<SPAN class=cloze>'          # parent side: 'cloze' (no d)
@@ -36,19 +39,22 @@ def single_line(text_bytes):
     return t.replace(DELETION, TITLE_DELETION)
 
 
-def mark_parent_body(body, keyword):
+def mark_parent_body(body, keyword, occurrence=None, byte_offset=None):
     """Parent gets <SPAN class=cloze>[...]</SPAN>; outer extract span normalised."""
     kw = keyword.encode('utf-8')
-    pos = body.find(kw)
-    if pos < 0:
-        raise ValueError('keyword not found in the target body')
+    pos = locate(body, kw, occurrence, byte_offset)
     out = body[:pos] + CLOZE_OPEN + DELETION + CLOZE_CLOSE + body[pos + len(kw):]
     out = out.replace(b'<SPAN class=extract>', b'<SPAN>')
     out = out.replace(b'<FONT class=extract>', b'<FONT>')
     return out
 
 
-def cloze(coll, topic_id, keyword, dry_run=False):
+def cloze(coll, topic_id, keyword, dry_run=False, occurrence=None, byte_offset=None, experimental_registry=False):
+    if not experimental_registry:
+        return None, ('Text registry indexes are not fully reconstructed; use only a disposable copy '
+                      'with --experimental-registry for research')
+    coll = os.path.abspath(coll)
+    assert_ready(coll)
     P = W.paths(coll)
     info = W.load(P['info'])
     cont = W.load(P['cont'])
@@ -58,7 +64,10 @@ def cloze(coll, topic_id, keyword, dry_run=False):
     ptr = W.load(P['ptr'])
 
     els = W.parse_elements(info)
-    topic = next((e for e in els if e['title_id'] == topic_id), None)
+    candidates = [e for e in els if e['title_id'] == topic_id and topic_id != -1]
+    if len(candidates) > 1:
+        return None, 'title id is shared by multiple elements; cannot select safely'
+    topic = candidates[0] if candidates else None
     if topic is None:
         return None, 'topic %d not found' % topic_id
 
@@ -67,9 +76,10 @@ def cloze(coll, topic_id, keyword, dry_run=False):
         return None, 'topic has no HTM body'
 
     # ---- 1. parent markup ----
-    body = open(body_path, 'rb').read()
+    body = bytes(W.load(body_path))
     try:
-        marked = mark_parent_body(body, keyword)
+        pos = locate(body, keyword, occurrence, byte_offset)
+        marked = mark_parent_body(body, keyword, byte_offset=pos)
     except ValueError as e:
         return None, str(e)
 
@@ -78,10 +88,10 @@ def cloze(coll, topic_id, keyword, dry_run=False):
     keyword_bytes = keyword.encode('utf-8')
 
     # ---- 2. text records ----
-    item_text_id = W.add_text(rtx, mem, ptr, item_bytes)
+    item_text_id = W.add_text(rtx, mem, ptr, item_bytes, experimental=True)
     title_text_id = item_text_id if title_bytes == item_bytes \
-        else W.add_text(rtx, mem, ptr, title_bytes)
-    kw_text_id = W.add_text(rtx, mem, ptr, keyword_bytes)
+        else W.add_text(rtx, mem, ptr, title_bytes, experimental=True)
+    kw_text_id = W.add_text(rtx, mem, ptr, keyword_bytes, experimental=True)
 
     # ---- 3. component block: two html components ----
     free = W.find_free_slot(els)
@@ -113,37 +123,18 @@ def cloze(coll, topic_id, keyword, dry_run=False):
     conts[child_ord - 1]['raw'] = bytes(crec)
     W.attach_child(conts, topic['slot'], child_ord)
 
-    # ---- 6. child body: keyword wrapped in class=clozed ----
-    child_body_written = False
+    # Keep the answer in the new child's body; never rewrite existing siblings.
     child_body_path = os.path.join(P['eldir'], '%d.HTM' % slot_no)
-    # every body under this topic that still has the bare keyword gets the marker
-    touched = []
-    for e in els:
-        if e['title_id'] == -1:
-            continue
-        is_topic = (e['slot'] == topic['slot'])
-        is_child = struct.unpack_from('<H', conts[e['slot'] - 1]['raw'], 1)[0] == topic['slot']
-        if not (is_topic or is_child):
-            continue
-        fp = os.path.join(P['eldir'], '%d.HTM' % e['slot'])
-        if not os.path.exists(fp):
-            continue
-        cb = open(fp, 'rb').read()
-        if CLOZED_OPEN in cb or keyword.encode('utf-8') not in cb:
-            continue
-        nb = cb.replace(keyword.encode('utf-8'), CLOZED_OPEN + keyword.encode('utf-8') + CLOZE_CLOSE, 1)
-        if not dry_run:
-            open(fp, 'wb').write(nb)
-        touched.append('%d.HTM' % e['slot'])
-
+    child_body = (body[:pos] + CLOZED_OPEN + keyword_bytes + CLOZE_CLOSE
+                  + body[pos + len(keyword_bytes):])
+    touched = ['%d.HTM' % slot_no]
     if not dry_run:
-        W.save_atomic(P['rtx'], rtx)
-        W.save_atomic(P['mem'], mem)
-        W.save_atomic(P['ptr'], ptr)
-        W.save_atomic(P['comp'], comp)
-        W.save_atomic(P['info'], info)
-        W.save_atomic(P['cont'], W.concat_contents(conts))
-        open(body_path, 'wb').write(marked)
+        commit_files(coll, {
+            P['rtx']: rtx, P['mem']: mem, P['ptr']: ptr,
+            P['comp']: comp, P['info']: info,
+            P['cont']: W.concat_contents(conts),
+            body_path: marked, child_body_path: child_body,
+        })
 
     return dict(slot=slot_no, parent=topic_id, title_id=title_text_id,
                 item_text_id=item_text_id, kw_text_id=kw_text_id,
@@ -152,10 +143,19 @@ def cloze(coll, topic_id, keyword, dry_run=False):
 
 
 def main():
-    if len(sys.argv) < 4:
-        print('usage: sm_cloze.py <collection> <topic_element_id> "<keyword>" [--dry]')
-        return 1
-    res, err = cloze(sys.argv[1], int(sys.argv[2]), sys.argv[3], '--dry' in sys.argv)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('collection')
+    parser.add_argument('topic_id', type=int)
+    parser.add_argument('keyword')
+    parser.add_argument('--dry', action='store_true')
+    parser.add_argument('--experimental-registry', action='store_true',
+                        help='unverified registry indexes; disposable copies only')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--occurrence', type=int, help='1-based visible literal match')
+    group.add_argument('--byte-offset', type=int, help='UTF-8 source byte offset')
+    args = parser.parse_args()
+    res, err = cloze(args.collection, args.topic_id, args.keyword, args.dry,
+                     args.occurrence, args.byte_offset, args.experimental_registry)
     if err:
         print('ERROR:', err)
         return 2

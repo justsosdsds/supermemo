@@ -15,12 +15,13 @@ elements in C:\\supermemo\\systems\\EXTEST:
   +103  byte[5] ordinal         encoding NOT decoded - copied from template
 
 Fields marked "not decoded" are always copied verbatim from a template element.
-They are never synthesised, so a wrong guess cannot corrupt the collection.
+Copying unknown fields does not establish their suitability for a new element.
 
 Component block layout is verified in sm_compblock.py.
 
-Every function here writes through a temp file and an atomic replace, so a
-mid-way failure leaves the previous file intact rather than a half-written one.
+save_atomic protects a single file only. Extract/Cloze use sm_transaction for
+recoverable multi-file commits. Native registry indexes remain unimplemented;
+add_text requires explicit experimental opt-in.
 """
 import os, struct, shutil, tempfile
 
@@ -51,7 +52,8 @@ REG_ID_OFF = 2 + 18
 # ---------------------------------------------------------------- file helpers
 
 def load(path):
-    return bytearray(open(path, 'rb').read())
+    with open(path, 'rb') as stream:
+        return bytearray(stream.read())
 
 
 def save_atomic(path, data):
@@ -158,22 +160,51 @@ def component_blocks(comp):
 
 # --------------------------------------------------------------------- writer
 
-def add_text(rtx, mem, ptr, text_bytes):
-    """Append a text pool record, return its id."""
-    ids = [r['id'] for r in parse_text(rtx)]
-    ids += [struct.unpack_from('<i', ptr, i)[0] for i in range(0, len(ptr) - 3, 4)]
-    new_id = (max(ids) + 1) if ids else 1
-    off = len(rtx)
-    blob = text_bytes + b'\x00' + struct.pack('<i', new_id) + b'\x01'
-    rtx += blob
+def encode_text_mem_record(offset, length, *, use_count=0, lst_related=0):
+    """Encode verified RegMemElem17 fields; offset is one-based.
+
+    Unreferenced records use use_count=lst_related=0. The caller must maintain
+    Text.lst when linking a registry member to an element. See
+    TEXT_REGISTRY_EVIDENCE.md for source and compatibility limits.
+    """
+    if offset < 1 or length < 6:
+        raise ValueError('invalid text offset or record length')
+    if use_count < 0 or lst_related < 0 or bool(use_count) != bool(lst_related):
+        raise ValueError('use_count and lst_related must describe a valid reference list')
     rec = bytearray(MEMREC)
-    struct.pack_into('<i', rec, 0, 1)
-    struct.pack_into('<i', rec, 4, 3)
-    struct.pack_into('<i', rec, 8, (off + 1) << 16)
-    struct.pack_into('<i', rec, 12, len(blob) << 16)
-    struct.pack_into('<i', rec, 16, new_id << 16)
+    struct.pack_into('<i', rec, 0, use_count)
+    rec[4] = 3                       # inline text link type
+    struct.pack_into('<i', rec, 10, offset)
+    struct.pack_into('<i', rec, 14, length)
+    struct.pack_into('<i', rec, 18, lst_related)
+    return rec
+
+
+def add_text(rtx, mem, ptr, text_bytes, *, experimental=False):
+    """Append a research-only registry record, returning its one-based mem slot.
+
+    Native-compatible writes need Text.lst backlinks and the native Text.ptr
+    collation. These are not maintained by this three-buffer API. Refuse by
+    default; experimental=True is only for disposable research collections.
+    """
+    if not experimental:
+        raise ValueError('native registry writes are not verified: Text.lst backlinks '
+                         'and Text.ptr sorting are not maintained; use explicit '
+                         'experimental registry mode on a disposable copy only')
+    if len(mem) % MEMREC or len(ptr) % 4:
+        raise ValueError('truncated Text.mem or Text.ptr')
+    text_bytes = bytes(text_bytes)
+    if b'\x00' in text_bytes:
+        raise ValueError('text cannot contain NUL')
+    # Registry ID is the one-based mem row, not lstRelated or max(ptr).
+    new_id = len(mem) // MEMREC + 1
+    blob = text_bytes + b'\x00' + struct.pack('<i', new_id) + b'\x01'
+    rec = encode_text_mem_record(len(rtx) + 1, len(blob))
+    pointer = struct.pack('<i', new_id)
+    # Validate/build everything before changing any caller-owned buffer.
+    rtx += blob
     mem += rec
-    ptr += struct.pack('<i', new_id)
+    ptr += pointer                   # experimental: native sort is unresolved
     return new_id
 
 
