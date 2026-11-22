@@ -24,6 +24,9 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +53,15 @@ fun HomeScreen(
     onImport: () -> Unit
 ) {
     val rows by vm.rows.collectAsState()
+    val viewMode by vm.viewMode.collectAsState()
+    var showInsert by androidx.compose.runtime.remember {
+        androidx.compose.runtime.mutableStateOf(false)
+    }
+
+    if (viewMode == com.smreader.ui.ArticleListViewModel.ViewMode.STATS) {
+        com.smreader.ui.stats.StatsScreen(vm)
+        return
+    }
 
     Scaffold(
         topBar = {
@@ -64,8 +76,31 @@ fun HomeScreen(
                 }
             )
         },
-        bottomBar = { CommandBar(onAdd = onImport) }
+        bottomBar = {
+            CommandBar(
+                onAdd = onImport,
+                onInsert = { showInsert = true },
+                onView = {
+                    vm.setView(
+                        if (viewMode == com.smreader.ui.ArticleListViewModel.ViewMode.CONTENTS)
+                            com.smreader.ui.ArticleListViewModel.ViewMode.STATS
+                        else
+                            com.smreader.ui.ArticleListViewModel.ViewMode.CONTENTS
+                    )
+                }
+            )
+        }
     ) { pad ->
+        if (showInsert) {
+            InsertDialog(
+                onDismiss = { showInsert = false },
+                onConfirm = { title ->
+                    vm.insertBlank(title)
+                    showInsert = false
+                }
+            )
+        }
+
         Column(Modifier.fillMaxSize().padding(pad)) {
             if (rows.isEmpty()) {
                 Column(
@@ -142,7 +177,7 @@ private fun ContentsRow(
 
 /** Bottom command bar mirroring SuperMemo's docked buttons. */
 @Composable
-private fun CommandBar(onAdd: () -> Unit) {
+private fun CommandBar(onAdd: () -> Unit, onInsert: () -> Unit, onView: () -> Unit) {
     Surface(tonalElevation = 3.dp) {
         Row(
             Modifier.fillMaxWidth().height(52.dp),
@@ -152,11 +187,11 @@ private fun CommandBar(onAdd: () -> Unit) {
             VerticalDivider(Modifier.height(24.dp))
             CommandButton("Add", enabled = true, modifier = Modifier.weight(1f), onClick = onAdd)
             VerticalDivider(Modifier.height(24.dp))
-            CommandButton("Insert", enabled = false, modifier = Modifier.weight(1f), onClick = {})
+            CommandButton("Insert", enabled = true, modifier = Modifier.weight(1f), onClick = onInsert)
             VerticalDivider(Modifier.height(24.dp))
             CommandButton("Accept", enabled = false, modifier = Modifier.weight(1f), onClick = {})
             VerticalDivider(Modifier.height(24.dp))
-            CommandButton("View", enabled = false, modifier = Modifier.weight(1f), onClick = {})
+            CommandButton("View", enabled = true, modifier = Modifier.weight(1f), onClick = onView)
         }
     }
 }
@@ -182,4 +217,30 @@ private fun CommandButton(
             else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
         )
     }
+}
+/** Minimal dialog to create an empty topic. */
+@Composable
+private fun InsertDialog(onDismiss: () -> Unit, onConfirm: (String) -> Unit) {
+    var title by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf("") }
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("插入新元素") },
+        text = {
+            androidx.compose.material3.OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("标题") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        confirmButton = {
+            androidx.compose.material3.TextButton(
+                onClick = { onConfirm(title) },
+                enabled = title.isNotBlank()
+            ) { Text("插入") }
+        },
+        dismissButton = {
+            androidx.compose.material3.TextButton(onClick = onDismiss) { Text("取消") }
+        }
+    )
 }

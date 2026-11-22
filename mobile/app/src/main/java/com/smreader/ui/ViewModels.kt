@@ -15,6 +15,10 @@ class ArticleListViewModel(private val repo: ArticleRepository) : ViewModel() {
 
     private val _collapsed = MutableStateFlow<Set<Long>>(emptySet())
 
+    /** Raw element list, used by the statistics view. */
+    val allElements: StateFlow<List<Element>> =
+        repo.observeAll().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     /** Flattened contents tree, recomputed whenever elements or collapse state change. */
     val rows: StateFlow<List<com.smreader.domain.TreeRow>> =
         kotlinx.coroutines.flow.combine(
@@ -23,6 +27,26 @@ class ArticleListViewModel(private val repo: ArticleRepository) : ViewModel() {
         ) { all, collapsed ->
             com.smreader.domain.TreeBuilder.flatten(all, collapsed)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    /** Which view the home screen shows. */
+    enum class ViewMode { CONTENTS, STATS }
+
+    private val _viewMode = MutableStateFlow(ViewMode.CONTENTS)
+    val viewMode: StateFlow<ViewMode> = _viewMode.asStateFlow()
+
+    fun setView(mode: ViewMode) { _viewMode.value = mode }
+
+    /** Insert an empty element, optionally under an existing one. */
+    fun insertBlank(title: String, parentId: Long? = null) {
+        viewModelScope.launch {
+            try {
+                val id = repo.insertBlank(title, parentId = parentId)
+                _message.value = "已插入（id=$id）"
+            } catch (t: Throwable) {
+                _message.value = "插入失败：${t.message}"
+            }
+        }
+    }
 
     fun toggle(id: Long) {
         _collapsed.value = _collapsed.value.let { if (id in it) it - id else it + id }

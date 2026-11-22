@@ -93,4 +93,18 @@ class ArticleRepository(private val db: AppDatabase) {
         )
         return elements.insert(child)
     }
+    /** Insert an empty topic or item, optionally under [parentId]. */
+    suspend fun insertBlank(title: String, type: ElementType = ElementType.TOPIC, parentId: Long? = null): Long {
+        val parent = parentId?.let { elements.findById(it) }
+        val order = if (parentId != null) elements.maxSortKey(parentId) + 1 else 0
+        val e = Element(
+            type = type,
+            parentId = parentId,
+            rootId = parent?.rootId ?: 0,
+            title = title.ifBlank { "未命名" },
+            body = "",
+            sortKey = order
+        )
+        return if (parentId == null) elements.insertRoot(e) else elements.insert(e)
+    }
 }
