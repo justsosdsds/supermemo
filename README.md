@@ -212,72 +212,147 @@ history.sub   = 评分分布
 
 ---
 
-# 渐进阅读实现进度
+---
 
-目标：用户能导入文章作为 Topic，提取段落为子 Topic，把关键词做成 Cloze Item，
-查看来源关系，保存阅读位置，关闭重开后继续使用。
+# 渐进阅读：当前实现状态
 
-## 阶段状态
+> 更新 2026-11-22。本节优先于上面的早期实验结论。
+> 详细边界见 [IR_STATUS.md](IR_STATUS.md) 与 [TEXT_REGISTRY_EVIDENCE.md](TEXT_REGISTRY_EVIDENCE.md)。
 
-| 阶段 | 数据层 | 界面入口 | 原版逐字节验证 |
-|---|---|---|---|
-| 1. Extract（Alt+X） | ✅ 完成 | ❌ 仅脚本 | ✅ 一致 |
-| 2. Cloze（Alt+Z） | ✅ 完成 | ❌ 仅脚本 | ✅ 一致 |
-| 3. 来源导航 | ❌ 未开始 | ❌ | ❌ |
-| 4. 阅读位置 | ❌ 未开始 | ❌ | ❌ |
-| 5. 界面整合 | — | ❌ | — |
+## 目标
 
-## 已验证的原版行为（逐字节 diff 得出）
+重建版程序能完整跑通渐进阅读：导入中文多段文章 → 选中段落提取为子元素 →
+关键词做成 Cloze Item → 查看来源关系并跳转 → 保存阅读位置 → 关闭重开后内容与关系正确。
 
-### Extract
-```
-原文:  AAA first paragraph</P>\r\n<P>BBB second paragraph</P>\r\n<P>CCC third paragraph
-提取后: AAA first paragraph \r\n<P></P><SPAN class=extract>\r\n
-        <P>BBB second paragraph</P>\r\n<P></SPAN>CCC third paragraph
-```
-- 上一段的 `</P>` 被替换为 `空格 + \r\n<P></P><SPAN class=extract>\r\n`
-- `</SPAN>` 插在**下一段**的 `<P>` 之后
-- 新元素复用 `kind=3 / id=65535` 空槽，`kind=1`（Item，不是 Topic）
-- `flags=0x0, rep=1, pack=0x00010006`
-- **同时生成子元素自己的 `elements\<slot>.HTM`**
+## 十阶段进度
 
-### Cloze
-```
-提取后:  <SPAN class=extract> ... BBB second paragraph ...
-cloze后: <SPAN> ... BBB <SPAN class=cloze>[...]</SPAN> paragraph ...
-```
-- 父元素用 `class=cloze`（**无 d**）+ 字面占位符 `[...]`
-- 子元素 HTM 保留原词，用 `class=clozed`（**有 d**）包裹
-- Cloze 子元素 `flags=0x1, pack=0x00010003`（与 Extract 不同）
-- 外层 `<SPAN class=extract>` 被规范化成裸 `<SPAN>`
+| 阶段 | 状态 | 证据 |
+|---|---|---|
+| A 用 SMA 定义校正格式 | 完成 | 6 个字段纠错，11 个元素交叉验证 |
+| B 组件块结构 | 完成 | length = 50+N×31，几何与 registryId 正确 |
+| C Extract / Cloze 写入 | **部分** | 元素/组件/contents/lst 链正确，**Text.ptr 排序未完全解出** |
+| D 来源导航 | 完成 | origin / extracts 与原版层级一致 |
+| E 阅读位置 | 未开始 | — |
+| F 原子写入与恢复 | 完成 | 备份 + journal + 逐文件替换 |
+| G 界面整合 | 未开始 | 目前只有 Python 脚本 |
+| H 多场景回归 | 阻塞 | T1–T4 集合已备，原版操作未落盘 |
+| I 端到端验收 | 未开始 | 从未让原版打开过脚本生成的集合 |
+| J 图片 / 音频 | 未开始 | SMA 有 ComponentImage/Sound/Video 可参考 |
+
+## 已确认的格式（依据 SMA 2.1 定义 + 实测）
+
+### 元素记录 info/ElementInfo.dat（118 字节）
+
+依据 InfElementsElem17（SMA, Size=118）：
+
+| 偏移 | 字段 | 说明 |
+|---|---|---|
+| +0 | elementType | 0=Topic, 1=Item, 4=Concept |
+| +1 | unknownbyte1 | 子元素恒为 0x01 |
+| +2 | titleTextId | int |
+| +6 | componPos | int，-1 表示无组件 |
+| +10 | unknownId | 0x00010059(Topic) / 0x00010070(Item)，**不是块大小** |
+| +28 | AF[6] | A-Factor，编码未解 |
+| +61 | templateId | |
+| +65 | conceptId | |
+| +103 | ordinal[5] | 5 字节，编码未解 |
+
+**空槽判定**：	itleTextId == -1。
+早期把 +1 当类型、把 -1 的低 2 字节当 id，读成「kind=3 / id=65535」，是错的。
+
+**块大小不在元素里**，而在组件块自身的 +2 处。
+
+### 组件块 info/compon.dat
+
+`
++0   31 D4          组标记
++2   uint16 length  数据长度，块实际占用 = 4 + length
++4   int dummy      低字节 = 一基槽位号
++8   byte compCount
++9   uint16 skip     实测恒为 43
++11  保留区（43 字节）
++54  组件[0]        每个 31 字节
++85  组件[1]        仅 cloze 有
+
+length = 50 + N*31      N=1 -> 81,  N=2 -> 112
+`
+
+组件 = 2 字节类型头 + 29 字节 HTML17：
+
+`
+类型头 0x1C0D=HTML 0x2200=Text 0x1D0C=Rtf 0x2201=Spelling
+      0x1902=Image 0x3003=Sound 0x1F04=Video
+HTML17: left@1 top@3 width@5 height@7 displayAt@9 isFullHtml@15 registryId@18
+`
+
+几何（实测 8/11 元素一致）：
+
+`
+单组件      left=100 top=200  w=9700 h=9300  displayAt=255
+cloze 问题  left=100 top=57   w=9701 h=7848  displayAt=255
+cloze 答案  left=100 top=7961 w=4989 h=1495  displayAt=223
+            问题区底边 7905，答案区顶边 7961，间隙 56
+`
+
+### 文本注册表 
+egistry/Text.*
+
+Text.mem 30 字节（依据 RegMemElem17）：
+
+| 偏移 | 字段 |
+|---|---|
+| +0 | useCount（引用次数） |
+| +4 | linkType（内联文本为 3） |
+| +10 | rtxOffset（一基） |
+| +14 | rtxLength |
+| +18 | lstRelated（Text.lst 链起始节点，**不是文本 ID**） |
+
+**文本 ID = mem 的一基行号。**
+
+Text.lst 每节点 8 字节：(引用元素槽位, 下一节点)，链长 == useCount，
+同一元素可在链中重复出现（实测 member 3 → [9,9,3,3]）。
+
+Text.ptr 存成员排列，**排序规则只解出一半**：
+整体按文本字节升序，但原版把「无标记文本」排在「含 [...] / [.] 标记的文本」之前，
+与纯字节序相反。当前实现按字节序插入，**不声称与原版一致**。
 
 ### contents.dat
-- `kids` 字段是**子树后代总数**，不是直接子节点数
-  （根 `kids=3` 但只有一个直接子，该子有两个子）
-- contents 行号对应 ElementInfo 的**槽位顺序**（`slot+1`），不是 `+40` 字段
+
++1 parent、+5 first、+9 last、+13 prev、+17 next、
++21 **DescendantCount（子孙总数，不是直接子数）**。
+行号对应 ElementInfo 的槽位顺序。
 
 ## 工具
 
 | 脚本 | 用途 |
 |---|---|
-| `tools/sm_extract.py` | 提取选中段落，产物与原版逐字节一致 |
-| `tools/sm_cloze.py` | 关键词挖空，产物与原版逐字节一致 |
-| `tools/sm_import.py` | Q&A 文本导入 |
-| `tools/sm_export_html.py` | HTML 导出 |
-| `ghidra_scripts/*.java` | Ghidra 辅助脚本（定位标记函数、区域反汇编） |
+| 	ools/smwrite.py | 集合写入层（官方偏移 + 原子写入 + 组件块） |
+| 	ools/sm_textreg.py | 文本注册表（rtx/mem/lst/ptr），含链校验 |
+| 	ools/sm_compblock.py | 组件块解析与构建 |
+| 	ools/sm_extract.py | 提取段落为子 Topic |
+| 	ools/sm_cloze.py | 关键词挖空为 Item，支持 --occurrence N |
+| 	ools/sm_nav.py | 来源导航（origin / children / extracts / tree） |
+| 	ools/sm_transaction.py | 备份 / journal / 检查 / 恢复 |
+| 	ools/sm_selection.py | 选区定位（避开标签、属性、实体、script） |
+| 	ools/compare_collections.py | 逐字段比较（60+ 检查项） |
+| 	ools/diff_component.py | 组件块逐字节差异 |
+| 	ools/setup_tests.py | 生成 T1/T1b/T2/T3/T4 测试集合与快照 |
+| 	ools/watch_tests.py | 实时监视原版是否真的写入 |
 
-## 关于 Ghidra 的实际价值
+测试：python -B -m unittest discover -s tests → **25 项通过**
 
-投入约 4 小时（下载 543MB、修损坏的 Base.jar 与 Module.manifest、装 JDK 25、调堆内存到 12G），
-实际产出：确认提取标记为硬编码常量、发现 class 规范化函数（4 行字符串替换）。
+## 明确未完成
 
-**真正定位行为的是字符串搜索 + 原版操作后的逐字节 diff**，两者合计不到 1 小时。
-Ghidra 适合后续攻算法常数（如硬编码的 0.7、`FI=Exp(A*Priority+B)` 的 A/B），不适合快速定位界面行为。
+1. **原版界面验收**：从未让原版打开脚本生成的集合并验证显示、答案揭示、关闭重开
+2. **Text.ptr 排序规则**
+3. **AF[6] / ordinal[5] / +10 unknownId 编码**（目前原样复制模板）
+4. **界面整合**：重建版 Pascal 未接任何入口
+5. **阅读位置**
+6. **多场景回归**：T1–T4 的原版操作未成功落盘
 
-## 下一步
+## 关于 Ghidra
 
-1. 写入原子性（6 个文件依次写，中途失败会产生不一致集合）
-2. 导入器克隆模板时继承学习状态的问题
-3. 阶段 3 来源导航（`Locate extracts` / `Go to origin`）
-4. 阶段 4 阅读位置
-5. 阶段 5 界面整合（Pascal 重写 + 挂 ExtractButton/ClozeButton）
+投入约 4 小时（下载、修损坏 jar、装 JDK 25、调堆到 12G），产出是确认标记为硬编码、
+找到一个 4 行的 class 规范化函数。**真正的突破来自 SuperMemoAssistant 的 C# 定义**
+（8 种组件的精确字节布局、元素字段名、lst 链语义）。
+Ghidra 适合后续攻算法常数，不适合快速定位界面行为。
