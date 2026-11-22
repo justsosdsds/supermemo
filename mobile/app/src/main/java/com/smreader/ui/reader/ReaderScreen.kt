@@ -28,10 +28,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -39,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.smreader.domain.SelectionOps
 import com.smreader.ui.ReaderViewModel
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,15 +77,23 @@ fun ReaderScreen(
         }
     }
 
-    // Restore the saved character offset (converted to a scroll position).
-    var restored by remember(elementId) { mutableStateOf(false) }
-    LaunchedEffect(element, savedOffset) {
+    // Restore the saved character offset.
+    //
+    // Two hazards this handles:
+    //  1. scroll.maxValue is 0 during the first composition, so a one-shot check
+    //     would silently never restore. We await the first non-zero maxValue.
+    //  2. recomposition would re-run the restore and yank the user back. The
+    //     "already restored" flag is rememberSaveable keyed by element so it
+    //     survives recomposition and configuration changes.
+    var restored by rememberSaveable(elementId) { mutableStateOf(false) }
+    LaunchedEffect(elementId, element?.body?.length) {
         val e = element ?: return@LaunchedEffect
-        if (!restored && savedOffset > 0 && e.body.isNotEmpty() && scroll.maxValue > 0) {
-            val ratio = savedOffset.toFloat() / e.body.length.toFloat()
-            scroll.scrollTo((scroll.maxValue * ratio).toInt().coerceIn(0, scroll.maxValue))
-            restored = true
-        }
+        if (restored || savedOffset <= 0 || e.body.isEmpty()) return@LaunchedEffect
+        // wait until content has been measured
+        val max = snapshotFlow { scroll.maxValue }.first { it > 0 }
+        val ratio = savedOffset.toFloat() / e.body.length.toFloat()
+        scroll.scrollTo((max * ratio).toInt().coerceIn(0, max))
+        restored = true
     }
 
     // Persist position while scrolling.
@@ -138,8 +152,28 @@ fun ReaderScreen(
             Modifier.fillMaxSize().padding(pad).verticalScroll(scroll).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // The body text is rendered with extracted ranges highlighted.
+            // sourceFrom/sourceTo are character offsets into this same string,
+            // so they stay valid no matter how the text is laid out.
+            val annotated = remember(element?.body, children) {
+                buildAnnotatedString {
+                    append(element?.body ?: "")
+                    children.forEach { c ->
+                        val f = c.sourceFrom
+                        val t = c.sourceTo
+                        if (f != null && t != null && f >= 0 && t <= length && f < t) {
+                            addStyle(
+                                SpanStyle(background = Color(0x334FC3F7)),
+                                f,
+                                t
+                            )
+                        }
+                    }
+                }
+            }
+
             BasicTextField(
-                value = value,
+                value = value.copy(annotatedString = annotated),
                 onValueChange = { value = it },
                 readOnly = true,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, lineHeight = 30.sp),
@@ -173,7 +207,7 @@ private fun SelectionBar(text: String, onExtract: () -> Unit) {
     Surface(tonalElevation = 3.dp) {
         Column(Modifier.fillMaxWidth().padding(12.dp)) {
             Text(
-                "选中 ${text.length} 字：${SelectionOps.excerpt(text)}",
+                "已选 ${text.length} 字：${SelectionOps.excerpt(text)}",
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 2
             )
