@@ -207,3 +207,75 @@ history.sub   = 评分分布
 ## 许可与用途
 
 本项目仅用于**自有软件的学习性逆向研究**。SuperMemo 是 SuperMemo World 的商标与版权作品，本仓库不包含原程序二进制。
+
+---
+
+# 渐进阅读实现进度
+
+目标：用户能导入文章作为 Topic，提取段落为子 Topic，把关键词做成 Cloze Item，
+查看来源关系，保存阅读位置，关闭重开后继续使用。
+
+## 阶段状态
+
+| 阶段 | 数据层 | 界面入口 | 原版逐字节验证 |
+|---|---|---|---|
+| 1. Extract（Alt+X） | ✅ 完成 | ❌ 仅脚本 | ✅ 一致 |
+| 2. Cloze（Alt+Z） | ✅ 完成 | ❌ 仅脚本 | ✅ 一致 |
+| 3. 来源导航 | ❌ 未开始 | ❌ | ❌ |
+| 4. 阅读位置 | ❌ 未开始 | ❌ | ❌ |
+| 5. 界面整合 | — | ❌ | — |
+
+## 已验证的原版行为（逐字节 diff 得出）
+
+### Extract
+```
+原文:  AAA first paragraph</P>\r\n<P>BBB second paragraph</P>\r\n<P>CCC third paragraph
+提取后: AAA first paragraph \r\n<P></P><SPAN class=extract>\r\n
+        <P>BBB second paragraph</P>\r\n<P></SPAN>CCC third paragraph
+```
+- 上一段的 `</P>` 被替换为 `空格 + \r\n<P></P><SPAN class=extract>\r\n`
+- `</SPAN>` 插在**下一段**的 `<P>` 之后
+- 新元素复用 `kind=3 / id=65535` 空槽，`kind=1`（Item，不是 Topic）
+- `flags=0x0, rep=1, pack=0x00010006`
+- **同时生成子元素自己的 `elements\<slot>.HTM`**
+
+### Cloze
+```
+提取后:  <SPAN class=extract> ... BBB second paragraph ...
+cloze后: <SPAN> ... BBB <SPAN class=cloze>[...]</SPAN> paragraph ...
+```
+- 父元素用 `class=cloze`（**无 d**）+ 字面占位符 `[...]`
+- 子元素 HTM 保留原词，用 `class=clozed`（**有 d**）包裹
+- Cloze 子元素 `flags=0x1, pack=0x00010003`（与 Extract 不同）
+- 外层 `<SPAN class=extract>` 被规范化成裸 `<SPAN>`
+
+### contents.dat
+- `kids` 字段是**子树后代总数**，不是直接子节点数
+  （根 `kids=3` 但只有一个直接子，该子有两个子）
+- contents 行号对应 ElementInfo 的**槽位顺序**（`slot+1`），不是 `+40` 字段
+
+## 工具
+
+| 脚本 | 用途 |
+|---|---|
+| `tools/sm_extract.py` | 提取选中段落，产物与原版逐字节一致 |
+| `tools/sm_cloze.py` | 关键词挖空，产物与原版逐字节一致 |
+| `tools/sm_import.py` | Q&A 文本导入 |
+| `tools/sm_export_html.py` | HTML 导出 |
+| `ghidra_scripts/*.java` | Ghidra 辅助脚本（定位标记函数、区域反汇编） |
+
+## 关于 Ghidra 的实际价值
+
+投入约 4 小时（下载 543MB、修损坏的 Base.jar 与 Module.manifest、装 JDK 25、调堆内存到 12G），
+实际产出：确认提取标记为硬编码常量、发现 class 规范化函数（4 行字符串替换）。
+
+**真正定位行为的是字符串搜索 + 原版操作后的逐字节 diff**，两者合计不到 1 小时。
+Ghidra 适合后续攻算法常数（如硬编码的 0.7、`FI=Exp(A*Priority+B)` 的 A/B），不适合快速定位界面行为。
+
+## 下一步
+
+1. 写入原子性（6 个文件依次写，中途失败会产生不一致集合）
+2. 导入器克隆模板时继承学习状态的问题
+3. 阶段 3 来源导航（`Locate extracts` / `Go to origin`）
+4. 阶段 4 阅读位置
+5. 阶段 5 界面整合（Pascal 重写 + 挂 ExtractButton/ClozeButton）
