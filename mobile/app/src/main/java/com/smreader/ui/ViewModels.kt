@@ -19,10 +19,10 @@ class ArticleListViewModel(private val repo: ArticleRepository) : ViewModel() {
     private val _message = MutableStateFlow<String?>(null)
     val message: StateFlow<String?> = _message.asStateFlow()
 
-    fun import(text: String) {
+    fun import(text: String, spans: String = "") {
         viewModelScope.launch {
             try {
-                val id = repo.importText(text)
+                val id = repo.importText(text, spans)
                 _message.value = "已导入（id=$id）"
             } catch (t: Throwable) {
                 _message.value = "导入失败：${t.message}"

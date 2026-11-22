@@ -1,4 +1,4 @@
-﻿package com.smreader.data.model
+package com.smreader.data.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -30,6 +30,8 @@ data class Element(
     val answer: String? = null,
     val sourceFrom: Int? = null,
     val sourceTo: Int? = null,
+    /** Encoded formatting spans from HtmlImport.SpanCodec; empty for plain text. */
+    val spans: String = "",
     val createdAt: Long = System.currentTimeMillis(),
     val sortKey: Int = 0
 )

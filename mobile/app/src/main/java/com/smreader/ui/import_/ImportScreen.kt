@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.smreader.domain.HtmlImport
+import com.smreader.domain.SpanCodec
 import com.smreader.domain.TextImport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,7 +44,7 @@ private const val PASTE_LIMIT = 20_000
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImportScreen(
-    onImport: (String) -> Unit,
+    onImport: (text: String, spans: String) -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -53,6 +54,7 @@ fun ImportScreen(
     var pasteText by remember { mutableStateOf("") }
     // Full content read from a file. NEVER bound to a text field.
     var pendingText by remember { mutableStateOf<String?>(null) }
+    var pendingSpans by remember { mutableStateOf("") }
     var pendingLabel by remember { mutableStateOf<String?>(null) }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
@@ -71,8 +73,12 @@ fun ImportScreen(
                         TextImport.decode(ins.readBytes())
                     } ?: return@runCatching null
                     val isHtml = HtmlImport.looksLikeHtml(raw, name)
-                    val plain = if (isHtml) HtmlImport.toPlainText(raw) else raw
-                    if (plain.isNullOrBlank()) null else Triple(plain, isHtml, name)
+                    if (isHtml) {
+                        val rich = HtmlImport.toRichText(raw) ?: return@runCatching null
+                        RichResult(rich.text, true, name, SpanCodec.encode(rich.spans))
+                    } else {
+                        if (raw.isBlank()) null else RichResult(raw, false, name, "")
+                    }
                 }.getOrNull()
             }
             busy = false
@@ -81,8 +87,11 @@ fun ImportScreen(
                 pendingText = null
                 pendingLabel = null
             } else {
-                val (plain, isHtml, name) = res
+                val plain = res.text
+                val isHtml = res.isHtml
+                val name = res.name
                 pendingText = plain
+                pendingSpans = res.spans
                 pendingLabel = name ?: "文件"
                 pasteText = ""          // clear the field; content lives in pendingText
                 status = buildString {
@@ -120,6 +129,7 @@ fun ImportScreen(
                         )
                         TextButton(onClick = {
                             pendingText = null
+                            pendingSpans = ""
                             pendingLabel = null
                             status = null
                         }) { Text("清除") }
@@ -156,7 +166,7 @@ fun ImportScreen(
                 Button(
                     onClick = {
                         val payload = pendingText ?: pasteText
-                        if (payload.isNotBlank()) onImport(payload)
+                        if (payload.isNotBlank()) onImport(payload, if (pendingText != null) pendingSpans else "")
                     },
                     enabled = ready && !busy
                 ) {
@@ -175,3 +185,10 @@ private fun queryDisplayName(context: android.content.Context, uri: Uri): String
             if (idx >= 0 && c.moveToFirst()) c.getString(idx) else null
         }
     }.getOrNull()
+/** Result of reading a file: normalised text plus any formatting spans. */
+private data class RichResult(
+    val text: String,
+    val isHtml: Boolean,
+    val name: String?,
+    val spans: String
+)

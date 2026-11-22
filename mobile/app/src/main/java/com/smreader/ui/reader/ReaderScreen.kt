@@ -34,6 +34,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
@@ -155,18 +158,39 @@ fun ReaderScreen(
             // The body text is rendered with extracted ranges highlighted.
             // sourceFrom/sourceTo are character offsets into this same string,
             // so they stay valid no matter how the text is laid out.
-            val annotated = remember(element?.body, children) {
+            val annotated = remember(element?.body, element?.spans, children) {
                 buildAnnotatedString {
                     append(element?.body ?: "")
+                    // Formatting captured at import time, applied by character range.
+                    com.smreader.domain.SpanCodec.decode(element?.spans).forEach { sp ->
+                        if (sp.start >= 0 && sp.end <= length && sp.start < sp.end) {
+                            addStyle(
+                                SpanStyle(
+                                    fontWeight = if (sp.bold) FontWeight.Bold else null,
+                                    fontStyle = if (sp.italic) FontStyle.Italic else null,
+                                    textDecoration = when {
+                                        sp.underline && sp.strike -> TextDecoration.combine(
+                                            listOf(TextDecoration.Underline, TextDecoration.LineThrough)
+                                        )
+                                        sp.underline -> TextDecoration.Underline
+                                        sp.strike -> TextDecoration.LineThrough
+                                        else -> null
+                                    },
+                                    fontFamily = if (sp.code) FontFamily.Monospace else null,
+                                    fontSize = if (sp.scale != 1f) (18f * sp.scale).sp else androidx.compose.ui.unit.TextUnit.Unspecified,
+                                    color = sp.color?.let { Color(it) } ?: Color.Unspecified
+                                ),
+                                sp.start,
+                                sp.end
+                            )
+                        }
+                    }
+                    // Extracted ranges are highlighted on top of formatting.
                     children.forEach { c ->
                         val f = c.sourceFrom
                         val t = c.sourceTo
                         if (f != null && t != null && f >= 0 && t <= length && f < t) {
-                            addStyle(
-                                SpanStyle(background = Color(0x334FC3F7)),
-                                f,
-                                t
-                            )
+                            addStyle(SpanStyle(background = Color(0x334FC3F7)), f, t)
                         }
                     }
                 }

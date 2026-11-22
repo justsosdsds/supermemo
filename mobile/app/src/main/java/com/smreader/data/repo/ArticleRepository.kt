@@ -23,7 +23,7 @@ class ArticleRepository(private val db: AppDatabase) {
      * body so nothing is lost. CRLF and CR are normalised to LF so offsets stay
      * consistent across platforms.
      */
-    suspend fun importText(raw: String): Long {
+    suspend fun importText(raw: String, spans: String = ""): Long {
         val text = raw.replace("\r\n", "\n").replace('\r', '\n').trim()
         require(text.isNotEmpty()) { "text is empty" }
         val title = text.lineSequence()
@@ -35,7 +35,8 @@ class ArticleRepository(private val db: AppDatabase) {
             type = ElementType.TOPIC,
             rootId = 0,
             title = title,
-            body = text
+            body = text,
+            spans = spans
         )
         return elements.insertRoot(e)
     }

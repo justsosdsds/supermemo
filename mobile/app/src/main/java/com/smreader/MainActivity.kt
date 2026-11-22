@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
                         onImport = { dest = Dest.Import }
                     )
                     Dest.Import -> ImportScreen(
-                        onImport = { text ->
-                            listVm.import(text)
+                        onImport = { text, spans ->
+                            listVm.import(text, spans)
                             dest = Dest.Home
                         },
                         onBack = { dest = Dest.Home }
