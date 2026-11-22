@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
 
+    implementation(libs.jsoup)
     implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
