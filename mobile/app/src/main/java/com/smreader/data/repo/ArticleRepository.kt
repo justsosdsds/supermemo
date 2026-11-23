@@ -107,4 +107,62 @@ class ArticleRepository(private val db: AppDatabase) {
         )
         return if (parentId == null) elements.insertRoot(e) else elements.insert(e)
     }
+    /** Rename an element. Empty titles are rejected so the tree never shows blanks. */
+    suspend fun rename(id: Long, title: String): Boolean {
+        val t = title.trim()
+        if (t.isEmpty()) return false
+        val e = elements.findById(id) ?: return false
+        elements.update(e.copy(title = t))
+        return true
+    }
+
+    /** Reparent an element. Refuses to move a node under its own descendant. */
+    suspend fun move(id: Long, newParentId: Long?): Boolean {
+        val e = elements.findById(id) ?: return false
+        if (newParentId == null) {
+            elements.update(e.copy(parentId = null, rootId = id, sortKey = 0))
+            return true
+        }
+        if (newParentId == id) return false
+        // walk up from the new parent; if we meet id, the move would create a cycle
+        var p: Long? = newParentId
+        var guard = 0
+        while (p != null && guard < 100) {
+            if (p == id) return false
+            p = elements.findById(p)?.parentId
+            guard++
+        }
+        val parent = elements.findById(newParentId) ?: return false
+        val order = elements.maxSortKey(newParentId) + 1
+        elements.update(e.copy(parentId = newParentId, rootId = parent.rootId, sortKey = order))
+        return true
+    }
+
+    /** Delete an element together with its whole subtree. */
+    suspend fun deleteSubtree(id: Long): Int {
+        val all = elements.all()
+        val byParent = all.groupBy { it.parentId }
+        val victims = mutableListOf<Long>()
+        fun collect(x: Long, guard: Int = 0) {
+            if (guard > 100) return
+            victims.add(x)
+            byParent[x]?.forEach { collect(it.id, guard + 1) }
+        }
+        collect(id)
+        for (v in victims) {
+            positions.delete(v)
+            elements.deleteById(v)
+        }
+        return victims.size
+    }
+
+    /** Plain text of an element, for copy/export. */
+    suspend fun plainTextOf(id: Long): String? {
+        val e = elements.findById(id) ?: return null
+        return buildString {
+            append(e.title); append('\n'); append('\n')
+            append(e.body)
+        }
+    }
+
 }

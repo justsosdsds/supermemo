@@ -71,6 +71,34 @@ class ArticleListViewModel(private val repo: ArticleRepository) : ViewModel() {
         viewModelScope.launch { repo.delete(id) }
     }
 
+    fun renameElement(id: Long, title: String) {
+        viewModelScope.launch {
+            val ok = repo.rename(id, title)
+            _message.value = if (ok) "已重命名" else "重命名失败：标题为空"
+        }
+    }
+
+    fun deleteSubtree(id: Long) {
+        viewModelScope.launch {
+            val n = repo.deleteSubtree(id)
+            _message.value = "已删除 $n 个元素"
+        }
+    }
+
+    fun moveElement(id: Long, newParentId: Long?) {
+        viewModelScope.launch {
+            val ok = repo.move(id, newParentId)
+            _message.value = if (ok) "已移动" else "无法移动到自身或子元素下"
+        }
+    }
+
+    fun exportText(id: Long, onReady: (String) -> Unit) {
+        viewModelScope.launch {
+            val t = repo.plainTextOf(id)
+            if (t == null) _message.value = "元素不存在" else onReady(t)
+        }
+    }
+
     fun clearMessage() { _message.value = null }
 }
 
